@@ -6,13 +6,14 @@ public class DK {
 	private int hero[];
 	private int guard[];
 	private boolean win,lose;
+	private String guardMove[];
 	
 	/*constructor to start the game*/
 	public DK()
 	{
 		this.hero=new int[2];
 		this.guard=new int[2];
-		String aux[][]= {{"X","X","X","X","X","X","X","X","X","X"},
+		String aux1[][]= {{"X","X","X","X","X","X","X","X","X","X"},
 				{"X","H"," "," ","I"," ","X"," ","G","X"},
 				{"X","X","X"," ","X","X","X"," "," ","X"},
 				{"X"," ","I"," ","I"," ","X"," "," ","X"},
@@ -22,13 +23,18 @@ public class DK {
 				{"X","X","X"," ","X","X","X","X"," ","X"},
 				{"X"," ","I"," ","I"," ","X","k"," ","X"},
 				{"X","X","X","X","X","X","X","X","X","X"}};	
+		String aux2[]= {"a","s","s","s","s","s","a","a","a","a","a","a","s","d","d","d","d","d",
+						"d","d","w","w","w","w","w"};
 		this.win=false;
 		this.lose=false;
-		this.table = aux;
+		this.table = aux1;
+		this.guardMove=aux2;
 		this.hero[0]=1;
 		this.hero[1]=1;
 		this.guard[0]=1;
 		this.guard[1]=8;
+		
+		
 	}
 	
 	/*prints the table as it is in the moment*/
@@ -46,74 +52,54 @@ public class DK {
 	
 	/*Function to deal with the hero's move*/
 	public void moveHero(String mov) {
+		int aux[]=new int[2];
+		aux[0]=this.hero[0];
+		aux[1]=this.hero[1];
 		switch (mov) {
 		case "w":
-			if(this.table[this.hero[0]-1][this.hero[1]]!="X" && this.table[this.hero[0]-1][this.hero[1]]!="I") {
-				//if the hero gets to the S , the winning condition
-				if(this.table[this.hero[0]-1][this.hero[1]]=="S")
-				{
-					this.win=true;
-				}
-				//if the hero gets to the lever,k
-				if(this.table[this.hero[0]-1][this.hero[1]]=="k") {
-					this.leverOn();
-				}
-				this.table[hero[0]][hero[1]]=" ";
-				this.hero[0]--;
-				this.table[hero[0]][hero[1]]="H";
-			}
+			aux[0]--;
 			break;
 		case "a":
-			if(this.table[this.hero[0]][this.hero[1]-1]!="X" && this.table[this.hero[0]][this.hero[1]-1]!="I") {
-				//if the hero gets to the S , the winning condition
-				if(this.table[this.hero[0]][this.hero[1]-1]=="S")
-				{
-					this.win=true;
-				}
-				//if the hero gets to the lever,k
-				if(this.table[this.hero[0]][this.hero[1]-1]=="k") {
-					this.leverOn();
-				}
-				this.table[hero[0]][hero[1]]=" ";
-				this.hero[1]--;
-				this.table[hero[0]][hero[1]]="H";
-			}
+			aux[1]--;
 			break;
 		case "s":
-			if(this.table[this.hero[0]+1][this.hero[1]]!="X" && this.table[this.hero[0]+1][this.hero[1]]!="I") {
-				//if the hero gets to the S , the winning condition
-				if(this.table[this.hero[0]+1][this.hero[1]]=="S")
-				{
-					this.win=true;
-				}
-				//if the hero gets to the lever,k
-				if(this.table[this.hero[0]+1][this.hero[1]]=="k") {
-					this.leverOn();
-				}
-				this.table[hero[0]][hero[1]]=" ";
-				this.hero[0]++;
-				this.table[hero[0]][hero[1]]="H";
-			}
+			aux[0]++;
 			break;
 		case "d":
-			if(this.table[this.hero[0]][this.hero[1]+1]!="X"&&this.table[this.hero[0]][this.hero[1]+1]!="I") {
-				//if the hero gets to the S , the winning condition
-				if(this.table[this.hero[0]][this.hero[1]+1]=="S")
-				{
-					this.win=true;
-				}
-				//if the hero gets to the lever,k
-				if(this.table[this.hero[0]][this.hero[1]+1]=="k") {
-					this.leverOn();
-				}
-				this.table[hero[0]][hero[1]]=" ";
-				this.hero[1]++;
-				this.table[hero[0]][hero[1]]="H";
-			}
+			aux[1]++;
 			break;
 				
 		}
+		if(this.table[aux[0]][aux[1]]!="X"&&this.table[aux[0]][aux[1]]!="I") {
+			//if the hero gets to the S , the winning condition
+			if(this.table[aux[0]][aux[1]]=="S")
+			{
+				this.win=true;
+			}
+			//if the hero gets to the lever,k
+			if(this.table[aux[0]][aux[1]]=="k") {
+				this.leverOn();
+			}
+			this.table[hero[0]][hero[1]]=" ";
+			this.hero=aux;
+			this.table[hero[0]][hero[1]]="H";
+		}
+		/*if(this.table[this.hero[0]][this.hero[1]+1]!="X"&&this.table[this.hero[0]][this.hero[1]+1]!="I") {
+			//if the hero gets to the S , the winning condition
+			if(this.table[this.hero[0]][this.hero[1]+1]=="S")
+			{
+				this.win=true;
+			}
+			//if the hero gets to the lever,k
+			if(this.table[this.hero[0]][this.hero[1]+1]=="k") {
+				this.leverOn();
+			}
+			this.table[hero[0]][hero[1]]=" ";
+			this.hero[1]++;
+			this.table[hero[0]][hero[1]]="H";
+		}*/
 		checkLose();
+		
 	}
 	
 	public void checkLose()
@@ -139,6 +125,9 @@ public class DK {
 		}
 	}
 	
+	public void moveGuard() {
+		
+	}
 	
 	public static void main(String[] args) {
 		DK game=new DK();
