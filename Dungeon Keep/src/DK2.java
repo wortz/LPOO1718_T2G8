@@ -1,43 +1,43 @@
 import java.util.*;
 
 
-public class DK {
+public class DK2 {
 	private String table[][];
 	private int hero[];
-	private int guard[];
+	private int ogre[];
 	private boolean win,lose;
-	private String guardMove[];
-	private int guardIndex;
+	private String ogreMoves[];
 	
 	/*constructor to start the game*/
-	public DK()
+	public DK2()
 	{
 		this.hero=new int[2];
-		this.guard=new int[2];
-		String aux1[][]= {{"X","X","X","X","X","X","X","X","X","X"},
-				{"X","H"," "," ","I"," ","X"," ","G","X"},
-				{"X","X","X"," ","X","X","X"," "," ","X"},
-				{"X"," ","I"," ","I"," ","X"," "," ","X"},
-				{"X","X","X"," ","X","X","X"," "," ","X"},
-				{"I"," "," "," "," "," "," "," "," ","X"},
-				{"I"," "," "," "," "," "," "," "," ","X"},
-				{"X","X","X"," ","X","X","X","X"," ","X"},
-				{"X"," ","I"," ","I"," ","X","k"," ","X"},
-				{"X","X","X","X","X","X","X","X","X","X"}};	
-		String aux2[]= {"a","s","s","s","s","a","a","a","a","a","a","s","d","d","d","d","d",
-						"d","d","w","w","w","w","w"};
+		this.ogre=new int[2];
+		String aux1[][]= {{"X","X","X","X","X","X","X","X","X"},
+				{"I"," "," "," ","O"," "," ","k","X"},
+				{"X"," "," "," "," "," "," "," ","X"},
+				{"X"," "," "," "," "," "," "," ","X"},
+				{"X"," "," "," "," "," "," "," ","X"},
+				{"X"," "," "," "," "," "," "," ","X"},
+				{"X"," "," "," "," "," "," "," ","X"},
+				{"X","H"," "," "," "," "," "," ","X"},
+				{"X","X","X","X","X","X","X","X","X"}};	
+		String aux2[]= {"a","w","s","d"};
 		this.win=false;
 		this.lose=false;
 		this.table = aux1;
-		this.guardMove=aux2;
-		this.hero[0]=1;
+		this.hero[0]=8;
 		this.hero[1]=1;
-		this.guard[0]=1;
-		this.guard[1]=8;
-		this.guardIndex=0;
+		this.ogre[0]=1;
+		this.ogre[1]=4;
+		this.ogreMoves=aux2;
 		
 		
-		
+	}
+	
+	public int getRandMove() {
+		Random randomove=new Random();
+		return(randomove.nextInt(3));
 	}
 	
 	/*prints the table as it is in the moment*/
@@ -52,7 +52,7 @@ public class DK {
 			System.out.println();
 		}
 	}
-	/*Handles the move of hero or guard*/
+	/*Handles the move of hero or ogre*/
 	public void moveHandler(String mov,int cord[]) {
 		switch (mov) {
 		case "w":
@@ -98,8 +98,8 @@ public class DK {
 	public void checkLose()
 	{
 		int dx,dy;
-		dy=Math.abs(this.hero[0]-this.guard[0]);
-		dx=Math.abs(this.hero[1]-this.guard[1]);
+		dy=Math.abs(this.hero[0]-this.ogre[0]);
+		dx=Math.abs(this.hero[1]-this.ogre[1]);
 		
 		if((dy==1&&dx==0)||(dy==0&&dx==1))
 			this.lose=true;
@@ -118,32 +118,35 @@ public class DK {
 		}
 	}
 	
-	public void moveGuard() {
-		this.table[this.guard[0]][this.guard[1]]=" ";
-		this.moveHandler(this.guardMove[guardIndex], this.guard);
-		this.table[this.guard[0]][this.guard[1]]="G";
-		if((this.guardIndex)==(this.guardMove.length)-1)
-			this.guardIndex=0;
-		else
-			this.guardIndex++;
+			
+	public void moveOgre() {
+		int aux[]=new int[2];
+		aux[0]=this.ogre[0];
+		aux[1]=this.ogre[1];
+
+		this.moveHandler(this.ogreMoves[this.getRandMove()], aux);
+		if(this.table[aux[0]][aux[1]]!="X"&&this.table[aux[0]][aux[1]]!="I") { 
+			this.table[this.ogre[0]][this.ogre[1]]=" ";
+			this.table[aux[0]][aux[1]]="O";
+			this.ogre=aux;		
+		}
 	}
 	
 	public static void main(String[] args) {
-		DK game=new DK();
+		DK2 game=new DK2();
 		Scanner input = new Scanner(System.in);
 		game.printTable();
 		while((!game.win)&&(!game.lose)) {
 		String mov= input.next();
 		game.moveHero(mov);
-		game.moveGuard();
+		game.moveOgre();
 		game.printTable();
 		}
 		input.close();
-		if(game.lose) {
+		if(game.win)
+			System.out.println("You win.");
+		if(game.lose)
 			System.out.println("You lose.");
-			return;
-		}
-		DK2 game2=new DK2();
 	}
 
 }
