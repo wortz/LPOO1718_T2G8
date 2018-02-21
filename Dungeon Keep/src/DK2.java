@@ -121,12 +121,22 @@ public class DK2 {
 			this.lose=true;
 	}
 	
+	public boolean validCoord(int aux[])
+	{
+		return (this.table[aux[0]][aux[1]]=="X"||this.table[aux[0]][aux[1]]=="I"||this.table[aux[0]][aux[1]]=="S");
+	}
+	
 	
 	public void swingClub(int ogre[]) {
-		/*int aux[]=new int[2];
+		int aux[]=new int[2];
 		aux[0]=this.ogre[0];
-		aux[1]=this.ogre[1];*/		
-		this.moveHandler(this.ogreMoves[this.getRandMove()], ogre);
+		aux[1]=this.ogre[1];		
+		this.moveHandler(this.ogreMoves[this.getRandMove()], aux);
+		while(this.validCoord(aux)) {
+			aux[0]=this.ogre[0];
+			aux[1]=this.ogre[1];		
+			this.moveHandler(this.ogreMoves[this.getRandMove()], aux);
+		}
 		
 	}
 	
@@ -136,17 +146,22 @@ public class DK2 {
 		aux[1]=this.ogre[1];
 
 		this.moveHandler(this.ogreMoves[this.getRandMove()], aux);
-		if(this.table[aux[0]][aux[1]]!="X"&&this.table[aux[0]][aux[1]]!="I"&&this.table[aux[0]][aux[1]]!="S") { 
+		while(this.validCoord(aux)) { 
+			aux[0]=this.ogre[0];
+			aux[1]=this.ogre[1];
+			this.moveHandler(this.ogreMoves[this.getRandMove()], aux);
+		}
+		/*if it is over the key*/
 			if(this.table[this.ogre[0]][this.ogre[1]]=="$")
 				this.table[this.ogre[0]][this.ogre[1]]="k";
 			else
 				this.table[this.ogre[0]][this.ogre[1]]=" ";
+		/*if it goes to the key*/
 			if(this.table[aux[0]][aux[1]]=="k") 
 				this.table[aux[0]][aux[1]]="$";
 			else
 				this.table[aux[0]][aux[1]]="O";
 			this.ogre=aux;		
-		}
 		this.checkLose();
 	}
 
