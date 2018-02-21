@@ -5,6 +5,7 @@ public class DK2 {
 	private String table[][];
 	private int hero[];
 	private int ogre[];
+	private int club[];
 	private boolean win,lose,key_catched;
 	private String ogreMoves[];
 	
@@ -13,6 +14,7 @@ public class DK2 {
 	{
 		this.hero=new int[2];
 		this.ogre=new int[2];
+		this.club=new int[2];
 		String aux1[][]= {{"X","X","X","X","X","X","X","X","X"},
 				{"I"," "," "," ","O"," "," ","k","X"},
 				{"X"," "," "," "," "," "," "," ","X"},
@@ -119,25 +121,42 @@ public class DK2 {
 		
 		if((dy==1&&dx==0)||(dy==0&&dx==1))
 			this.lose=true;
+		dy=Math.abs(this.club[0]-this.hero[0]);
+		dx=Math.abs(this.club[1]-this.hero[1]);
+		
+		if((dy==1&&dx==0)||(dy==0&&dx==1))
+			this.lose=true;
 	}
 	
 	public boolean validCoord(int aux[])
 	{
 		return (this.table[aux[0]][aux[1]]=="X"||this.table[aux[0]][aux[1]]=="I"||this.table[aux[0]][aux[1]]=="S");
 	}
+
+	public void deleteClub() {
+	if(this.table[this.club[0]][this.club[1]]=="$")
+		this.table[this.club[0]][this.club[1]]="k";
+	else
+		this.table[this.club[0]][this.club[1]]=" ";
 	
+	}
+
 	
 	public void swingClub(int ogre[]) {
 		int aux[]=new int[2];
-		aux[0]=this.ogre[0];
-		aux[1]=this.ogre[1];		
+		aux[0]=ogre[0];
+		aux[1]=ogre[1];		
 		this.moveHandler(this.ogreMoves[this.getRandMove()], aux);
 		while(this.validCoord(aux)) {
-			aux[0]=this.ogre[0];
-			aux[1]=this.ogre[1];		
+			aux[0]=ogre[0];
+			aux[1]=ogre[1];		
 			this.moveHandler(this.ogreMoves[this.getRandMove()], aux);
 		}
-		
+		if(this.table[aux[0]][aux[1]]=="k") 
+			this.table[aux[0]][aux[1]]="$";
+		else
+			this.table[aux[0]][aux[1]]="*";	
+		this.club=aux;
 	}
 	
 	public void moveOgre() {
@@ -162,7 +181,8 @@ public class DK2 {
 			else
 				this.table[aux[0]][aux[1]]="O";
 			this.ogre=aux;		
+		this.swingClub(this.ogre);
 		this.checkLose();
 	}
-
+	
 }

@@ -29,7 +29,7 @@ public class DK {
 		this.win=false;
 		this.lose=false;
 		this.table = aux1;
-		this.guardMove=aux2;
+		this.guardMove=aux2; 
 		this.hero[0]=1;
 		this.hero[1]=1;
 		this.guard[0]=1;
@@ -130,10 +130,10 @@ public class DK {
 	}
 	
 	public static void main(String[] args) {
-		//DK game=new DK();
+		DK game=new DK();
 		Scanner input = new Scanner(System.in);
 		String mov;
-		/*game.printTable();
+		game.printTable();
 		while((!game.win)&&(!game.lose)) {
 		mov= input.next();
 		game.moveHero(mov);
@@ -144,7 +144,7 @@ public class DK {
 			System.out.println("You lose.");
 			input.close();
 			return;
-		}*/
+		}
 		DK2 game2=new DK2();
 		System.out.println();
 		game2.printTable();
@@ -153,7 +153,14 @@ public class DK {
 			game2.moveHero(mov);
 			game2.moveOgre();
 			game2.printTable();
+			game2.deleteClub();
 			}
+		if(game.lose) {
+			System.out.println("You lose.");
+			input.close();
+			return;
+			}
+		System.out.println("You win.");
 		input.close();
 	}
 
