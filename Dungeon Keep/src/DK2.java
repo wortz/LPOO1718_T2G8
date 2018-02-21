@@ -121,13 +121,15 @@ public class DK2 {
 			this.lose=true;
 	}
 	
-	/*Turns all the I to S when the lever is pressed*/
-	public void doorOpen()
-	{
-		this.table[1][0]="S";
+	
+	public void swingClub(int ogre[]) {
+		/*int aux[]=new int[2];
+		aux[0]=this.ogre[0];
+		aux[1]=this.ogre[1];*/		
+		this.moveHandler(this.ogreMoves[this.getRandMove()], ogre);
+		
 	}
 	
-			
 	public void moveOgre() {
 		int aux[]=new int[2];
 		aux[0]=this.ogre[0];
