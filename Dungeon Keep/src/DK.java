@@ -130,11 +130,12 @@ public class DK {
 	}
 	
 	public static void main(String[] args) {
-		DK game=new DK();
+		//DK game=new DK();
 		Scanner input = new Scanner(System.in);
-		game.printTable();
+		String mov;
+		/*game.printTable();
 		while((!game.win)&&(!game.lose)) {
-		String mov= input.next();
+		mov= input.next();
 		game.moveHero(mov);
 		game.moveGuard();
 		game.printTable();
@@ -143,13 +144,13 @@ public class DK {
 			System.out.println("You lose.");
 			input.close();
 			return;
-		}
+		}*/
 		DK2 game2=new DK2();
 		System.out.println();
 		game2.printTable();
 		while((!game2.getWin())&&(!game2.getLose())) {
-			String mov2= input.next();
-			game2.moveHero(mov2);
+			mov= input.next();
+			game2.moveHero(mov);
 			game2.moveOgre();
 			game2.printTable();
 			}

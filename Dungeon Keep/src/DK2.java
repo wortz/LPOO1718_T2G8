@@ -46,7 +46,7 @@ public class DK2 {
 	
 	public int getRandMove() {
 		Random randomove=new Random();
-		return(randomove.nextInt(3));
+		return(randomove.nextInt(4));
 	}
 	
 	/*prints the table as it is in the moment*/
@@ -94,11 +94,18 @@ public class DK2 {
 			}
 			//if the hero gets to the lever,k
 			if(this.table[aux[0]][aux[1]]=="k") {
-				this.key_catched=true;//TODO: adicionar funcao
+				this.key_catched=true;
 			}
 			this.table[hero[0]][hero[1]]=" ";
 			this.hero=aux;
-			this.table[hero[0]][hero[1]]="H";
+			if(this.key_catched)
+				this.table[this.hero[0]][hero[1]]="K";
+			else
+				this.table[hero[0]][hero[1]]="H";
+		}
+		if(this.table[aux[0]][aux[1]]=="I"&&this.key_catched)
+		{
+			this.table[1][0]="S";
 		}
 		checkLose();
 		
@@ -127,11 +134,18 @@ public class DK2 {
 		aux[1]=this.ogre[1];
 
 		this.moveHandler(this.ogreMoves[this.getRandMove()], aux);
-		if(this.table[aux[0]][aux[1]]!="X"&&this.table[aux[0]][aux[1]]!="I") { 
-			this.table[this.ogre[0]][this.ogre[1]]=" ";
-			this.table[aux[0]][aux[1]]="O";
+		if(this.table[aux[0]][aux[1]]!="X"&&this.table[aux[0]][aux[1]]!="I"&&this.table[aux[0]][aux[1]]!="S") { 
+			if(this.table[this.ogre[0]][this.ogre[1]]=="$")
+				this.table[this.ogre[0]][this.ogre[1]]="k";
+			else
+				this.table[this.ogre[0]][this.ogre[1]]=" ";
+			if(this.table[aux[0]][aux[1]]=="k") 
+				this.table[aux[0]][aux[1]]="$";
+			else
+				this.table[aux[0]][aux[1]]="O";
 			this.ogre=aux;		
 		}
+		this.checkLose();
 	}
 
 }
