@@ -126,6 +126,7 @@ public class DK {
 			this.guardIndex=0;
 		else
 			this.guardIndex++;
+		checkLose();
 	}
 	
 	public static void main(String[] args) {
@@ -138,12 +139,21 @@ public class DK {
 		game.moveGuard();
 		game.printTable();
 		}
-		input.close();
 		if(game.lose) {
 			System.out.println("You lose.");
+			input.close();
 			return;
 		}
 		DK2 game2=new DK2();
+		System.out.println();
+		game2.printTable();
+		while((!game2.getWin())&&(!game2.getLose())) {
+			String mov2= input.next();
+			game2.moveHero(mov2);
+			game2.moveOgre();
+			game2.printTable();
+			}
+		input.close();
 	}
 
 }

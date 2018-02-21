@@ -5,7 +5,7 @@ public class DK2 {
 	private String table[][];
 	private int hero[];
 	private int ogre[];
-	private boolean win,lose;
+	private boolean win,lose,key_catched;
 	private String ogreMoves[];
 	
 	/*constructor to start the game*/
@@ -25,14 +25,23 @@ public class DK2 {
 		String aux2[]= {"a","w","s","d"};
 		this.win=false;
 		this.lose=false;
+		this.key_catched=false;
 		this.table = aux1;
-		this.hero[0]=8;
+		this.hero[0]=7;
 		this.hero[1]=1;
 		this.ogre[0]=1;
 		this.ogre[1]=4;
 		this.ogreMoves=aux2;
 		
 		
+	}
+	
+	public boolean getWin() {
+		return this.win;
+	}
+	
+	public boolean getLose() {
+		return this.lose;
 	}
 	
 	public int getRandMove() {
@@ -85,7 +94,7 @@ public class DK2 {
 			}
 			//if the hero gets to the lever,k
 			if(this.table[aux[0]][aux[1]]=="k") {
-				this.leverOn();
+				this.key_catched=true;//TODO: adicionar funcao
 			}
 			this.table[hero[0]][hero[1]]=" ";
 			this.hero=aux;
@@ -106,16 +115,9 @@ public class DK2 {
 	}
 	
 	/*Turns all the I to S when the lever is pressed*/
-	public void leverOn()
+	public void doorOpen()
 	{
-		for(int i=0;i<this.table.length;i++)
-		{
-			for(int j=0;j<this.table[i].length;j++)
-			{
-				if(this.table[i][j]=="I")
-					this.table[i][j]="S";
-			}
-		}
+		this.table[1][0]="S";
 	}
 	
 			
@@ -130,23 +132,6 @@ public class DK2 {
 			this.table[aux[0]][aux[1]]="O";
 			this.ogre=aux;		
 		}
-	}
-	
-	public static void main(String[] args) {
-		DK2 game=new DK2();
-		Scanner input = new Scanner(System.in);
-		game.printTable();
-		while((!game.win)&&(!game.lose)) {
-		String mov= input.next();
-		game.moveHero(mov);
-		game.moveOgre();
-		game.printTable();
-		}
-		input.close();
-		if(game.win)
-			System.out.println("You win.");
-		if(game.lose)
-			System.out.println("You lose.");
 	}
 
 }
