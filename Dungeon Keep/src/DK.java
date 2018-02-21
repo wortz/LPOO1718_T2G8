@@ -7,6 +7,7 @@ public class DK {
 	private int guard[];
 	private boolean win,lose;
 	private String guardMove[];
+	private int guardIndex;
 	
 	/*constructor to start the game*/
 	public DK()
@@ -23,7 +24,7 @@ public class DK {
 				{"X","X","X"," ","X","X","X","X"," ","X"},
 				{"X"," ","I"," ","I"," ","X","k"," ","X"},
 				{"X","X","X","X","X","X","X","X","X","X"}};	
-		String aux2[]= {"a","s","s","s","s","s","a","a","a","a","a","a","s","d","d","d","d","d",
+		String aux2[]= {"a","s","s","s","s","a","a","a","a","a","a","s","d","d","d","d","d",
 						"d","d","w","w","w","w","w"};
 		this.win=false;
 		this.lose=false;
@@ -33,6 +34,8 @@ public class DK {
 		this.hero[1]=1;
 		this.guard[0]=1;
 		this.guard[1]=8;
+		this.guardIndex=0;
+		
 		
 		
 	}
@@ -49,27 +52,31 @@ public class DK {
 			System.out.println();
 		}
 	}
+	/*Handles the move of hero or guard*/
+	public void moveHandler(String mov,int cord[]) {
+		switch (mov) {
+		case "w":
+			cord[0]--;
+			break;
+		case "a":
+			cord[1]--;
+			break;
+		case "s":
+			cord[0]++;
+			break;
+		case "d":
+			cord[1]++;
+			break;
+				
+		}
+	}
 	
 	/*Function to deal with the hero's move*/
 	public void moveHero(String mov) {
 		int aux[]=new int[2];
 		aux[0]=this.hero[0];
 		aux[1]=this.hero[1];
-		switch (mov) {
-		case "w":
-			aux[0]--;
-			break;
-		case "a":
-			aux[1]--;
-			break;
-		case "s":
-			aux[0]++;
-			break;
-		case "d":
-			aux[1]++;
-			break;
-				
-		}
+		this.moveHandler(mov, aux);
 		if(this.table[aux[0]][aux[1]]!="X"&&this.table[aux[0]][aux[1]]!="I") {
 			//if the hero gets to the S , the winning condition
 			if(this.table[aux[0]][aux[1]]=="S")
@@ -84,20 +91,6 @@ public class DK {
 			this.hero=aux;
 			this.table[hero[0]][hero[1]]="H";
 		}
-		/*if(this.table[this.hero[0]][this.hero[1]+1]!="X"&&this.table[this.hero[0]][this.hero[1]+1]!="I") {
-			//if the hero gets to the S , the winning condition
-			if(this.table[this.hero[0]][this.hero[1]+1]=="S")
-			{
-				this.win=true;
-			}
-			//if the hero gets to the lever,k
-			if(this.table[this.hero[0]][this.hero[1]+1]=="k") {
-				this.leverOn();
-			}
-			this.table[hero[0]][hero[1]]=" ";
-			this.hero[1]++;
-			this.table[hero[0]][hero[1]]="H";
-		}*/
 		checkLose();
 		
 	}
@@ -126,7 +119,13 @@ public class DK {
 	}
 	
 	public void moveGuard() {
-		
+		this.table[this.guard[0]][this.guard[1]]=" ";
+		this.moveHandler(this.guardMove[guardIndex], this.guard);
+		this.table[this.guard[0]][this.guard[1]]="G";
+		if((this.guardIndex)==(this.guardMove.length)-1)
+			this.guardIndex=0;
+		else
+			this.guardIndex++;
 	}
 	
 	public static void main(String[] args) {
@@ -136,6 +135,7 @@ public class DK {
 		while((!game.win)&&(!game.lose)) {
 		String mov= input.next();
 		game.moveHero(mov);
+		game.moveGuard();
 		game.printTable();
 		}
 		input.close();
