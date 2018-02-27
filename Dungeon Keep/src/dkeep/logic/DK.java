@@ -1,7 +1,9 @@
+package dkeep.logic;
 import java.util.*;
 
 
-public class DK {
+
+public class DK extends LEVELS{
 	private String table[][];
 	private int hero[];
 	private int guard[];
