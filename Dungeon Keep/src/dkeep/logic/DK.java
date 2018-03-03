@@ -1,3 +1,4 @@
+package dkeep.logic;
 import java.util.*;
 
 
@@ -39,21 +40,21 @@ public class DK {
 		
 		
 	}
-	
-	/*prints the table as it is in the moment*/
-	public void printTable() {
-		for(int i=0;i<this.table.length;i++)
-		{
-			for(int j=0;j<this.table[i].length;j++)
-			{
-				System.out.print(this.table[i][j]);
-				System.out.print(' ');
-			}
-			System.out.println();
-		}
-	}
+//	
+//	/*prints the table as it is in the moment*/
+//	public void printTable() {
+//		for(int i=0;i<this.table.length;i++)
+//		{
+//			for(int j=0;j<this.table[i].length;j++)
+//			{
+//				System.out.print(this.table[i][j]);
+//				System.out.print(' ');
+//			}
+//			System.out.println();
+//		}
+//	}
 	/*Handles the move of hero or guard*/
-	public void moveHandler(String mov,int cord[]) {
+	/*public void moveHandler(String mov,int cord[]) {
 		switch (mov) {
 		case "w":
 			cord[0]--;
@@ -69,66 +70,66 @@ public class DK {
 			break;
 				
 		}
-	}
+	}*/
 	
-	/*Function to deal with the hero's move*/
-	public void moveHero(String mov) {
-		int aux[]=new int[2];
-		aux[0]=this.hero[0];
-		aux[1]=this.hero[1];
-		this.moveHandler(mov, aux);
-		if(this.table[aux[0]][aux[1]]!="X"&&this.table[aux[0]][aux[1]]!="I") {
-			//if the hero gets to the S , the winning condition
-			if(this.table[aux[0]][aux[1]]=="S")
-			{
-				this.win=true;
-			}
-			//if the hero gets to the lever,k
-			if(this.table[aux[0]][aux[1]]=="k") {
-				this.leverOn();
-			}
-			this.table[hero[0]][hero[1]]=" ";
-			this.hero=aux;
-			this.table[hero[0]][hero[1]]="H";
-		}
-		checkLose();
-		
-	}
-	
-	public void checkLose()
-	{
-		int dx,dy;
-		dy=Math.abs(this.hero[0]-this.guard[0]);
-		dx=Math.abs(this.hero[1]-this.guard[1]);
-		
-		if((dy==1&&dx==0)||(dy==0&&dx==1))
-			this.lose=true;
-	}
-	
+//	/*Function to deal with the hero's move*/
+//	public void moveHero(String mov) {
+//		int aux[]=new int[2];
+//		aux[0]=this.hero[0];
+//		aux[1]=this.hero[1];
+//		this.moveHandler(mov, aux);
+//		if(this.table[aux[0]][aux[1]]!="X"&&this.table[aux[0]][aux[1]]!="I") {
+//			//if the hero gets to the S , the winning condition
+//			if(this.table[aux[0]][aux[1]]=="S")
+//			{
+//				this.win=true;
+//			}
+//			//if the hero gets to the lever,k
+//			if(this.table[aux[0]][aux[1]]=="k") {
+//				this.leverOn();
+//			}
+//			this.table[hero[0]][hero[1]]=" ";
+//			this.hero=aux;
+//			this.table[hero[0]][hero[1]]="H";
+//		}
+//		checkLose();
+//		
+//	}
+//	
+//	public void checkLose()
+//	{
+//		int dx,dy;
+//		dy=Math.abs(this.hero[0]-this.guard[0]);
+//		dx=Math.abs(this.hero[1]-this.guard[1]);
+//		
+//		if((dy==1&&dx==0)||(dy==0&&dx==1))
+//			this.lose=true;
+//	}
+//	
 	/*Turns all the I to S when the lever is pressed*/
-	public void leverOn()
-	{
-		for(int i=0;i<this.table.length;i++)
-		{
-			for(int j=0;j<this.table[i].length;j++)
-			{
-				if(this.table[i][j]=="I")
-					this.table[i][j]="S";
-			}
-		}
-	}
+//	public void leverOn()
+//	{
+//		for(int i=0;i<this.table.length;i++)
+//		{
+//			for(int j=0;j<this.table[i].length;j++)
+//			{
+//				if(this.table[i][j]=="I")
+//					this.table[i][j]="S";
+//			}
+//		}
+//	}
 	
-	public void moveGuard() {
-		this.table[this.guard[0]][this.guard[1]]=" ";
-		this.moveHandler(this.guardMove[guardIndex], this.guard);
-		this.table[this.guard[0]][this.guard[1]]="G";
-		if((this.guardIndex)==(this.guardMove.length)-1)
-			this.guardIndex=0;
-		else
-			this.guardIndex++;
-		checkLose();
-	}
-	
+//	public void moveGuard() {
+//		this.table[this.guard[0]][this.guard[1]]=" ";
+//		this.moveHandler(this.guardMove[guardIndex], this.guard);
+//		this.table[this.guard[0]][this.guard[1]]="G";
+//		if((this.guardIndex)==(this.guardMove.length)-1)
+//			this.guardIndex=0;
+//		else
+//			this.guardIndex++;
+//		checkLose();
+//	}
+	/*
 	public static void main(String[] args) {
 		DK game=new DK();
 		Scanner input = new Scanner(System.in);
@@ -162,6 +163,6 @@ public class DK {
 			}
 		System.out.println("You win.");
 		input.close();
-	}
+	}*/
 
 }
