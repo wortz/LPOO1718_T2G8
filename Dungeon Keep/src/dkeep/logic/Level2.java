@@ -73,5 +73,18 @@ public class Level2 extends Level{
 
 	public void leverOn() {}
 	
-	//Checklose abstract class level????
+	/*
+	 * returns array size 4, first ogre coord[0 and 1], then club coor[2 and 3] 
+	 * (non-Javadoc)
+	 * @see dkeep.logic.Level#checkLose_aux()
+	 */
+	public int[] checkLose_aux() {
+		int aux[]=new int[4];
+		aux[0]=this.ogre.getCoord()[0];
+		aux[1]=this.ogre.getCoord()[1];
+		aux[2]=this.ogre.getClub_coord()[0];
+		aux[3]=this.ogre.getClub_coord()[1];
+		return aux;
+	}
+	
 }

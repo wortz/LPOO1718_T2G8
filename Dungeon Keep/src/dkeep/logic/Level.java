@@ -30,5 +30,6 @@ abstract class Level {
 	}
 	
 	public abstract void leverOn();
+	public abstract int[] checkLose_aux();
 	
 }

@@ -48,5 +48,10 @@ public class Level1 extends Level{
 		this.setTable(aux);
 		}
 	
+	public int[] checkLose_aux() {
+		return this.guard.getCoord();
+	}
+
+	
 
 }

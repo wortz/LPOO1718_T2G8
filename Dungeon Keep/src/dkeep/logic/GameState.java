@@ -50,7 +50,7 @@ public class GameState {
 			int arr[]= {1,0};
 			l.setTableElem(arr,"S");			
 		}
-//		checkLose(l);
+		checkLose(l);
 		
 	}
 	
@@ -74,18 +74,28 @@ public class GameState {
 				
 		}
 	}
-	/*
+	
 	public void checkLose(Level l)
 	{
 		
 		int dx, dy;
-		dy = Math.abs(hero.getCoord()[0] - this.guard[0]);
-		dx = Math.abs(this.hero[1] - this.guard[1]);
+		int aux[]=l.checkLose_aux();
+		
+		dy = Math.abs(hero.getCoord()[0] - aux[0]);
+		dx = Math.abs(hero.getCoord()[1] - aux[1]);
 
 		if ((dy == 1 && dx == 0) || (dy == 0 && dx == 1))
 			this.lose = true;
+
+		if (aux.length==4) {
+			dy = Math.abs(hero.getCoord()[0] - aux[2]);
+			dx = Math.abs(hero.getCoord()[1] - aux[3]);
+		
+		if ((dy == 1 && dx == 0) || (dy == 0 && dx == 1))
+				this.lose = true;
+		}
 	}
-*/
+
 	public void printTable() {
 		if(this.l2==null)
 			l1.printTable();
@@ -109,9 +119,11 @@ public class GameState {
 	}
 	public void mvGuard() {
 		l1.moveGuard();
+		this.checkLose(l1);
 	}
 	public void mvOgre() {
 		l2.moveOgre();
+		this.checkLose(l2);
 	}
 	
 	public void delClub() {
