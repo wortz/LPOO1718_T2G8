@@ -80,7 +80,7 @@ public class GameState {
 		
 		int dx, dy;
 		int aux[]=l.checkLose_aux();
-		
+		 
 		dy = Math.abs(hero.getCoord()[0] - aux[0]);
 		dx = Math.abs(hero.getCoord()[1] - aux[1]);
 
