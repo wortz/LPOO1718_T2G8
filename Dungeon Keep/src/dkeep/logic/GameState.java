@@ -13,6 +13,8 @@ public class GameState {
 		this.lose =false;
 		this.l1 = new Level1();
 		this.hero=new Hero(1,1);
+		this.hero.setArmed(false);
+		this.hero.setSimbol("H");
 
 	}
 	
@@ -43,14 +45,13 @@ public class GameState {
 			if(this.key_catched)
 				l.setTableElem(hero.getCoord(),"K");
 			else
-				l.setTableElem(hero.getCoord(),"H");			
+				l.setTableElem(hero.getCoord(),this.hero.getSimbol());			
 			}
 		if(l.getTable()[aux[0]][aux[1]]=="I"&&this.key_catched)
 		{
 			int arr[]= {1,0};
 			l.setTableElem(arr,"S");			
 		}
-		checkLose(l);
 		
 	}
 	
@@ -77,29 +78,32 @@ public class GameState {
 	
 	public void checkLose(Level l)
 	{
-		
-		int dx, dy;
-		int aux[]=l.checkLose_aux();
-		 
-		dy = Math.abs(hero.getCoord()[0] - aux[0]);
-		dx = Math.abs(hero.getCoord()[1] - aux[1]);
-
-		if ((dy == 1 && dx == 0) || (dy == 0 && dx == 1))
+		int aux[][]=l.checkLose_aux();
+		if(this.onSide(aux,0))
 			this.lose = true;
-
-		if (aux.length==4) {
-			dy = Math.abs(hero.getCoord()[0] - aux[2]);
-			dx = Math.abs(hero.getCoord()[1] - aux[3]);
-		
-		if ((dy == 1 && dx == 0) || (dy == 0 && dx == 1))
-				this.lose = true;
+	}
+	
+	public boolean onSide(int aux[][],int a) {
+		int dx, dy;
+		for(int i=0;i<aux.length;i++) { 
+		dy = Math.abs(hero.getCoord()[0] - aux[i][0]);
+		dx = Math.abs(hero.getCoord()[1] - aux[i][1]);
+		if ((dy == 1 && dx == 0) || (dy == 0 && dx == 1)) {
+			a=i;
+			return true;
+			}
 		}
+		return false;
+	}
+	
+	public void checkStun() {
+			int i=-1;
+			if(onSide(l2.getOgresCoord(),i))
+				l2.stunOgre(i);
 	}
 
 	public void printTable() {
-		if(this.l2==null)
-			l1.printTable();
-		else l2.printTable();
+		this.getLevel().printTable();
 	}
 
 	public boolean isWin() {
@@ -124,6 +128,8 @@ public class GameState {
 	public void mvOgre() {
 		l2.moveOgre();
 		this.checkLose(l2);
+		if(this.hero.getArmed())
+		this.checkStun();
 	}
 	
 	public void delClub() {
@@ -134,6 +140,8 @@ public class GameState {
 	public void startLvl2() {
 		this.l2 = new Level2();
 		this.hero=new Hero(7,1);
+		this.hero.setArmed(true);
+		this.hero.setSimbol("A");
 	}
 
 	public void setWin(boolean b) {

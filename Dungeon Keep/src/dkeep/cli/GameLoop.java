@@ -6,11 +6,10 @@ public class GameLoop {
 	
 	
 	public static void main(String[] args) {
-		// DK game=new DK();
 		GameState game = new GameState();
 		Scanner input = new Scanner(System.in);
 		String mov;
-		game.printTable();
+		/*game.printTable();
 		while ((!game.isWin()) && (!game.isLose())) {
 			mov = input.next();
 			game.moveHero(mov, game.getLevel());
@@ -23,7 +22,7 @@ public class GameLoop {
 			return;
 		}
 		else 
-			game.setWin(false);
+			game.setWin(false);*/
 		System.out.println();
 		game.startLvl2();
 		game.printTable();

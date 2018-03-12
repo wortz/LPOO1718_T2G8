@@ -1,6 +1,6 @@
 package dkeep.logic;
 
-abstract class Level {
+public abstract class Level {
 	private String table[][];
 	int currLevel;
 	
@@ -30,6 +30,6 @@ abstract class Level {
 	}
 	
 	public abstract void leverOn();
-	public abstract int[] checkLose_aux();
+	public abstract int[][] checkLose_aux();
 	
 }

@@ -48,8 +48,10 @@ public class Level1 extends Level{
 		this.setTable(aux);
 		}
 	
-	public int[] checkLose_aux() {
-		return this.guard.getCoord();
+	public int[][] checkLose_aux() {
+		int aux[][]=new int[1][2];
+		aux[0]=this.guard.getCoord();
+		return aux;
 	}
 
 	
