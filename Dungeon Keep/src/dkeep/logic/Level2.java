@@ -82,7 +82,8 @@ public class Level2 extends Level{
 	public int[][] getOgresCoord(){
 		int aux[][]=new int[ogre.length][2];
 		for(int i=0;i<ogre.length;i++) {
-			aux[i]=this.ogre[i].getCoord();
+			aux[i][0]=this.ogre[i].getCoord()[0];
+			aux[i][1]=this.ogre[i].getCoord()[1];
 		}
 		return aux;
 	}
@@ -122,7 +123,6 @@ public class Level2 extends Level{
 		ogre[i].setStunned(true);
 	}
 
-	public void leverOn() {}
 	
 	/*
 	 * returns array size 4, first ogre coord[0 and 1], then club coor[2 and 3] 
@@ -130,10 +130,10 @@ public class Level2 extends Level{
 	 * @see dkeep.logic.Level#checkLose_aux()
 	 */
 	public int[][] checkLose_aux() {
-		int aux[][]=new int[ogre.length][4];
+		int aux[][]=new int[ogre.length][2];
 		for(int i=0;i<this.ogre.length;i++) {
-		aux[i][2]=this.ogre[i].getClub_coord()[0];
-		aux[i][3]=this.ogre[i].getClub_coord()[1];
+		aux[i][0]=this.ogre[i].getClub_coord()[0];
+		aux[i][1]=this.ogre[i].getClub_coord()[1];
 		}
 		return aux;
 	}

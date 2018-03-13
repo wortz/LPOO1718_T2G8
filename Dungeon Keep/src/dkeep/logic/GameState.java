@@ -31,8 +31,8 @@ public class GameState {
 				this.win=true;
 			}
 			/*if the hero gets to the lever,k*/
-			if(l.getTable()[aux[0]][aux[1]]=="k") {
-				l.leverOn();
+			if(l.getTable()[aux[0]][aux[1]]=="k" && this.getLevel()==l1) {
+				l1.leverOn();
 			}
 			//if the hero gets to the lever,k
 			if(l.getTable()[aux[0]][aux[1]]=="k" && this.getLevel()==l2) {
@@ -78,18 +78,19 @@ public class GameState {
 	
 	public void checkLose(Level l)
 	{
+		int a[]= {-1};
 		int aux[][]=l.checkLose_aux();
-		if(this.onSide(aux,0))
+		if(this.onSide(aux,a))
 			this.lose = true;
 	}
 	
-	public boolean onSide(int aux[][],int a) {
+	public boolean onSide(int aux[][],int a[]) {
 		int dx, dy;
 		for(int i=0;i<aux.length;i++) { 
 		dy = Math.abs(hero.getCoord()[0] - aux[i][0]);
 		dx = Math.abs(hero.getCoord()[1] - aux[i][1]);
 		if ((dy == 1 && dx == 0) || (dy == 0 && dx == 1)) {
-			a=i;
+			a[0]=i;
 			return true;
 			}
 		}
@@ -97,9 +98,9 @@ public class GameState {
 	}
 	
 	public void checkStun() {
-			int i=-1;
-			if(onSide(l2.getOgresCoord(),i))
-				l2.stunOgre(i);
+			int a[]= {-1};
+			if(onSide(l2.getOgresCoord(),a))
+				l2.stunOgre(a[0]);
 	}
 
 	public void printTable() {
