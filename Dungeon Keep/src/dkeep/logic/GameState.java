@@ -123,7 +123,7 @@ public class GameState {
 		return l2;  
 	}
 	public void mvGuard() {
-		l1.moveGuard();
+		l1.moveDrunkenGuard();
 		this.checkLose(l1);
 	}
 	public void mvOgre() {

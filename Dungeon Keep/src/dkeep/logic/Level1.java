@@ -1,9 +1,8 @@
 package dkeep.logic;
 
+
 public class Level1 extends Level{
 	private Guard guard;
-	private String guardMove[];
-	private int guardIndex;
 	public Level1() {
 		String aux1[][]= {{"X","X","X","X","X","X","X","X","X","X"},
 			{"X","H"," "," ","I"," ","X"," ","G","X"},
@@ -15,12 +14,8 @@ public class Level1 extends Level{
 			{"X","X","X"," ","X","X","X","X"," ","X"},
 			{"X"," ","I"," ","I"," ","X","k"," ","X"},
 			{"X","X","X","X","X","X","X","X","X","X"}};	
-		String aux2[]= {"a","s","s","s","s","a","a","a","a","a","a","s","d","d","d","d","d",
-				"d","d","w","w","w","w","w"};
-		this.guardMove=aux2; 
 		this.setTable(aux1);
 		this.guard=new Guard(1,8);
-		this.guardIndex=0;
 	}
 	
 	public void leverOn()
@@ -36,17 +31,65 @@ public class Level1 extends Level{
 		}
 		this.setTable(aux);
 	}
-	public void moveGuard() {
+	public void moveRookieGuard() {
 		String aux[][]= this.getTable();
 		aux[this.guard.getCoord()[0]][this.guard.getCoord()[1]]=" ";
-		GameState.moveHandler(this.guardMove[guardIndex], this.guard.getCoord());  //talvez por movehandler no elements
+		GameState.moveHandler(this.guard.getNextPosition(), this.guard.getCoord()); 
 		aux[this.guard.getCoord()[0]][this.guard.getCoord()[1]]="G";
-		if((this.guardIndex)==(this.guardMove.length)-1)
-			this.guardIndex=0;
-		else
-			this.guardIndex++;
+		this.guard.incrementIndex();
 		this.setTable(aux);
+	}
+
+	public void moveDrunkenGuard() {
+		String aux[][] = this.getTable();
+		if (!this.guard.asleep_func() || this.guard.getAux_flag()) { // para o caso de dormir duas vezes seguidas (fodia o index e nao faz sentido)
+			aux[this.guard.getCoord()[0]][this.guard.getCoord()[1]] = " ";
+			GameState.moveHandler(this.guard.getNextPosition(), this.guard.getCoord());
+			aux[this.guard.getCoord()[0]][this.guard.getCoord()[1]] = "G";
+			nextGuardIndex();
+			if (this.guard.getAux_flag())
+				this.guard.setAux_flag(false);
 		}
+
+		else {
+			aux[this.guard.getCoord()[0]][this.guard.getCoord()[1]] = "g";
+			this.guard.increment_sleepCounter();
+			if (!this.guard.isAsleep()) { // just woke up
+				this.guard.setAux_flag(true); // just woke up flag(so he doesnt sleep 2 times or more in a row)
+				if (this.guard.get_randChangeDir()) {
+					this.guard.setMoving_front(!this.guard.isMoving_front());
+					nextGuardIndex();
+				}
+			}
+		}
+		this.setTable(aux);
+	}
+
+	public void moveSuspiciousGuard() {
+		String aux[][]= this.getTable();
+			aux[this.guard.getCoord()[0]][this.guard.getCoord()[1]] = " ";
+			GameState.moveHandler(this.guard.getNextPosition(), this.guard.getCoord());
+			aux[this.guard.getCoord()[0]][this.guard.getCoord()[1]] = "G";
+			if (this.guard.getAux_flag()) {  //se acabou de mudar de dir
+				nextGuardIndex();
+				this.guard.setAux_flag(false);
+			}
+			else {
+				
+			if (this.guard.get_randChangeDir()) {
+				this.guard.setMoving_front(!this.guard.isMoving_front());
+				this.guard.setAux_flag(true);
+			}
+			else {
+				nextGuardIndex();
+				
+			}
+			}
+			
+		this.setTable(aux);
+
+		}
+	
 	
 	public int[][] checkLose_aux() {
 		int aux[][]=new int[1][2];
@@ -54,6 +97,12 @@ public class Level1 extends Level{
 		return aux;
 	}
 
+	public void nextGuardIndex() {
+		if (this.guard.isMoving_front())
+			this.guard.incrementIndex();
+		else
+			this.guard.decrementIndex();		
+	}
 	
 
 }
