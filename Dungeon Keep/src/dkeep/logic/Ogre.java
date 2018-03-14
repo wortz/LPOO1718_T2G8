@@ -31,7 +31,19 @@ public class Ogre extends GameElement {
 		this.club[1]=club[1];
 	}
 
-
+	public boolean stunHandler() {
+		if(!this.stunned)
+			return false;
+		if(stun_counter>2) {
+			this.stun_counter=0;
+			this.stunned=false;
+			return false;
+		}
+		else {
+			this.stun_counter++;
+			return true;
+		}
+	}
 
 	public boolean isStunned() {
 		return this.stunned;

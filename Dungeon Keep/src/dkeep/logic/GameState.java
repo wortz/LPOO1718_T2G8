@@ -52,6 +52,7 @@ public class GameState {
 			int arr[]= {1,0};
 			l.setTableElem(arr,"S");			
 		}
+		this.checkStun();
 		this.checkLose(l);
 		
 	}
@@ -97,8 +98,8 @@ public class GameState {
 	}
 	
 	public void checkStun() {
-		int i=onSide(l2.getOgresCoord());
-		if(i!=-1)
+		int i;
+		while((i=onSide(l2.getOgresCoord()))!=-1)
 			l2.stunOgre(i);
 	}
 
