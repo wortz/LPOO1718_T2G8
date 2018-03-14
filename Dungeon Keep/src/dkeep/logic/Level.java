@@ -2,7 +2,6 @@ package dkeep.logic;
 
 public abstract class Level {
 	private String table[][];
-	private int kCoord[];
 	
 	public String[][] getTable() {
 		return table;
@@ -28,13 +27,7 @@ public abstract class Level {
 		}
 		
 	}
-	public int[] getkCoord() {
-		return kCoord;
-	}
-	public void setkCoord(int x,int y) {
-		int aux[]={x,y};
-		this.kCoord= aux;
-	}
+
 	public abstract int[][] checkLose_aux();
 	
 }

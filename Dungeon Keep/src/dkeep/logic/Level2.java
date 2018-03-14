@@ -21,7 +21,7 @@ public class Level2 extends Level{
 		this.ogre[0]=o1;
 		this.ogre[1]=o2;
 		this.ogre[2]=o3;
-		this.setkCoord(1,7);
+		
 		
 		
 	}
