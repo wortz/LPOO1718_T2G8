@@ -90,6 +90,9 @@ public class Level1 extends Level{
 
 		}
 	
+	public boolean getAsleep_guard() {
+		return this.guard.isAsleep();
+	}
 	
 	public int[][] checkLose_aux() {
 		int aux[][]=new int[1][2];

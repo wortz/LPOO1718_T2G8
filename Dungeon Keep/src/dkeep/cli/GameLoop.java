@@ -9,10 +9,14 @@ public class GameLoop {
 		GameState game = new GameState();
 		Scanner input = new Scanner(System.in);
 		String mov;
-		game.printTable();
+		/*game.printTable();
 		while ((!game.isWin()) && (!game.isLose())) {
 			mov = input.next();
 			game.moveHero(mov, game.getLevel());
+			if(game.isLose()) {
+				game.printTable();
+				break;
+			}
 			game.mvGuard();
 			game.printTable();
 		}
@@ -22,13 +26,17 @@ public class GameLoop {
 			return;
 		}
 		else 
-			game.setWin(false);
+			game.setWin(false);*/
 		System.out.println();
 		game.startLvl2();
 		game.printTable();
 		while((!game.isWin()) && (!game.isLose())) {
 			mov= input.next();
 			game.moveHero(mov,game.getLevel());
+			if(game.isLose()) {
+				game.printTable();
+				break;
+			}
 			game.mvOgre();
 			game.printTable();
 			game.delClub();

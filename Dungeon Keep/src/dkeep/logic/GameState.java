@@ -24,7 +24,7 @@ public class GameState {
 		aux[0]=hero.getCoord()[0];
 		aux[1]=hero.getCoord()[1];
 	    moveHandler(mov, aux);
-		if(l.getTable()[aux[0]][aux[1]]!="X"&&l.getTable()[aux[0]][aux[1]]!="I") {
+		if(l.getTable()[aux[0]][aux[1]]!="X"&&l.getTable()[aux[0]][aux[1]]!="I"&&l.getTable()[aux[0]][aux[1]]!="g"&&l.getTable()[aux[0]][aux[1]]!="8") {
 			//if the hero gets to the S , the winning condition
 			if(l.getTable()[aux[0]][aux[1]]=="S")
 			{
@@ -52,6 +52,7 @@ public class GameState {
 			int arr[]= {1,0};
 			l.setTableElem(arr,"S");			
 		}
+		this.checkLose(l);
 		
 	}
 	
@@ -78,29 +79,27 @@ public class GameState {
 	
 	public void checkLose(Level l)
 	{
-		int a[]= {-1};
 		int aux[][]=l.checkLose_aux();
-		if(this.onSide(aux,a))
+		if(this.onSide(aux)!=-1)
 			this.lose = true;
 	}
 	
-	public boolean onSide(int aux[][],int a[]) {
+	public int onSide(int aux[][]) {
 		int dx, dy;
 		for(int i=0;i<aux.length;i++) { 
 		dy = Math.abs(hero.getCoord()[0] - aux[i][0]);
 		dx = Math.abs(hero.getCoord()[1] - aux[i][1]);
 		if ((dy == 1 && dx == 0) || (dy == 0 && dx == 1)) {
-			a[0]=i;
-			return true;
+			return i;
 			}
 		}
-		return false;
+		return -1;
 	}
 	
 	public void checkStun() {
-			int a[]= {-1};
-			if(onSide(l2.getOgresCoord(),a))
-				l2.stunOgre(a[0]);
+		int i=onSide(l2.getOgresCoord());
+		if(i!=-1)
+			l2.stunOgre(i);
 	}
 
 	public void printTable() {
@@ -124,13 +123,15 @@ public class GameState {
 	}
 	public void mvGuard() {
 		l1.moveDrunkenGuard();
-		this.checkLose(l1);
+		if (!l1.getAsleep_guard())
+			this.checkLose(l1);
 	}
 	public void mvOgre() {
 		l2.moveOgre();
-		this.checkLose(l2);
 		if(this.hero.getArmed())
 		this.checkStun();
+		l2.swingClub();
+		this.checkLose(l2);
 	}
 	
 	public void delClub() {

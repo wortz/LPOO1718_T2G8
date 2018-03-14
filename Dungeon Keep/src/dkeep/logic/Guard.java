@@ -50,7 +50,7 @@ public class Guard  extends GameElement{
 	}
 	
 	public boolean get_randAsleep() {
-		return randomBool(100);
+		return randomBool(4);
 	}
 	//true se muda
 	public boolean get_randChangeDir() {
@@ -85,7 +85,7 @@ public class Guard  extends GameElement{
 	}
 	
 	public void increment_sleepCounter() {
-		if(this.sleep_counter<1) //nr de rondas que dorme
+		if(this.sleep_counter<2) //nr de rondas que dorme (3)
 			this.sleep_counter++;
 		else {
 			this.sleep_counter=0;
@@ -102,7 +102,7 @@ public class Guard  extends GameElement{
 		this.aux_flag = aux_flag;
 	}
 	
-	//returns random bool (true= 1/prob)
+	//returns random bool (true= 1/prob+1)
 	public boolean randomBool (int probability) { 
 		int aux;
 		Random rand=new Random();
