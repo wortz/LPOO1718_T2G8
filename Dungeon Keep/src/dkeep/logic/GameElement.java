@@ -1,6 +1,6 @@
 package dkeep.logic;
 
-public class GameElement {
+public abstract class GameElement {
 	
 	private int coord[];
 	
@@ -13,6 +13,7 @@ public class GameElement {
 	public int[] getCoord() {
 		return coord;
 	}
+	
 	public void setCoord(int coord[]) {
 		this.coord[0] = coord[0];
 		this.coord[1] = coord[1];

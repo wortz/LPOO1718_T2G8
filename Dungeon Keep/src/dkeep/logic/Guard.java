@@ -112,5 +112,72 @@ public class Guard  extends GameElement{
 		else return true;
 	}
 
+/////////////////////////////////////////////////////////////
+	////////FUNCOES LVL 1/////////
+//////////////////////////////////////////////////////////////	
+	
+	public void moveRookieGuard(Game g) {
+		String aux[][]= g.getMap();
+		aux[this.getCoord()[0]][this.getCoord()[1]]=" ";
+		Game.moveHandler(this.getNextPosition(), this.getCoord()); 
+		aux[this.getCoord()[0]][this.getCoord()[1]]="G";
+		this.incrementIndex();
+		g.setMap(aux);
+	}
 
+	public void moveDrunkenGuard(Game g) {
+		String aux[][] = g.getMap();
+		if (!this.asleep_func() || this.getAux_flag()) { // para o caso de dormir duas vezes seguidas (fodia o index e nao faz sentido)
+			aux[this.getCoord()[0]][this.getCoord()[1]] = " ";
+			Game.moveHandler(this.getNextPosition(), this.getCoord());
+			aux[this.getCoord()[0]][this.getCoord()[1]] = "G";
+			nextGuardIndex();
+			if (this.getAux_flag())
+				this.setAux_flag(false);
+		}
+
+		else {
+			aux[this.getCoord()[0]][this.getCoord()[1]] = "g";
+			this.increment_sleepCounter();
+			if (!this.isAsleep()) { // just woke up
+				this.setAux_flag(true); // just woke up flag(so he doesnt sleep 2 times or more in a row)
+				if (this.get_randChangeDir()) {
+					this.setMoving_front(!this.isMoving_front());
+					nextGuardIndex();
+				}
+			}
+		}
+		g.setMap(aux);
+		}
+
+	public void moveSuspiciousGuard(Game g) {
+		String aux[][] = g.getMap();
+			aux[this.getCoord()[0]][this.getCoord()[1]] = " ";
+			Game.moveHandler(this.getNextPosition(), this.getCoord());
+			aux[this.getCoord()[0]][this.getCoord()[1]] = "G";
+			if (this.getAux_flag()) {  //se acabou de mudar de dir
+				nextGuardIndex();
+				this.setAux_flag(false);
+			}
+			
+			else {
+				
+			if (this.get_randChangeDir()) {
+				this.setMoving_front(!this.isMoving_front());
+				this.setAux_flag(true);
+			}
+			else {
+				nextGuardIndex();
+				
+			}
+			}
+			g.setMap(aux);
+		}	
+	public void nextGuardIndex() {
+		if (this.isMoving_front())
+			this.incrementIndex();
+		else
+			this.decrementIndex();		
+	}
+	
 }

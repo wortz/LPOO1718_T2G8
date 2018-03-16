@@ -1,6 +1,8 @@
 package dkeep.logic;
 
-public abstract class Level {
+import java.util.List;
+
+public class Map {
 	private String table[][];
 	
 	public String[][] getTable() {
@@ -27,7 +29,25 @@ public abstract class Level {
 		}
 		
 	}
+	public boolean serchEle(String c, List<int[]> list) {
+		int coord[]=new int[2];
+		boolean res=false;
+		for(int i=0;i<this.table.length;i++)
+			{
+				for(int j=0;j<this.table[i].length;j++)
+				{
+					if(table[i][j]==c) {
+						coord[0]=i;
+						coord[1]=j;
+						list.add(coord); 
+						res=true;
+					}
+				}
+			}
+		return res;
+	}
 
-	public abstract int[][] checkLose_aux();
+
+//	public abstract int[][] checkLose_aux();
 	
 }

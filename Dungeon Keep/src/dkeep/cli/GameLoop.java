@@ -6,7 +6,7 @@ public class GameLoop {
 	
 	
 	public static void main(String[] args) {
-		GameState game = new GameState();
+		Game game = new Game();
 		Scanner input = new Scanner(System.in);
 		String mov;
 		/*game.printTable();
