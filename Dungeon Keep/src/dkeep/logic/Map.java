@@ -34,16 +34,19 @@ public class Map {
 		
 	}
 	public boolean serchEle(String c, List<int[]> list) {
-		int coord[]=new int[2];
 		boolean res=false;
+		int n=list.size();
+		int coord[];
 		for(int i=0;i<this.table.length;i++)
 			{
 				for(int j=0;j<this.table[i].length;j++)
 				{
 					if(table[i][j]==c) {
+						list.add(new int[2]);
+						coord=list.get(n);
 						coord[0]=i;
 						coord[1]=j;
-						list.add(coord); 
+						n++;
 						res=true;
 					}
 				}

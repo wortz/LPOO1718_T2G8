@@ -15,10 +15,6 @@ public class GameLoop {
 		while ((!game.isWin()) && (!game.isLose())) {
 			mov = input.next();
 			game.mvHero(mov);
-			if(game.isLose()) {
-				game.printTable();
-				break;
-			}
 			game.mvGuard();
 			game.printTable();
 		}
@@ -27,7 +23,7 @@ public class GameLoop {
 			input.close();
 			return;
 		}
-		/*else 
+		else 
 			game.setWin(false);
 		System.out.println();
 		Level2 l2=new Level2();
@@ -36,10 +32,6 @@ public class GameLoop {
 		while((!game.isWin()) && (!game.isLose())) {
 			mov= input.next();
 			game.mvHero(mov);
-			if(game.isLose()) {
-				game.printTable();
-				break;
-			}
 			game.mvOgre();
 			game.printTable();
 			game.delClub();
@@ -48,7 +40,7 @@ public class GameLoop {
 			System.out.println("You lose.");
 			input.close();
 			return;
-			}*/
+			}
 		System.out.println("You win.");
 		
 		

@@ -128,12 +128,10 @@ public class Guard extends GameElement {
 	}
 
 	public void moveGuard(Game g) {
-		String aux[][] = g.getMap();
 		int coor[] = this.getCoord();
-		aux[coor[0]][coor[1]] = " ";
+		g.setElemTable(coor, " ");
 		Game.moveHandler(this.getNextPosition(), coor);
-		aux[coor[0]][coor[1]] = "G";
-		g.setMap(aux);
+		g.setElemTable(coor, "G");
 	}
 
 	public void moveDrunkenGuard(Game g) {
@@ -146,7 +144,7 @@ public class Guard extends GameElement {
 
 		else {
 			if(this.increment_sleepCounter())
-				g.getMap()[this.getCoord()[0]][this.getCoord()[1]] = "g";
+				g.setElemTable(this.getCoord(), "g");
 			else this.moveGuard(g);
 			if (!this.isAsleep()) { // just woke up
 				this.setAux_flag(true); // just woke up flag(so he doesnt sleep 2 times or more in a row)

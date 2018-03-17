@@ -16,10 +16,6 @@ public class Hero extends GameElement {
 		return this.isArmed;
 	}
 
-	public void setArmed(boolean a) {
-		this.isArmed = a;
-	}
-
 	public void setSimbol(String s) {
 		this.heroSimbol = s;
 	}
@@ -53,8 +49,8 @@ public class Hero extends GameElement {
 			g.setElemTable(this.getCoord(), " ");
 			this.setCoord(aux);
 			g.setElemTable(this.getCoord(), this.getSimbol());
-			// }
-			if (movSimbol == "I" && g.getKey()) {
+			}
+			if (movSimbol == "I" && g.getCatched()) {
 				g.setElemTable(aux, "S");
 			}
 			/*
@@ -62,5 +58,4 @@ public class Hero extends GameElement {
 			 */
 
 		}
-	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 public class Game {
 
 	private boolean win, lose;
+	private int key[];
 	private boolean key_catched;
 	private int logic;//=1 level1 logic =2 level2 logic
 	private Hero hero;
@@ -38,17 +39,22 @@ public class Game {
 		if (map.serchEle("G", list)) {
 			this.guard = new Guard(list.get(0)[0], list.get(0)[1]);
 			list.clear();
-		} else {
 		}
-		if (map.serchEle("O", list)) {
+		if (map.serchEle("O", list)|map.serchEle("$", list)) {
 			this.ogres = new Ogre[list.size()];
 			int ogre_counter = 0;
-			for (int[] i : list) {
-				this.ogres[ogre_counter] = new Ogre(i[0], i[1]);
+			for (int i=0;i<list.size();i++) {
+				this.ogres[ogre_counter] = new Ogre(list.get(i)[0], list.get(i)[1]);
 				ogre_counter++;
 			}
 			list.clear();
 		}
+		if(map.serchEle("$", list)||map.serchEle("k", list)) {
+			this.key=new int[2];
+			this.key=list.get(0);
+			list.clear();
+		}
+		
 	}
 	
 	/*Handles the move of hero or guard*/
@@ -108,15 +114,6 @@ public class Game {
 	public String[][] getMap() {
 		return this.map.getTable();
 	}
-	
-	public void setMap(String m[][] ) {
-		this.map.setTable(m);
-	}
-	
-	public boolean invalidMove(String s) {
-		return true;
-	}
-	
 	public int getLogic() {
 		return this.logic;
 	}
@@ -125,20 +122,27 @@ public class Game {
 		this.key_catched=k;
 	}
 	
-	public boolean getKey() {
+	public boolean getCatched() {
 		return this.key_catched;
 	}
 	
-	
+	public int[] getKeyCoord() {
+		return this.key;
+	}
+	/*
+	 * checks if the game is lost
+	 * if the logic is 1 it checks the lose with the guard
+	 * if it is 2 checks the loso with the clubs
+	 */
 	public void checkLose()
 	{
 		int aux[][] =new int[1][0];
 		if(this.logic==1) {
 			aux[0]=this.guard.getCoord();
 		}
-		/*if(this.logic==2) {
-			aux=this.getClubCoord();
-		}*/
+		if(this.logic==2) {
+			aux=this.getEnemysCoord();
+		}
 		if(this.onSide(aux)!=-1)
 			this.lose = true;
 	}
@@ -148,12 +152,16 @@ public class Game {
 		this.hero.moveHero(mov,this);
 	}
 	
+	public String getHeroSimbol() {
+		return this.hero.getSimbol();
+	}
+	
 	/*Guard/LEVEL1 func*/
 	
 	
 	public void mvGuard() {
 		guard.moveDrunkenGuard(this);
-		if (!this.guard.isAsleep())
+		if (!this.guard.isAsleep()) 
 			this.checkLose();
 	}
 	
@@ -173,16 +181,26 @@ public class Game {
 	/*OGRES/LEVEL2 func*/
 	
 	
-	/*public void mvOgre() {
+	public void mvOgre() {
 		for (int i = 0; i < this.ogres.length; i++) {
 			ogres[i].moveOgre(this,i);
 		}
 		if(this.hero.getArmed())
-		this.checkStun();
-		l2.swingClub();
-		this.checkLose(l2);
+			this.checkStun();
+		for (int i = 0; i < this.ogres.length; i++) {
+			if(ogres[i].isStunned())
+				continue;
+			ogres[i].swingClub(this);
+		}
+		this.checkLose();
 	} 
-	/*
+	
+	public void checkStun() {
+		int i;
+		while((i=onSide(this.getOgresCoord()))!=-1)
+			this.ogres[i].stunOgre(this, i);
+	}
+	
 	public int[][] getOgresCoord(){
 		int aux[][]=new int[ogres.length][2];
 		for(int i=0;i<ogres.length;i++) {
@@ -194,30 +212,49 @@ public class Game {
 		return aux;
 	}
 	
-	public void startLvl2() {
-		this.l2 = new Level2();
-		this.hero=new Hero(7,1);
-		this.hero.setArmed(true);
-		this.hero.setSimbol("A");
-	}
 	
-	public void checkStun() {
-		int i;
-		while((i=onSide(this.getOgresCoord()))!=-1)
-			l2.stunOgre(i);
+	public int[][] getEnemysCoord(){
+		int aux[][];
+		if(this.hero.getArmed())		
+			aux=new int[ogres.length][2];
+		else
+			aux=new int[ogres.length*2][2];
+			int j=0;
+			for(int i=0;i<aux.length;i++) {
+			aux[i][0]=this.ogres[j].getClub_coord()[0];
+			aux[i][1]=this.ogres[j].getClub_coord()[1];
+			if(!this.hero.getArmed()) {
+				aux[i+1][0]=this.ogres[j].getCoord()[0];
+				aux[i+1][1]=this.ogres[j].getCoord()[1];
+				i++;
+				}
+			j++;
+		}
+		return aux;
 	}
 	
 	public void delClub() {
-		ogres.deleteClub();
+		for(int i=0;i<ogres.length;i++) {
+			if(ogres[i].isStunned()) 
+				continue;
+		ogres[i].deleteClub(this);
+		}
 	}
-	*/
+	
+	
+	public boolean getStun(int i) {
+		return this.ogres[i].isStunned();
+	}
+
 	public int ogreCol(int i) {
 		for (int j = 0; j < this.ogres.length; j++) {
 			if (j == i)
 				continue;
-			else if (this.ogres[j].getCoord()[0] == this.ogres[i].getCoord()[0]
-					&& this.ogres[j].getCoord()[1] == this.ogres[i].getCoord()[1])
-				return j;
+			else {
+				if (this.ogres[j].getCoord()[0] == this.ogres[i].getCoord()[0]
+						&& this.ogres[j].getCoord()[1] == this.ogres[i].getCoord()[1])
+					return j;
+			}
 		}
 		return -1;
 	}
