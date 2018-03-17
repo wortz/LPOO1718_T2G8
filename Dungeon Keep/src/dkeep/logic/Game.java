@@ -6,128 +6,51 @@ import java.util.List;
 public class Game {
 
 	private boolean win, lose;
-	private boolean key_catched, lever_on;
+	private boolean key_catched;
+	private int logic;//=1 level1 logic =2 level2 logic
 	private Hero hero;
-//	private Level1 l1;
-//	private Level2 l2;
 	private Map map;
 	private Guard guard;
 	private Ogre ogres[];
 
 	
-	public Game(Map map) {
+	public Game(Map map,int logic) {
 		this.map=map;
+		this.logic=logic;
 		this.searchGameElements();
 		this.win =false;
 		this.lose =false;
 		this.key_catched=false;
-		this.lever_on=false;
 
 	}
 	
-	
-	public void leverOn()
-	{
-		this.lever_on=true;
-		String aux[][]= this.map.getTable();
-		for(int i=0;i<this.map.getTable().length;i++)
-		{
-			for(int j=0;j<this.map.getTable()[i].length;j++)
-			{
-				if(aux[i][j]=="I")
-					aux[i][j]="S";
-			}
-		}
-	}
-	
+	// Functions for global game
 	public void searchGameElements() {
 		List<int[]> list = new ArrayList<int[]>();
-		if(map.serchEle("H", list)) {
-			this.hero=new Hero(list.get(0)[0],list.get(0)[1]);
+		if (map.serchEle("H", list)) {
+			this.hero = new Hero(list.get(0)[0], list.get(0)[1], "H");
 			list.clear();
 		}
-		if(map.serchEle("A", list)) {
-			this.hero=new Hero(list.get(0)[0],list.get(0)[1]);
-			this.hero.setArmed(true);
+		if (map.serchEle("A", list)) {
+			this.hero = new Hero(list.get(0)[0], list.get(0)[1], "A");
 			list.clear();
 		}
-		if(map.serchEle("G", list)) {
-			this.guard=new Guard(list.get(0)[0],list.get(0)[1]);
+		if (map.serchEle("G", list)) {
+			this.guard = new Guard(list.get(0)[0], list.get(0)[1]);
 			list.clear();
+		} else {
 		}
-		else {}
-		if(map.serchEle("O", list)) {
-			this.ogres=new Ogre[list.size()];
-		 int ogre_counter=0;
-			for(int[] i: list) {
-				this.ogres[ogre_counter]=new Ogre(i[0],i[1]);
+		if (map.serchEle("O", list)) {
+			this.ogres = new Ogre[list.size()];
+			int ogre_counter = 0;
+			for (int[] i : list) {
+				this.ogres[ogre_counter] = new Ogre(i[0], i[1]);
 				ogre_counter++;
 			}
 			list.clear();
 		}
 	}
-	public void level1Constructor(){ //nome errado
-		String aux1[][]= {{"X","X","X","X","X","X","X","X","X","X"},
-				{"X","H"," "," ","I"," ","X"," ","G","X"},
-				{"X","X","X"," ","X","X","X"," "," ","X"},
-				{"X"," ","I"," ","I"," ","X"," "," ","X"},
-				{"X","X","X"," ","X","X","X"," "," ","X"},
-				{"I"," "," "," "," "," "," "," "," ","X"},
-				{"I"," "," "," "," "," "," "," "," ","X"},
-				{"X","X","X"," ","X","X","X","X"," ","X"},
-				{"X"," ","I"," ","I"," ","X","k"," ","X"},
-				{"X","X","X","X","X","X","X","X","X","X"}};	
 	
-			this.map.setTable(aux1);	
-			
-				
-			
-	}
-	
-	public void mvHero(String mov) {
-		this.hero.moveHero(mov,map);
-		
-	}
-	
-//	/*Function to deal with the hero's move*/
-//	public void moveHero(String mov, Map l) {
-//		int aux[]=new int[2];
-//		aux[0]=hero.getCoord()[0];
-//		aux[1]=hero.getCoord()[1];
-//	    moveHandler(mov, aux);
-//		if(l.getTable()[aux[0]][aux[1]]!="X"&&l.getTable()[aux[0]][aux[1]]!="I"&&l.getTable()[aux[0]][aux[1]]!="g"&&l.getTable()[aux[0]][aux[1]]!="8") {
-//			//if the hero gets to the S , the winning condition
-//			if(l.getTable()[aux[0]][aux[1]]=="S")
-//			{
-//				this.win=true;
-//			}
-//			/*if the hero gets to the lever,k*/
-//			if(l.getTable()[aux[0]][aux[1]]=="k" && this.getLevel()==l1) {
-//				l1.leverOn();
-//			}
-//			//if the hero gets to the lever,k
-//			if(l.getTable()[aux[0]][aux[1]]=="k" && this.getLevel()==l2) {
-//				this.key_catched=true;
-//			}
-//			
-//			l.setTableElem(hero.getCoord()," ");
-//			this.hero.setCoord(aux);
-//			
-//			if(this.key_catched)
-//				l.setTableElem(hero.getCoord(),"K");
-//			else
-//				l.setTableElem(hero.getCoord(),this.hero.getSimbol());			
-//			}
-//		if(l.getTable()[aux[0]][aux[1]]=="I"&&this.key_catched)
-//		{
-//			int arr[]= {1,0};
-//			l.setTableElem(arr,"S");			
-//		}
-//		this.checkStun();
-//		this.checkLose(l);
-//		
-//	}
-//	
 	/*Handles the move of hero or guard*/
 	/*Static so it can be called anywhere*/
 
@@ -148,34 +71,25 @@ public class Game {
 				
 		}
 	}
-	
-	public void checkLose(Map l)
-	{
-		int aux[][]=l.checkLose_aux();
-		if(this.onSide(aux)!=-1)
-			this.lose = true;
-	}
-	
+	//checks if any of the elements in aux are on side of hero
 	public int onSide(int aux[][]) {
 		int dx, dy;
 		for(int i=0;i<aux.length;i++) { 
 		dy = Math.abs(hero.getCoord()[0] - aux[i][0]);
 		dx = Math.abs(hero.getCoord()[1] - aux[i][1]);
-		if ((dy == 1 && dx == 0) || (dy == 0 && dx == 1)) {
+		if ((dy <= 1 && dx == 0) || (dy == 0 && dx <= 1)) {
 			return i;
 			}
 		}
 		return -1;
 	}
 	
-	public void checkStun() {
-		int i;
-		while((i=onSide(l2.getOgresCoord()))!=-1)
-			l2.stunOgre(i);
-	}
-
 	public void printTable() {
-		this.getLevel().printTable();
+		this.map.printTable();
+	}
+	
+	public void setElemTable(int[] coord,String s) {
+		map.setTableElem(coord, s);
 	}
 
 	public boolean isWin() {
@@ -187,46 +101,9 @@ public class Game {
 		return lose;
 	}
 
-	
-	public Map getLevel() {
-		if (l2==null)
-			return l1;
-		return l2;  
-	}
-	public void mvGuard() {
-		guard.moveDrunkenGuard(this);//TODO: como pintar o mapa depois disto?
-		if (!guard.getAsleep_guard())
-			this.checkLose(l1);
-	}
-	public void mvOgre() {
-		for (int i = 0; i < this.ogres.length; i++) {
-		
-			ogres[i].moveOgre(this);
-			
-		}
-		l2.moveOgre();
-		if(this.hero.getArmed())
-		this.checkStun();
-		l2.swingClub();
-		this.checkLose(l2);
-	}
-	
-	public void delClub() {
-		ogre.deleteClub();
-	}
-	
-	
-	public void startLvl2() {
-		this.l2 = new Level2();
-		this.hero=new Hero(7,1);
-		this.hero.setArmed(true);
-		this.hero.setSimbol("A");
-	}
-
 	public void setWin(boolean b) {
 		this.win=b;
 	}
-
 
 	public String[][] getMap() {
 		return this.map.getTable();
@@ -234,6 +111,115 @@ public class Game {
 	
 	public void setMap(String m[][] ) {
 		this.map.setTable(m);
+	}
+	
+	public boolean invalidMove(String s) {
+		return true;
+	}
+	
+	public int getLogic() {
+		return this.logic;
+	}
+	
+	public void setKey(boolean k) {
+		this.key_catched=k;
+	}
+	
+	public boolean getKey() {
+		return this.key_catched;
+	}
+	
+	
+	public void checkLose()
+	{
+		int aux[][] =new int[1][0];
+		if(this.logic==1) {
+			aux[0]=this.guard.getCoord();
+		}
+		/*if(this.logic==2) {
+			aux=this.getClubCoord();
+		}*/
+		if(this.onSide(aux)!=-1)
+			this.lose = true;
+	}
+	
+	/*Hero's func*/
+	public void mvHero(String mov) {
+		this.hero.moveHero(mov,this);
+	}
+	
+	/*Guard/LEVEL1 func*/
+	
+	
+	public void mvGuard() {
+		guard.moveDrunkenGuard(this);
+		if (!this.guard.isAsleep())
+			this.checkLose();
+	}
+	
+	public void leverOn()
+	{
+		String aux[][]= this.map.getTable();
+		for(int i=0;i<this.map.getTable().length;i++)
+		{
+			for(int j=0;j<this.map.getTable()[i].length;j++)
+			{
+				if(aux[i][j]=="I")
+					aux[i][j]="S";
+			}
+		}
+	}
+	
+	/*OGRES/LEVEL2 func*/
+	
+	
+	/*public void mvOgre() {
+		for (int i = 0; i < this.ogres.length; i++) {
+			ogres[i].moveOgre(this,i);
+		}
+		if(this.hero.getArmed())
+		this.checkStun();
+		l2.swingClub();
+		this.checkLose(l2);
+	} 
+	/*
+	public int[][] getOgresCoord(){
+		int aux[][]=new int[ogres.length][2];
+		for(int i=0;i<ogres.length;i++) {
+			if(this.ogres[i].isStunned()) 
+				continue;
+			aux[i][0]=this.ogres[i].getCoord()[0];
+			aux[i][1]=this.ogres[i].getCoord()[1];
+		}
+		return aux;
+	}
+	
+	public void startLvl2() {
+		this.l2 = new Level2();
+		this.hero=new Hero(7,1);
+		this.hero.setArmed(true);
+		this.hero.setSimbol("A");
+	}
+	
+	public void checkStun() {
+		int i;
+		while((i=onSide(this.getOgresCoord()))!=-1)
+			l2.stunOgre(i);
+	}
+	
+	public void delClub() {
+		ogres.deleteClub();
+	}
+	*/
+	public int ogreCol(int i) {
+		for (int j = 0; j < this.ogres.length; j++) {
+			if (j == i)
+				continue;
+			else if (this.ogres[j].getCoord()[0] == this.ogres[i].getCoord()[0]
+					&& this.ogres[j].getCoord()[1] == this.ogres[i].getCoord()[1])
+				return j;
+		}
+		return -1;
 	}
 	
 }

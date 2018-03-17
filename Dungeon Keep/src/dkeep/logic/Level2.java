@@ -1,10 +1,10 @@
 package dkeep.logic;
 
-public class Level2 extends Map{
-	private Ogre ogre[];
+public class Level2{
+	private int logic;
+	private Game game;
 	public Level2() {
-		int x=3;
-		String aux1[][]= {{"X","X","X","X","X","X","X","X","X"},
+		String table[][]= {{"X","X","X","X","X","X","X","X","X"},
 				{"I"," "," "," ","O"," "," ","k","X"},
 				{"X"," "," "," "," "," "," "," ","X"},
 				{"X"," "," "," "," "," "," ","O","X"},
@@ -13,17 +13,13 @@ public class Level2 extends Map{
 				{"X"," "," "," "," "," "," "," ","X"},
 				{"X","A"," "," "," "," "," "," ","X"},
 				{"X","X","X","X","X","X","X","X","X"}};		
-		this.setTable(aux1 );
-		this.ogre=new Ogre[x];
-		Ogre o1=new Ogre(1,4);
-		Ogre o2=new Ogre(1,4);
-		Ogre o3=new Ogre(3,7);
-		this.ogre[0]=o1;
-		this.ogre[1]=o2;
-		this.ogre[2]=o3;
-		
-		
-		
+		Map map=new Map(table);
+		this.logic=2;
+		this.game=new Game(map,logic);
+	}
+	
+	public Game getGame() {
+		return this.game;
 	}
 	
 //	public void moveOgre() {
@@ -155,7 +151,7 @@ public class Level2 extends Map{
 //TODO: Ogre mexer para cima de um 8
 	
 	
-	public int[][] checkLose_aux() {
+	/*public int[][] checkLose_aux() {
 		int aux[][]=new int[ogre.length][2];
 		for(int i=0;i<this.ogre.length;i++) {
 			if(this.ogre[i].isStunned())
@@ -165,5 +161,5 @@ public class Level2 extends Map{
 		}
 		return aux;
 	}
-	
+	*/
 }

@@ -61,45 +61,45 @@ public class Ogre extends GameElement {
 	//\\\\\\\\\\\\\\\\\\\FUNCOES LVL 2/////////////////////////\\
 	//////////////////////////////////////////////////////////
 	
-	public void moveOgre(Game g) {
+	public void moveOgre(Game g, int i) {
 		int aux[] = new int[2];
 		String nextSimbol;
 		String thisSimbol;
+		aux[0] = this.getCoord()[0];
+		aux[1] = this.getCoord()[1];
+		if (this.stunHandler()) {
+			return;
+		}
+		Game.moveHandler(this.getRandMove(), aux);
+		while (this.invalidCoord(aux)) {
 			aux[0] = this.getCoord()[0];
 			aux[1] = this.getCoord()[1];
-			if(this.stunHandler()) {
-				return;
-			}
 			Game.moveHandler(this.getRandMove(), aux);
-			while (this.invalidCoord(aux)) {
-				aux[0] = this.getCoord()[0];
-				aux[1] = this.getCoord()[1];
-				Game.moveHandler(this.getRandMove(), aux);
-			thisSimbol=g.getMap()[this.getCoord()[0]][this.getCoord()[1]];
-			nextSimbol=g.getMap()[aux[0]][aux[1]];
-			int a=this.ogreCol(i);
+		}
+			thisSimbol = g.getMap()[this.getCoord()[0]][this.getCoord()[1]];
+			nextSimbol = g.getMap()[aux[0]][aux[1]];
+			int col = g.ogreCol(i);
 			/* if it is over the key */
-			if (thisSimbol== "$"||thisSimbol== "%") {
-				if (a!=-1) {
-					this.setTableElem(this.getCoord(), "$");
+			if (thisSimbol == "$") {
+				if (col != -1) {
+					g.setElemTable(this.getCoord(), "$");
 				} else {
-					this.setTableElem(this.getCoord(), "k");
+					g.setElemTable(this.getCoord(), "k");
 				}
 			} else {
-				if (a==-1) {
-					this.setTableElem(this.getCoord(), " ");
-				}
-				else if(ogre[a].isStunned())
-					this.setTableElem(this.getCoord(),"8");
+				if (col == -1) {
+					g.setElemTable(this.getCoord(), " ");
+				} else if (ogre[a].isStunned())
+					g.setElemTable(this.getCoord(), "8");
 			}
 			/* if it goes to the key */
 			if (nextSimbol == "k" || nextSimbol == "$")
-				this.setTableElem(aux, "$");
+				g.setElemTable(aux, "$");
 			else
-				this.setTableElem(aux, "O");
+				g.setElemTable(aux, "O");
 			this.setCoord(aux);
-		}
-//	}
+	}
+			
 	
 
 	public void swingClub() {
@@ -126,28 +126,6 @@ public class Ogre extends GameElement {
 		}
 	}
 	
-	public int[][] getOgresCoord(){
-		int aux[][]=new int[ogre.length][2];
-		for(int i=0;i<ogre.length;i++) {
-			if(this.this.isStunned()) 
-				continue;
-			aux[i][0]=this.this.getCoord()[0];
-			aux[i][1]=this.this.getCoord()[1];
-		}
-		return aux;
-	}
-	
-	
-	//TODO:esta funcao no game?
-	public int ogreCol(int i) {
-		for (int j = 0; j < this.ogre.length; j++) {
-			if (j == i)
-				continue;
-			else if (this.this.getCoord()[0]==this.ogre[j].getCoord()[0]&&this.this.getCoord()[1]==this.ogre[j].getCoord()[1])
-				return j;
-		}
-		return -1;
-	}
 	
 	public boolean invalidCoord(int aux[])
 	{

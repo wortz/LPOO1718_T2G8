@@ -1,71 +1,66 @@
 package dkeep.logic;
 
-public class Hero extends GameElement{
+public class Hero extends GameElement {
 	private boolean isArmed;
 	private String heroSimbol;
-	public Hero(int xi, int yi) {
+
+	public Hero(int xi, int yi,String simbol) {
 		super(xi, yi);
-		this.isArmed=false;
+		this.heroSimbol=simbol;
+		if(simbol=="A")
+			this.isArmed=true;
+		else this.isArmed=false;
 	}
-	
-	
+
 	public boolean getArmed() {
 		return this.isArmed;
 	}
-	
+
 	public void setArmed(boolean a) {
-		this.isArmed=a;
+		this.isArmed = a;
 	}
-	
+
 	public void setSimbol(String s) {
-		this.heroSimbol=s;
+		this.heroSimbol = s;
 	}
-	
+
 	public String getSimbol() {
 		return this.heroSimbol;
 	}
-	
-	
-	
-	
-	/*Function to deal with the hero's move*/
-	public void moveHero(String mov, Map l) {
-		int aux[]=new int[2];
-		aux[0]=this.getCoord()[0];
-		aux[1]=this.getCoord()[1];
-	    Game.moveHandler(mov, aux);
-		if(l.getTable()[aux[0]][aux[1]]!="X"&&l.getTable()[aux[0]][aux[1]]!="I"&&l.getTable()[aux[0]][aux[1]]!="g"&&l.getTable()[aux[0]][aux[1]]!="8") {
-			//if the hero gets to the S , the winning condition
-			if(l.getTable()[aux[0]][aux[1]]=="S")
-			{
-				this.win=true;
+
+	/* Function to deal with the hero's move */
+	public void moveHero(String mov, Game g) {
+		int aux[] = new int[2];
+		aux[0] = this.getCoord()[0];
+		aux[1] = this.getCoord()[1];
+		Game.moveHandler(mov, aux);
+		String movSimbol = g.getMap()[aux[0]][aux[1]];
+		if (movSimbol != "X" && movSimbol != "I" && movSimbol != "g" && movSimbol != "8") {
+			// if the hero gets to the S , the winning condition
+			if (movSimbol == "S") {
+				g.setWin(true);
 			}
-			/*if the hero gets to the lever,k*/
-			if(l.getTable()[aux[0]][aux[1]]=="k" && this.getLevel()==l1) {
-				l1.leverOn();
+			// if the hero gets to the lever,k
+			if (movSimbol == "k" && g.getLogic() == 1) {
+				g.leverOn();
 			}
-			//if the hero gets to the lever,k
-			/*if(l.getTable()[aux[0]][aux[1]]=="k" && this.getLevel()==l2) {
-				this.key_catched=true;
-			}*/
-			
-			l.setTableElem(this.getCoord()," ");
+			// if the hero gets to the lever,k
+			if (movSimbol == "k" && g.getLogic() == 2) {
+				g.setKey(true);
+				this.setSimbol("K");
+			}
+
+			g.setElemTable(this.getCoord(), " ");
 			this.setCoord(aux);
-			
-			/*if(this.key_catched)
-				l.setTableElem(hero.getCoord(),"K");
-			else*/
-				l.setTableElem(this.getCoord(),this.getSimbol());			
-			//}
-		/*if(l.getTable()[aux[0]][aux[1]]=="I"&&this.key_catched)
-		{
-			int arr[]= {1,0};
-			l.setTableElem(arr,"S");			
-		}*/
-		this.checkStun();
-		this.checkLose(l);
-		
+			g.setElemTable(this.getCoord(), this.getSimbol());
+			// }
+			if (movSimbol == "I" && g.getKey()) {
+				g.setElemTable(aux, "S");
+			}
+			/*
+			 * this.checkStun(); this.checkLose(l);
+			 */
+
+		}
 	}
-	
-	
 }

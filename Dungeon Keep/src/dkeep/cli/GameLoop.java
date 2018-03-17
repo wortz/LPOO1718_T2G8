@@ -6,13 +6,15 @@ public class GameLoop {
 	
 	
 	public static void main(String[] args) {
-		Game game = new Game();
+		
 		Scanner input = new Scanner(System.in);
 		String mov;
-		/*game.printTable();
+		Level1 l1=new Level1();
+		Game game=l1.getGame();
+		game.printTable();
 		while ((!game.isWin()) && (!game.isLose())) {
 			mov = input.next();
-			game.moveHero(mov, game.getLevel());
+			game.mvHero(mov);
 			if(game.isLose()) {
 				game.printTable();
 				break;
@@ -25,14 +27,15 @@ public class GameLoop {
 			input.close();
 			return;
 		}
-		else 
-			game.setWin(false);*/
+		/*else 
+			game.setWin(false);
 		System.out.println();
-		game.startLvl2();
+		Level2 l2=new Level2();
+		game=l2.getGame();
 		game.printTable();
 		while((!game.isWin()) && (!game.isLose())) {
 			mov= input.next();
-			game.moveHero(mov,game.getLevel());
+			game.mvHero(mov);
 			if(game.isLose()) {
 				game.printTable();
 				break;
@@ -45,12 +48,11 @@ public class GameLoop {
 			System.out.println("You lose.");
 			input.close();
 			return;
-			}
+			}*/
 		System.out.println("You win.");
 		
 		
 		input.close();
 	}
 
-	}
-
+}

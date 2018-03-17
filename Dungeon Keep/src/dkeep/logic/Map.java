@@ -5,6 +5,10 @@ import java.util.List;
 public class Map {
 	private String table[][];
 	
+	public Map(String[][] table) {
+		this.table=table;
+	}
+	
 	public String[][] getTable() {
 		return table;
 	}
@@ -46,8 +50,4 @@ public class Map {
 			}
 		return res;
 	}
-
-
-//	public abstract int[][] checkLose_aux();
-	
 }
