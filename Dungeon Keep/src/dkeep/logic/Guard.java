@@ -135,7 +135,7 @@ public class Guard extends GameElement {
 	}
 
 	public void moveDrunkenGuard(Game g) {
-		if (!this.asleep_func(5)) { // para o caso de dormir duas vezes seguidas
+		if (!this.asleep_func(5) || this.getAux_flag()) { // para o caso de dormir duas vezes seguidas
 			this.moveGuard(g);
 			this.nextGuardIndex();
 			if (this.getAux_flag())
@@ -145,13 +145,13 @@ public class Guard extends GameElement {
 		else {
 			if(this.increment_sleepCounter())
 				g.setElemTable(this.getCoord(), "g");
-			else this.moveGuard(g);
-			if (!this.isAsleep()) { // just woke up
+			else { //just woke up
 				this.setAux_flag(true); // just woke up flag(so he doesnt sleep 2 times or more in a row)
 				if (this.get_randChangeDir(5)) {
 					this.setMoving_front(!this.isMoving_front());
 					nextGuardIndex();
 				}
+				
 			}
 		}
 	}
