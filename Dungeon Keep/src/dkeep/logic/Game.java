@@ -258,5 +258,9 @@ public class Game {
 		}
 		return -1;
 	}
+
+	public int[] getHeroPosition() {
+		return this.hero.getCoord();
+	}
 	
 }

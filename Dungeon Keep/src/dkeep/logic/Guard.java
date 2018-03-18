@@ -85,7 +85,8 @@ public class Guard extends GameElement {
 	public void setAsleep(boolean asleep) {
 		this.asleep = asleep;
 	}
-
+	
+	//false se acorda
 	public boolean increment_sleepCounter() {
 		if (this.sleep_counter < 4) { // nr de rondas que dorme (n)
 			this.sleep_counter++;
@@ -151,6 +152,8 @@ public class Guard extends GameElement {
 					this.setMoving_front(!this.isMoving_front());
 					nextGuardIndex();
 				}
+				this.moveGuard(g);
+				this.nextGuardIndex();
 				
 			}
 		}
