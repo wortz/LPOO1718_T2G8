@@ -16,6 +16,7 @@ public class GameLoop {
 			mov = input.next();
 			game.mvHero(mov);
 			game.mvGuard();
+			game.checkLose();
 			game.printTable();
 		}
 		if (game.isLose()) {
@@ -33,6 +34,7 @@ public class GameLoop {
 			mov= input.next();
 			game.mvHero(mov);
 			game.mvOgre();
+			game.checkLose();
 			game.printTable();
 			System.out.println(game.getHeroSimbol());
 			game.delClub();

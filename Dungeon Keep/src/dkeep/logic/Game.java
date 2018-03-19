@@ -138,13 +138,17 @@ public class Game {
 	{
 		int aux[][] =new int[1][0];
 		if(this.logic==1) {
-			aux[0]=this.guard.getCoord();
+			if (!this.guard.isAsleep()) {
+				aux[0]=this.guard.getCoord();
+					if(this.onSide(aux)!=-1)
+						this.lose = true;
+			}
 		}
 		if(this.logic==2) {
 			aux=this.getEnemysCoord();
+			if(this.onSide(aux)!=-1)
+				this.lose = true;
 		}
-		if(this.onSide(aux)!=-1)
-			this.lose = true;
 	}
 	
 	/*Hero's func*/
@@ -165,8 +169,6 @@ public class Game {
 	
 	public void mvGuard() {
 		guard.moveDrunkenGuard(this);
-		if (!this.guard.isAsleep()) 
-			this.checkLose();
 	}
 	
 	public void leverOn()
@@ -196,7 +198,6 @@ public class Game {
 				continue;
 			ogres[i].swingClub(this);
 		}
-		this.checkLose();
 	} 
 	
 	public void checkStun() {
