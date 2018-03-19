@@ -34,6 +34,7 @@ public class GameLoop {
 			game.mvHero(mov);
 			game.mvOgre();
 			game.printTable();
+			System.out.println(game.getHeroSimbol());
 			game.delClub();
 			}
 		if(game.isLose()) {

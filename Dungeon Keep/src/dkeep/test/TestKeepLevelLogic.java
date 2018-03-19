@@ -5,38 +5,18 @@ import org.junit.Test;
 
 import dkeep.logic.*;
 
-public class TestDungeonLevelLogic {
+public class TestKeepLevelLogic {
 	String map[][]=  {{"X","X","X","X","X","X"},
-			{"X","H"," "," ","G","X"}, 
+			{"X","H"," "," ","O","X"}, 
 			{"I"," "," "," "," ","X"},
 			{"I"," "," "," "," ","X"},
 			{"X"," "," ","k"," ","X"},
 			{"X","X","X","X","X","X"}};	
 	
 	@Test
-	public void testMoveHeroIntoaFreeCell() {
+	public void testHeroKilledbyOgre() {
 		Map m= new Map(map);
-		Game game = new Game (m,1);
-		int pos1[]= {1,1};
-		int pos2[]= {2,1};
-		assertArrayEquals(pos1,game.getHeroPosition());
-		game.mvHero("s");
-		assertArrayEquals(pos2,game.getHeroPosition());}
-
-
-	@Test
-	public void testMoveHeroIntoaWall() {
-		Map m= new Map(map);
-		Game game = new Game (m,1);
-		int pos1[]= {1,1};
-		assertArrayEquals(pos1,game.getHeroPosition());
-		game.mvHero("w");
-		assertArrayEquals(pos1,game.getHeroPosition());}
-
-	@Test
-	public void testHeroKilledbyGuard() {
-		Map m= new Map(map);
-		Game game = new Game (m,1);
+		Game game = new Game (m,2);
 		assertFalse(game.isLose());
 		game.mvHero("d");
 		game.mvHero("d");
@@ -44,10 +24,23 @@ public class TestDungeonLevelLogic {
 		assertTrue(game.isLose());
 	}
 	
+	
+	@Test
+	public void testHeroCatchesKey() {
+		Map m= new Map(map);
+		Game game = new Game (m,2);
+		game.mvHero("s");
+		game.mvHero("s");
+		game.mvHero("s");
+		game.mvHero("d");
+		game.mvHero("d");
+		assertEquals("K",game.getHeroSimbol());
+	}
+	
 	@Test
 	public void testHeroTriestoLeaveClosedDoor() {
 		Map m= new Map(map);
-		Game game = new Game (m,1);
+		Game game = new Game (m,2);
 		int pos1[]= {2,1};
 		game.mvHero("s");
 		assertArrayEquals(pos1,game.getHeroPosition());
@@ -57,22 +50,26 @@ public class TestDungeonLevelLogic {
 	}
 	
 	@Test
-	public void testHeroOpensGates() {
+	public void testHeroOpensDoorWithKey() {
 		Map m= new Map(map);
-		Game game = new Game (m,1);
-		assertEquals("I",game.getMap()[2][0]);
+		Game game = new Game (m,2);
 		game.mvHero("s");
 		game.mvHero("s");
 		game.mvHero("s");
 		game.mvHero("d");
 		game.mvHero("d");
-		assertEquals("S",game.getMap()[2][0]);
+		game.mvHero("a");
+		game.mvHero("a");
+		game.mvHero("w");
+		assertEquals("I",game.getMap()[3][0]);
+		game.mvHero("a");
+		assertEquals("S",game.getMap()[3][0]);
 	}
 	
 	@Test
-	public void testHeroGetstoKeepLevel() {
+	public void testHeroWinsGame() {
 		Map m= new Map(map);
-		Game game = new Game (m,1);
+		Game game = new Game (m,2);
 		game.mvHero("s");
 		game.mvHero("s");
 		game.mvHero("s");
@@ -82,6 +79,8 @@ public class TestDungeonLevelLogic {
 		game.mvHero("a");
 		game.mvHero("w");
 		game.mvHero("a");
-		assertTrue(game.isWin());	
+		game.mvHero("a");
+		assertTrue(game.isWin());
 	}
+	
 }

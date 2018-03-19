@@ -150,6 +150,10 @@ public class Game {
 	/*Hero's func*/
 	public void mvHero(String mov) {
 		this.hero.moveHero(mov,this);
+		if(key_catched) {
+			this.key[0]=-1;
+			this.key[1]=-1;
+		}
 	}
 	
 	public String getHeroSimbol() {
