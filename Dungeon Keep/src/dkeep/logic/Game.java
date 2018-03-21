@@ -262,6 +262,10 @@ public class Game {
 			}
 		}
 		return -1;
+	}		
+	
+	public int[] getClubPosition(int i) {
+		return ogres[i].getClub_coord();
 	}
 
 	public int[] getHeroPosition() {
