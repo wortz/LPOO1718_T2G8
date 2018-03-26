@@ -8,14 +8,14 @@ public class Game {
 	private boolean win, lose;
 	private int key[];
 	private boolean key_catched;
-	private int logic;//=1 level1 logic =2 level2 logic
+	private float logic;//=1 level1 logic =2 level2 logic
 	private Hero hero;
 	private Map map;
 	private Guard guard;
 	private Ogre ogres[];
 
 	
-	public Game(Map map,int logic) {
+	public Game(Map map,float logic) {
 		this.map=map;
 		this.logic=logic;
 		this.searchGameElements();
@@ -40,7 +40,7 @@ public class Game {
 			this.guard = new Guard(list.get(0)[0], list.get(0)[1]);
 			list.clear();
 		}
-		if (map.serchEle("O", list)|map.serchEle("$", list)) {
+		if (map.serchEle("O", list)||map.serchEle("$", list)) {
 			this.ogres = new Ogre[list.size()];
 			int ogre_counter = 0;
 			for (int i=0;i<list.size();i++) {
@@ -114,7 +114,7 @@ public class Game {
 	public String[][] getMap() {
 		return this.map.getTable();
 	}
-	public int getLogic() {
+	public float getLogic() {
 		return this.logic;
 	}
 	
@@ -137,14 +137,14 @@ public class Game {
 	public void checkLose()
 	{
 		int aux[][] =new int[1][0];
-		if(this.logic==1) {
+		if(this.logic<2.0) {
 			if (!this.guard.isAsleep()) {
 				aux[0]=this.guard.getCoord();
 					if(this.onSide(aux)!=-1)
 						this.lose = true;
 			}
 		}
-		if(this.logic==2) {
+		if(this.logic>=2.0) {
 			aux=this.getEnemysCoord();
 			if(this.onSide(aux)!=-1)
 				this.lose = true;
@@ -168,7 +168,12 @@ public class Game {
 	
 	
 	public void mvGuard() {
-		guard.moveDrunkenGuard(this);
+		if(this.logic==1.1f)
+			guard.moveRookieGuard(this);
+		if(this.logic==1.2f)
+			guard.moveDrunkenGuard(this);
+		if(this.logic==1.3f)
+			guard.moveSuspiciousGuard(this);
 	}
 	
 	public void leverOn()
@@ -270,6 +275,13 @@ public class Game {
 
 	public int[] getHeroPosition() {
 		return this.hero.getCoord();
+	}
+	
+	
+	public int getCurrLevel()	{
+		if (this.guard==null)
+			return 2;
+		else return 1;
 	}
 	
 }

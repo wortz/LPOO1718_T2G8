@@ -9,7 +9,8 @@ public class GameLoop {
 		
 		Scanner input = new Scanner(System.in);
 		String mov;
-		Level1 l1=new Level1();
+		float l=1.2f;
+		Level1 l1=new Level1(l);
 		Game game=l1.getGame();
 		game.printTable();
 		while ((!game.isWin()) && (!game.isLose())) {
@@ -18,6 +19,7 @@ public class GameLoop {
 			game.mvGuard();
 			game.checkLose();
 			game.printTable();
+			System.out.println(game.getCurrLevel());
 		}
 		if (game.isLose()) {
 			System.out.println("You lose.");
@@ -27,7 +29,7 @@ public class GameLoop {
 		else 
 			game.setWin(false);
 		System.out.println();
-		Level2 l2=new Level2();
+		Level2 l2=new Level2(4);
 		game=l2.getGame();
 		game.printTable();
 		while((!game.isWin()) && (!game.isLose())) {
@@ -36,6 +38,7 @@ public class GameLoop {
 			game.mvOgre();
 			game.checkLose();
 			game.printTable();
+			System.out.println(game.getCurrLevel());
 			System.out.println(game.getHeroSimbol());
 			game.delClub();
 			}

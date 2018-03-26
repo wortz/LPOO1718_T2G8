@@ -37,11 +37,11 @@ public class Hero extends GameElement {
 				g.setWin(true);
 			}
 			// if the hero gets to the lever,k
-			if (movSimbol == "k" && g.getLogic() == 1) {
+			if (movSimbol == "k" && g.getLogic() <2.0) {
 				g.leverOn();
 			}
 			// if the hero gets to the lever,k
-			if (movSimbol == "k" && g.getLogic() == 2) {
+			if (movSimbol == "k" && g.getLogic() >= 2.0) {
 				g.setKey(true);
 				this.setSimbol("K");
 			}

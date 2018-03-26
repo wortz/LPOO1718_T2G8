@@ -17,7 +17,10 @@ public class Map {
 	}	
 	/*changes a single element in the table*/
 	public void setTableElem(int coord[], String el) {
-		this.table[coord[0]][coord[1]] = el;
+		if(this.getTable()[coord[0]][coord[1]]=="k" && el=="O")
+			this.table[coord[0]][coord[1]] = "$";
+		else
+			this.table[coord[0]][coord[1]] = el;
 	}	
 	
 	/*prints the table as it is in the moment*/
