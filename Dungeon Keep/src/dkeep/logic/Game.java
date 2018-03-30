@@ -179,6 +179,7 @@ public class Game {
 	public void leverOn()
 	{
 		String aux[][]= this.map.getTable();
+		this.key_catched=true;
 		for(int i=0;i<this.map.getTable().length;i++)
 		{
 			for(int j=0;j<this.map.getTable()[i].length;j++)

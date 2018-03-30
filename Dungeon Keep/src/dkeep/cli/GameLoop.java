@@ -16,6 +16,11 @@ public class GameLoop {
 		while ((!game.isWin()) && (!game.isLose())) {
 			mov = input.next();
 			game.mvHero(mov);
+			if(game.isLose()) {
+				game.printTable();
+				System.out.println("You lose.");
+				input.close();
+				return;}
 			game.mvGuard();
 			game.checkLose();
 			game.printTable();

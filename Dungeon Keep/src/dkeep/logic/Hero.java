@@ -1,5 +1,7 @@
 package dkeep.logic;
 
+import javax.swing.JPanel;
+
 public class Hero extends GameElement {
 	private boolean isArmed;
 	private String heroSimbol;
