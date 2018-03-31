@@ -48,13 +48,18 @@ public class GraphicsMain extends JFrame implements KeyListener{
 		g = new GamePanel(game);
 		g.setBounds(0, 0, 500, 500);
 		g.loadImages(game);
-		update();
+		iniciate();
 	}
 
 	
-	public void update() {
+	public void iniciate() {
 		g.paint(game);
 		frame.setVisible(true);
+		frame.add(g);
+	}
+	
+	public void update() {
+		g.update(game);
 		frame.add(g);
 	}
 
@@ -93,8 +98,7 @@ public class GraphicsMain extends JFrame implements KeyListener{
 				game.mvOgre();
 			}
 			game.checkLose();
-			g.update(game);
-			frame.add(g);
+			update();
 			if (game.getCurrLevel() == 2)
 				game.delClub();
 			if (game.isLose()) {
@@ -103,8 +107,6 @@ public class GraphicsMain extends JFrame implements KeyListener{
 				Level2 l2 = new Level2(1);
 				this.game = l2.getGame();
 				game.setWin(false);
-				g.update(game);
-				frame.add(g);
 		}
 
 			else if (game.isWin() && game.getCurrLevel() == 2) {
