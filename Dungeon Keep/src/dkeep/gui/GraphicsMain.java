@@ -16,14 +16,13 @@ public class GraphicsMain extends JFrame implements KeyListener{
 
 	private GamePanel g;
 	private JFrame frame;
-	static Game game;
+	Game game;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					GraphicsMain window = new GraphicsMain();
-					window.frame.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,29 +33,26 @@ public class GraphicsMain extends JFrame implements KeyListener{
 	
 	GraphicsMain(){
 		frame = new JFrame();
-		frame.setBounds(100, 100, 597, 688);
+		frame.setBounds(100, 100, 549, 607);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("Graphically enhanced DUNGEON KEEP");
 		
-		
+		frame.addKeyListener(this);
 		
 
 		Level1 l1 = new Level1( 1.1f);
 		game = l1.getGame();
 		
 		g = new GamePanel(game);
-		g.setBounds(0, 0, 1000, 1000);
+		g.setBounds(0, 0, 600, 600);
 		g.loadImages();
-		
-		addKeyListener(this);
-
 		update();
 	}
 
 	
 	public void update() {
-		g.update(game);
+		g.paint(game);
 		frame.setVisible(true);
 		frame.add(g);
 	}
@@ -75,19 +71,13 @@ public class GraphicsMain extends JFrame implements KeyListener{
 		else if(k.getKeyCode() == KeyEvent.VK_S) {
 			moveHandler( "s");
 		}
+		g.update(game);
+		g.setVisible(true);
+		frame.add(g);
 	}
 
-	@Override
-	public void keyReleased(KeyEvent k) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void keyTyped(KeyEvent k) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 	public void moveHandler(String direction) {
 
@@ -100,8 +90,9 @@ public class GraphicsMain extends JFrame implements KeyListener{
 			}
 			if (game.getCurrLevel() == 1)
 				game.mvGuard();
-			else if (game.getCurrLevel() == 2)
+			else if (game.getCurrLevel() == 2) {
 				game.mvOgre();
+			}
 			game.checkLose();
 			update();
 			if (game.getCurrLevel() == 2)
@@ -119,6 +110,18 @@ public class GraphicsMain extends JFrame implements KeyListener{
 				return;
 			}
 		}
-	};
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

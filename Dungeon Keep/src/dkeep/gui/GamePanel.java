@@ -22,7 +22,6 @@ public class GamePanel extends JPanel {
 	private ImageIcon club;
 	private ImageIcon stunned_ogre;
 	private ImageIcon armed_hero;
-	private ImageIcon sword;
 	private ImageIcon closed_door;
 	private ImageIcon empty_space;
 
@@ -31,7 +30,7 @@ public class GamePanel extends JPanel {
 		this.setLayout(new GridLayout(game.getMap().length,game.getMap()[0].length));
 	}
 	
-	  public void paintComponent(Game game) {
+	  public void paint(Game game) {
 		  
 		  String el;
 //		  
@@ -57,7 +56,6 @@ public class GamePanel extends JPanel {
 			key = new ImageIcon(this.getClass().getResource("res/key.png"));
 			door = new ImageIcon(this.getClass().getResource("res/door.png"));
 			ogre = new ImageIcon(this.getClass().getResource("res/ogre.png"));
-			sword = new ImageIcon(this.getClass().getResource("res/sword.png"));
 			stunned_ogre = new ImageIcon(this.getClass().getResource("res/stunned_ogre.png"));
 			club = new ImageIcon(this.getClass().getResource("res/club.png"));
 			closed_door = new ImageIcon(this.getClass().getResource("res/closed_door.png"));
@@ -72,7 +70,6 @@ public class GamePanel extends JPanel {
 			ogre = scaleImage(ogre);
 			club = scaleImage(club);
 			stunned_ogre= scaleImage(stunned_ogre);
-			sword = scaleImage(sword);
 			closed_door = scaleImage(closed_door);
 
 		}
@@ -80,7 +77,7 @@ public class GamePanel extends JPanel {
 		private ImageIcon scaleImage(ImageIcon im) {
 
 			Image img = im.getImage();
-			Image newimg = img.getScaledInstance(this.getWidth() / 10, this.getHeight() / 10, Image.SCALE_FAST);
+			Image newimg = img.getScaledInstance(this.getWidth() / 20, this.getHeight() / 20, Image.SCALE_FAST);
 
 			return new ImageIcon(newimg);
 	}
@@ -109,7 +106,7 @@ public class GamePanel extends JPanel {
 				this.add(new JLabel(ogre));
 				break;
 			case "*":
-				this.add(new JLabel(sword));
+				this.add(new JLabel(club));
 				break;
 			case "K":
 				this.add(new JLabel(hero));
@@ -137,21 +134,6 @@ public class GamePanel extends JPanel {
 	  }
 		public void update(Game game){
 			removeAll();
-
-			repaint();
-			
-			paintComponent(game);
-			
-			
-			revalidate();
+			this.paint(game);
 	}
-		/*
-	public JLabel loadImage(ImageIcon i) {
-
-		if  (i==null)
-			i = new ImageIcon(this.getClass().getResource("res/wall.png"));
-		
-		return new JLabel(i);
-	}
-	*/
 }
