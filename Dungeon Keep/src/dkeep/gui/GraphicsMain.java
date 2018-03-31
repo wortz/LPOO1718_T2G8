@@ -1,5 +1,6 @@
 package dkeep.gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -33,20 +34,20 @@ public class GraphicsMain extends JFrame implements KeyListener{
 	
 	GraphicsMain(){
 		frame = new JFrame();
-		frame.setBounds(100, 100, 549, 607);
+		frame.setBounds(100, 100, 700, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("Graphically enhanced DUNGEON KEEP");
 		
 		frame.addKeyListener(this);
 		
-
+		
 		Level1 l1 = new Level1( 1.1f);
 		game = l1.getGame();
 		
 		g = new GamePanel(game);
-		g.setBounds(0, 0, 600, 600);
-		g.loadImages();
+		g.setBounds(0, 0, 500, 500);
+		g.loadImages(game);
 		update();
 	}
 
@@ -59,21 +60,19 @@ public class GraphicsMain extends JFrame implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent k) {
-		if(k.getKeyCode() == KeyEvent.VK_A) {
+		if(k.getKeyCode() == KeyEvent.VK_LEFT) {
 			moveHandler( "a");
 		}
-		else if(k.getKeyCode() == KeyEvent.VK_W) {
+		else if(k.getKeyCode() == KeyEvent.VK_UP) {
 			moveHandler( "w");
 		}
-		else if(k.getKeyCode() == KeyEvent.VK_D) {
+		else if(k.getKeyCode() == KeyEvent.VK_RIGHT) {
 			moveHandler("d");
 		}
-		else if(k.getKeyCode() == KeyEvent.VK_S) {
+		else if(k.getKeyCode() == KeyEvent.VK_DOWN) {
 			moveHandler( "s");
 		}
-		g.update(game);
-		g.setVisible(true);
-		frame.add(g);
+		
 	}
 
 
@@ -94,16 +93,18 @@ public class GraphicsMain extends JFrame implements KeyListener{
 				game.mvOgre();
 			}
 			game.checkLose();
-			update();
+			g.update(game);
+			frame.add(g);
 			if (game.getCurrLevel() == 2)
 				game.delClub();
 			if (game.isLose()) {
  				return;
 			} else if (game.isWin() && game.getCurrLevel() == 1) {
-				Level2 l2 = new Level2(3);
+				Level2 l2 = new Level2(1);
 				this.game = l2.getGame();
 				game.setWin(false);
-				update();
+				g.update(game);
+				frame.add(g);
 		}
 
 			else if (game.isWin() && game.getCurrLevel() == 2) {
