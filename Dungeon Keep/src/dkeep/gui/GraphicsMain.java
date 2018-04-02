@@ -36,7 +36,7 @@ public class GraphicsMain extends JFrame implements KeyListener{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+//		frame.getContentPane().setLayout(null);
 		frame.pack();
 		frame.setTitle("Graphically enhanced DUNGEON KEEP");
 		
@@ -55,11 +55,10 @@ public class GraphicsMain extends JFrame implements KeyListener{
 		g = new GamePanel(game);
 		g.setBounds(0, 0, 500, 500);
 		g.loadImages(game);
-		frame.add(g);
-		g.update(game);
+		update();
 		frame.setVisible(true);
-		
 	}
+	
 	
 	public void update() {
 		g.update(game);
@@ -82,6 +81,9 @@ public class GraphicsMain extends JFrame implements KeyListener{
 		}
 		requestFocusInWindow();	
 	}
+
+		
+	
 
 
 
