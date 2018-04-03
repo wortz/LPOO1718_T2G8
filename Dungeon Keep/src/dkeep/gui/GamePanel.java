@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
@@ -32,9 +34,16 @@ public class GamePanel extends JPanel {
 	public GamePanel(Game game) {
 		super();
 		this.setLayout(new GridLayout(game.getMap().length,game.getMap()[0].length));
+		this.addComponentListener(new ComponentAdapter() {
+	        public void componentResized(ComponentEvent e) {
+	        	scaleAll(game);
+	        	update(game);
+	            super.componentResized(e);
+	        }
+	    });
 	}
 	
-	  public void paint(Game game) {
+	  public void paintComponent(Game game) {
 		  
 		  String el;
 
@@ -64,6 +73,13 @@ public class GamePanel extends JPanel {
 			empty_space = new ImageIcon(this.getClass().getResource("res/empty_space.png"));
 			ogre_key=  new ImageIcon(this.getClass().getResource("res/ogre_key.png"));
 		
+			
+			scaleAll(game);
+
+
+		}
+
+		public void scaleAll(Game game) {
 			wall = scaleImage(wall,game);
 			guard = scaleImage(guard,game);
 			armed_hero=scaleImage(armed_hero,game);
@@ -75,14 +91,13 @@ public class GamePanel extends JPanel {
 			club = scaleImage(club,game);
 			stunned_ogre= scaleImage(stunned_ogre,game);
 			open_door = scaleImage(open_door,game);
-
 		}
-
+		
 		private ImageIcon scaleImage(ImageIcon im,Game game) {
 
 			Image img = im.getImage();
-			Image newimg = img.getScaledInstance(this.getWidth() / game.getMap().length, this.getHeight() / game.getMap()[0].length, Image.SCALE_FAST);
-
+			Image newimg = img.getScaledInstance(this.getWidth() / game.getMap().length, this.getHeight() / game.getMap()[0].length, Image.SCALE_AREA_AVERAGING);
+			System.out.println(this.getWidth()+ " " +this.getHeight());
 			return new ImageIcon(newimg);
 	}
 		
@@ -127,7 +142,7 @@ public class GamePanel extends JPanel {
 			case "$":
 				this.add(new JLabel(ogre_key));
 				break;
-			case " ":
+			case " ": 
 				this.add(new JLabel(empty_space));
 				break;
 			default:
@@ -138,7 +153,10 @@ public class GamePanel extends JPanel {
 	  }
 		public void update(Game game){
 			removeAll();
-			this.paint(game);
+			repaint();
+			this.paintComponent(game);
 			revalidate();
 	}
+		
+	
 }

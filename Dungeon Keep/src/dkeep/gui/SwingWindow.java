@@ -106,7 +106,7 @@ public class SwingWindow {
 						guardPers = 1.3f;
 					else
 						;
-				}
+				} 
 
 			}
 		});
@@ -116,8 +116,9 @@ public class SwingWindow {
 		JButton btnExitGame = new JButton("Exit Game");
 		btnExitGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// System.exit(0);
 				frame.dispose();
+				System.exit(0);
+				
 			}
 
 		});
