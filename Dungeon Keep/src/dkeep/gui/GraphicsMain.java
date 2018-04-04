@@ -24,6 +24,7 @@ public class GraphicsMain implements KeyListener{
 	static GamePanel gamePanel;
 	static OptionsPanel optionsPanel;
 	static JFrame frame;
+	//static GridBagLayout;
 	Game game;
 	
 	static JLayeredPane pane;
@@ -45,8 +46,7 @@ public class GraphicsMain implements KeyListener{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-//		frame.setLayout(new FlowLayout());
+		frame.getContentPane().setLayout(new BorderLayout());
 		
 		frame.setTitle("Graphically enhanced DUNGEON KEEP");
 		
@@ -55,34 +55,28 @@ public class GraphicsMain implements KeyListener{
 		
 		pane = new JLayeredPane();
 		pane.setBounds(0, 0, 900, 900);
-		frame.getContentPane().add(pane);
+		/*pane.addComponentListener(new ComponentAdapter() {
+		      public void componentResized(ComponentEvent e) {
+		    	  pane.setBounds(0,0,frame.getWidth(),frame.getHeight());
+		          super.componentResized(e);
+		      }
+		  });*/
 		
-		pane.addComponentListener(new ComponentAdapter() {
-      public void componentResized(ComponentEvent e) {
-      	gamePanel.scaleAll();
-      	gamePanel.update();
-          super.componentResized(e);
-      }
-  });
+		pane.setLayout(new BorderLayout());
+		pane.setBackground(Color.BLACK);
+		frame.getContentPane().add(pane,BorderLayout.CENTER);
 		
-//		frame.add(pane, FlowLayout.CENTER);
-		pane.setLayout(null);
+	
 		
-		//////////////////////TEMPORARY
-		this.c=new ComboGrid(10,10);
-		c.setBounds(0, 0, 800,800);
-		pane.add(c);
-		c.setVisible(true);
-		frame.setVisible(true);
-		///////////////
 		
 		
 		/////////////////////////////////////////////////////
-	/*	this.optionsPanel= new OptionsPanel();
+		this.optionsPanel= new OptionsPanel();
 		optionsPanel.setBounds(0, 0, 500, 500);
+		pane.setLayer(optionsPanel, JLayeredPane.DEFAULT_LAYER.intValue());
 		pane.add(optionsPanel);
 		optionsPanel.setVisible(true);
-		frame.setVisible(true);*/
+		frame.setVisible(true);
 		
 		
 		

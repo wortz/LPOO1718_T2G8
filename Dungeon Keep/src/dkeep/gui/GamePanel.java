@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import dkeep.logic.Game;
@@ -45,13 +46,13 @@ public class GamePanel extends JPanel {
 		game = l1.getGame();
 		this.setLayout(new GridLayout(game.getMap().length,game.getMap()[0].length));
 		this.loadImages();
-//		this.addComponentListener(new ComponentAdapter() {
-//        public void componentResized(ComponentEvent e) {
-//        	scaleAll();
-//        	update();
-//            super.componentResized(e);
-//        }
-//    });
+		this.addComponentListener(new ComponentAdapter() {
+		      public void componentResized(ComponentEvent e) {
+		      	GraphicsMain.gamePanel.loadImages();
+		      	GraphicsMain.gamePanel.update();
+		          super.componentResized(e);
+		      }
+		  });
 		update();
 		
 	}
@@ -198,9 +199,11 @@ public class GamePanel extends JPanel {
 					Level2 l2 = new Level2(1);
 					this.game = l2.getGame();
 					game.setWin(false);
-					scaleAll();
-					repaint();
 					update();
+					loadImages();
+					repaint();
+					this.setLayout(new GridLayout(game.getMap().length,game.getMap()[0].length));
+					GraphicsMain.pane.setLayer(GraphicsMain.gamePanel, JLayeredPane.DEFAULT_LAYER.intValue());
 					
 			}
 

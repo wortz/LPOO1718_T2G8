@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -104,6 +105,7 @@ public class OptionsPanel extends JPanel {
 			GraphicsMain.gamePanel=new GamePanel(ogresNr,guardPers);
 			
 			GraphicsMain.optionsPanel.setVisible(false);
+			GraphicsMain.pane.setLayer(GraphicsMain.gamePanel, JLayeredPane.DEFAULT_LAYER.intValue());
 			GraphicsMain.pane.add(GraphicsMain.gamePanel);
 			GraphicsMain.gamePanel.setVisible(true);
 			GraphicsMain.frame.requestFocusInWindow();
