@@ -1,7 +1,9 @@
 package dkeep.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -18,13 +20,13 @@ import dkeep.logic.Level2;
 
 public class GraphicsMain implements KeyListener{
 
-	private GamePanel gamePanel;
-	private OptionsPanel optionsPanel;
-	private JFrame frame;
+	ComboGrid c;
+	static GamePanel gamePanel;
+	static OptionsPanel optionsPanel;
+	static JFrame frame;
 	Game game;
-	private int ogresNr;
-	private float guardPers;
-	private JLayeredPane pane;
+	
+	static JLayeredPane pane;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -43,122 +45,89 @@ public class GraphicsMain implements KeyListener{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(null);
+//		frame.setLayout(new FlowLayout());
+		
 		frame.setTitle("Graphically enhanced DUNGEON KEEP");
+		
+		
 		frame.addKeyListener(this);
 		
-		
-		
 		pane = new JLayeredPane();
-		pane.setBounds(0, 0, 500, 500);
+		pane.setBounds(0, 0, 900, 900);
 		frame.getContentPane().add(pane);
+		
+		pane.addComponentListener(new ComponentAdapter() {
+      public void componentResized(ComponentEvent e) {
+      	gamePanel.scaleAll();
+      	gamePanel.update();
+          super.componentResized(e);
+      }
+  });
+		
+//		frame.add(pane, FlowLayout.CENTER);
 		pane.setLayout(null);
 		
+		//////////////////////TEMPORARY
+		this.c=new ComboGrid(10,10);
+		c.setBounds(0, 0, 800,800);
+		pane.add(c);
+		c.setVisible(true);
+		frame.setVisible(true);
+		///////////////
+		
+		
 		/////////////////////////////////////////////////////
-		this.optionsPanel= new OptionsPanel();
+	/*	this.optionsPanel= new OptionsPanel();
 		optionsPanel.setBounds(0, 0, 500, 500);
-		frame.add(optionsPanel);
-		frame.setVisible(true);
+		pane.add(optionsPanel);
+		optionsPanel.setVisible(true);
+		frame.setVisible(true);*/
 		
 		
 		
-		//////////////////////////////////////////////////////////
-		/*Level1 l1 = new Level1( 1.1f);
-		game = l1.getGame();
 		
-		
-		iniciate(game);
-		
-		frame.pack();*/
 
 	}
 
-	
-	public void iniciate(Game game) {
-		gamePanel = new GamePanel(game);
-		gamePanel.setBounds(0, 0, 500, 500);
-		gamePanel.loadImages(game);
-		update();
-//		frame.pack();
-		frame.setVisible(true);
-	}
-	
-	
-	public void update() {
-		gamePanel.update(game);
-		frame.add(gamePanel);
-	}
 
 	
 	@Override
 	public void keyPressed(KeyEvent k) {
+//		if(gamePanel!=null) {
 		if(k.getKeyCode() == KeyEvent.VK_LEFT) {
-			moveHandler( "a");
+			gamePanel.gameLoop("a");
 		}
 		else if(k.getKeyCode() == KeyEvent.VK_UP) {
-			moveHandler( "w");
+			gamePanel.gameLoop("w");
 		}
 		else if(k.getKeyCode() == KeyEvent.VK_RIGHT) {
-			moveHandler("d");
+			gamePanel.gameLoop("d");
 		}
 		else if(k.getKeyCode() == KeyEvent.VK_DOWN) {
-			moveHandler( "s");
+			gamePanel.gameLoop("s");
 		}
 		frame.requestFocusInWindow();	
+		System.out.println(pane.getWidth());
 	}
-
-		
+//	}
 	
-
-
-
-	
-	public void moveHandler(String direction) {
-
-		if ((!game.isWin()) && (!game.isLose())) {
-			game.mvHero(direction);
-			game.checkLose();
-			if (game.isLose()) {
-				update();
-				return;
-			}
-			if (game.getCurrLevel() == 1)
-				game.mvGuard();
-			else if (game.getCurrLevel() == 2) {
-				game.mvOgre();
-			}
-			game.checkLose();
-			update();
-			if (game.getCurrLevel() == 2)
-				game.delClub();
-			if (game.isLose()) {
- 				return;
-			} else if (game.isWin() && game.getCurrLevel() == 1) {
-				Level2 l2 = new Level2(1);
-				this.game = l2.getGame();
-				game.setWin(false);
-				gamePanel.repaint();
-				iniciate(game);
-				
-		}
-
-			else if (game.isWin() && game.getCurrLevel() == 2) {
-				return;
-			}
-		}
-	}
-
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
+//
+//	public static void startKeyListener() {
+//		frame.addKeyListener(this);
+//
+//	}
 	
 	
 }

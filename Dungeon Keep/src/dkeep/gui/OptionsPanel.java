@@ -25,23 +25,8 @@ import dkeep.logic.Game;
 import dkeep.logic.Level1;
 
 public class OptionsPanel extends JPanel {
-	/*private ImageIcon wall;
-	private ImageIcon guard;
-	private ImageIcon hero;
-	private ImageIcon key;
-	private ImageIcon door;
-	private ImageIcon ogre;
-	private ImageIcon club;
-	private ImageIcon stunned_ogre;
-	private ImageIcon armed_hero;
-	private ImageIcon open_door;
-	private ImageIcon empty_space;
-	private ImageIcon ogre_key;
-	private ImageIcon club_key;
-	private ImageIcon armed_hero_key;
-	private ImageIcon hero_key;*/
-	static int ogresNr;
-	static float guardPers;
+	int ogresNr;
+	float guardPers;
 	private JComboBox comboBox;
 	private JTextField fldOgresNr;
 	
@@ -115,15 +100,48 @@ public class OptionsPanel extends JPanel {
 				return;
 			if (comboBox.getSelectedIndex() == 0)
 				guardPers = 1.1f;
-			dispose();
+			
+			GraphicsMain.gamePanel=new GamePanel(ogresNr,guardPers);
+			
+			GraphicsMain.optionsPanel.setVisible(false);
+			GraphicsMain.pane.add(GraphicsMain.gamePanel);
+			GraphicsMain.gamePanel.setVisible(true);
+			GraphicsMain.frame.requestFocusInWindow();
+
 		}
 	});
 	btnNewGame.setContentAreaFilled(false);
 	btnNewGame.setBounds(358, 109, 209, 43);
 	this.add(btnNewGame);
+	
+	
+	JButton btnEditGame = new JButton("Edit Keep Level");
+	btnEditGame.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			
+			/*GraphicsMain.gamePanel=new GamePanel(ogresNr,guardPers);
+			
+			GraphicsMain.optionsPanel.setVisible(false);
+			GraphicsMain.pane.add(GraphicsMain.gamePanel);
+			GraphicsMain.gamePanel.setVisible(true);
+			GraphicsMain.frame.requestFocusInWindow();*/
+
+		}
+	});
+	btnEditGame.setContentAreaFilled(false);
+	btnEditGame.setBounds(358, 109, 209, 43);
+	this.add(btnEditGame);
 	}
 	
-	public int tryParseInt(String value) { //TODO:muito codigo repetido aqui
+	public float getGuardPers() {
+		return this.guardPers;
+	}
+	
+	public int getOgresNr() {
+		return this.ogresNr;
+	}
+	
+	static int tryParseInt(String value) { //TODO:muito codigo repetido aqui
 		int v;
 		try {
 			v = Integer.parseInt(value);
@@ -134,11 +152,6 @@ public class OptionsPanel extends JPanel {
 			JOptionPane.showMessageDialog(null, "Ogres number ust be an integer between 1 and 5");
 			return -1;
 		}
-	}
-
-	
-	public void dispose() {
-		this.dispose();
 	}
 		
 	

@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
@@ -13,8 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import dkeep.logic.Game;
+import dkeep.logic.Level1;
+import dkeep.logic.Level2;
 
 public class GamePanel extends JPanel {
+	private Game game;
+	private int ogresNr;
+	private float guardPers;
 	private ImageIcon wall;
 	private ImageIcon guard;
 	private ImageIcon hero;
@@ -31,19 +37,26 @@ public class GamePanel extends JPanel {
 	private ImageIcon armed_hero_key;
 	private ImageIcon hero_key;*/
 
-	public GamePanel(Game game) {
+	public GamePanel(int ogresNr,float guardPers) {
 		super();
+		this.setBounds(0, 0, 500, 500);
+		this.ogresNr=ogresNr;
+		Level1 l1 = new Level1(guardPers);
+		game = l1.getGame();
 		this.setLayout(new GridLayout(game.getMap().length,game.getMap()[0].length));
-		this.addComponentListener(new ComponentAdapter() {
-	        public void componentResized(ComponentEvent e) {
-	        	scaleAll(game);
-	        	update(game);
-	            super.componentResized(e);
-	        }
-	    });
+		this.loadImages();
+//		this.addComponentListener(new ComponentAdapter() {
+//        public void componentResized(ComponentEvent e) {
+//        	scaleAll();
+//        	update();
+//            super.componentResized(e);
+//        }
+//    });
+		update();
+		
 	}
 	
-	  public void paintComponent(Game game) {
+	  public void paintComponent() {
 		  
 		  String el;
 
@@ -58,7 +71,7 @@ public class GamePanel extends JPanel {
 			}
 	  }
 
-		public void loadImages(Game game) {
+		public void loadImages() {
 
 			wall = new ImageIcon(this.getClass().getResource("res/wall.png"));
 			armed_hero= new ImageIcon(this.getClass().getResource("res/armed_hero.png"));
@@ -74,26 +87,26 @@ public class GamePanel extends JPanel {
 			ogre_key=  new ImageIcon(this.getClass().getResource("res/ogre_key.png"));
 		
 			
-			scaleAll(game);
+			scaleAll();
 
 
 		}
 
-		public void scaleAll(Game game) {
-			wall = scaleImage(wall,game);
-			guard = scaleImage(guard,game);
-			armed_hero=scaleImage(armed_hero,game);
-			empty_space = scaleImage(empty_space,game);
-			hero = scaleImage(hero,game);
-			key = scaleImage(key,game);
-			door = scaleImage(door,game);
-			ogre = scaleImage(ogre,game);
-			club = scaleImage(club,game);
-			stunned_ogre= scaleImage(stunned_ogre,game);
-			open_door = scaleImage(open_door,game);
+		public void scaleAll() {
+			wall = scaleImage(wall);
+			guard = scaleImage(guard);
+			armed_hero=scaleImage(armed_hero);
+			empty_space = scaleImage(empty_space);
+			hero = scaleImage(hero);
+			key = scaleImage(key);
+			door = scaleImage(door);
+			ogre = scaleImage(ogre);
+			club = scaleImage(club);
+			stunned_ogre= scaleImage(stunned_ogre);
+			open_door = scaleImage(open_door);
 		}
 		
-		private ImageIcon scaleImage(ImageIcon im,Game game) {
+		private ImageIcon scaleImage(ImageIcon im) {
 
 			Image img = im.getImage();
 			Image newimg = img.getScaledInstance(this.getWidth() / game.getMap().length, this.getHeight() / game.getMap()[0].length, Image.SCALE_AREA_AVERAGING);
@@ -151,12 +164,53 @@ public class GamePanel extends JPanel {
 
 	  
 	  }
-		public void update(Game game){
+		public void update(){
 			removeAll();
 			repaint();
-			this.paintComponent(game);
+			this.paintComponent();
 			revalidate();
+			if(GraphicsMain.gamePanel!=null)
+				GraphicsMain.gamePanel.setVisible(true);
 	}
+		
+		
+		public void gameLoop(String direction) {
+
+			if ((!game.isWin()) && (!game.isLose())) {
+				game.mvHero(direction);
+				game.checkLose();
+				if (game.isLose()) {
+					update();
+					return;
+				}
+				if (game.getCurrLevel() == 1)
+					game.mvGuard();
+				else if (game.getCurrLevel() == 2) {
+					game.mvOgre();
+				}
+				game.checkLose();
+				update();
+				if (game.getCurrLevel() == 2)
+					game.delClub();
+				if (game.isLose()) {
+	 				return;
+				} else if (game.isWin() && game.getCurrLevel() == 1) {
+					Level2 l2 = new Level2(1);
+					this.game = l2.getGame();
+					game.setWin(false);
+					scaleAll();
+					repaint();
+					update();
+					
+			}
+
+				else if (game.isWin() && game.getCurrLevel() == 2) {
+					return;
+				}
+			}
+		}
+		
+		
 		
 	
 }
