@@ -16,15 +16,18 @@ import javax.swing.JTextField;
 public class Editor extends JPanel{
 	int ogresNr;
 	float guardPers;
+	private ButtonGrid grid;
 	private JComboBox comboBox;
 	int height, width;
-	JTextField fldHeight,fldWidth;
+	JTextField fldHeight,fldWidth; 
 	
 	
 	public Editor() {
 		super();
 		setPersonalityButton();
 		setHeightField();
+		setWidthField() ;
+		setStartEditingBtn();
 	}
 	private void setPersonalityButton() {
 		JLabel lblGuardPersonality = new JLabel("Guard Personality");
@@ -76,7 +79,7 @@ public class Editor extends JPanel{
 		fldWidth.setColumns(10);
 	}
 	
-	private void startEditingBtn() {
+	private void setStartEditingBtn() {
 		JButton startEditing = new JButton("Start Editing!");
 		startEditing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -97,8 +100,8 @@ public class Editor extends JPanel{
 	}
 	
 	
-	private void startEditing() {
-		
+	private void beginEditing() {
+		grid= new ButtonGrid( height, width);
 		
 	}
 	

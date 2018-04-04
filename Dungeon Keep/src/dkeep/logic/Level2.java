@@ -18,21 +18,24 @@ public class Level2{
 				{"X"," "," "," "," "," "," "," ","X"},
 				{"X","A"," "," "," "," "," "," ","X"},
 				{"X","X","X","X","X","X","X","X","X"}};		
+		for(int i=0;i<ogres_number;i++) {
+			int[] r=this.getRandomOgrePosition();
+			while(table[r[0]][r[1]]!=" ") {
+				r=this.getRandomOgrePosition();
+			}
+			table[r[0]][r[1]]="O";
+		}
 		Map map=new Map(table);
-		for(int i=0;i<ogres_number;i++) 
-			map.setTableElem(this.getRandomOgrePosition(map), "O");
 		this.logic=2;
 		this.game=new Game(map,logic);
 	}
 	
-	public int[] getRandomOgrePosition(Map m){
+	public int[] getRandomOgrePosition(){
 		int row=0, col=0;
 		
 		Random rand = new Random();
-		while(m.getTable()[col][row]!=" ") {
-			row= rand.nextInt(5)+2;
-			col= rand.nextInt(5)+3;
-		}
+		row= rand.nextInt(4)+1;
+		col= rand.nextInt(6)+1;
 		int[]r= {row,col};
 		return r;
 	}

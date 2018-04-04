@@ -255,7 +255,7 @@ public class SwingWindow {
 				textGameDisplayer.append(" ");
 			}
 			textGameDisplayer.append("\n");
-		}
+		} 
 	}
 
 	public void updateStatusLabel(Game game) {

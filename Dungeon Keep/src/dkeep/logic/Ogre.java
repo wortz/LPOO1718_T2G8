@@ -35,7 +35,7 @@ public class Ogre extends GameElement {
 	public boolean stunHandler() {
 		if (!this.stunned)
 			return false;
-		if (stun_counter > 2) {
+		if (stun_counter > 55) {
 			this.stun_counter = 0;
 			this.stunned = false;
 			return false;
@@ -101,13 +101,17 @@ public class Ogre extends GameElement {
 
 	public void swingClub(Game g) {
 		int aux[]=new int[2];
+		int i=0;
 		aux[0] = this.getCoord()[0];
 		aux[1] = this.getCoord()[1];
 		Game.moveHandler(this.getRandMove(), aux);
 		while(this.invalidClubCoord(g,aux)) {
+			if(i>20)
+				return;
 			aux[0]=this.getCoord()[0];
 			aux[1]=this.getCoord()[1];		
 			Game.moveHandler(this.getRandMove(), aux);
+			i++;
 		}
 		if(aux[0]==g.getKeyCoord()[0]&&aux[1]==g.getKeyCoord()[1]) 
 			g.setElemTable(aux,"$");

@@ -10,12 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-public class ComboGrid extends JPanel{
+public class ButtonGrid extends JPanel{
 	
 	private JComboBox boxes[][];
 	private int height,width;
 	
-	public ComboGrid(int height, int width){
+	public ButtonGrid(int height, int width){
 		super();
 		this.height=height;
 		this.width=width;

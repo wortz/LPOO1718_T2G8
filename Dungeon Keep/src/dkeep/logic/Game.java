@@ -1,6 +1,7 @@
 package dkeep.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Game {
@@ -8,21 +9,22 @@ public class Game {
 	private boolean win, lose;
 	private int key[];
 	private boolean key_catched;
-	private float logic;//=1 level1 logic =2 level2 logic
+	private float logic;
 	private Hero hero;
 	private Map map;
 	private Guard guard;
 	private Ogre ogres[];
+	private boolean ogreKey;
 
 	
 	public Game(Map map,float logic) {
 		this.map=map;
 		this.logic=logic;
-		this.searchGameElements();
+		this.searchGameElements(); 
 		this.win =false;
 		this.lose =false;
 		this.key_catched=false;
-
+		this.ogreKey=false;
 	}
 	
 	// Functions for global game
@@ -69,7 +71,7 @@ public class Game {
 			cord[1]--;
 			break;
 		case "s":
-			cord[0]++;
+			cord[0]++; 
 			break;
 		case "d":
 			cord[1]++;
@@ -194,8 +196,11 @@ public class Game {
 	
 	
 	public void mvOgre() {
+		this.ogreKey=false;
 		for (int i = 0; i < this.ogres.length; i++) {
 			ogres[i].moveOgre(this,i);
+			if(key[0]==ogres[i].getCoord()[0]&&key[1]==ogres[i].getCoord()[1])
+				this.ogreKey=true;
 		}
 		if(this.hero.getArmed())
 			this.checkStun();
@@ -204,6 +209,7 @@ public class Game {
 				continue;
 			ogres[i].swingClub(this);
 		}
+		
 	} 
 	
 	public void checkStun() {
@@ -285,4 +291,7 @@ public class Game {
 		else return 1;
 	}
 	
+	public boolean isOgreKey() {
+		return this.ogreKey;
+	}
 }

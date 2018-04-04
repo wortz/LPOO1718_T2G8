@@ -1,43 +1,38 @@
 package dkeep.gui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyListener;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import dkeep.logic.Game;
-import dkeep.logic.Level1;
-
 public class OptionsPanel extends JPanel {
-	int ogresNr;
-	float guardPers;
+	
+	private GraphicMode graphic;
+	private int ogresNr;
+	private float guardPers;
 	private JComboBox comboBox;
 	private JTextField fldOgresNr;
 	
-	public OptionsPanel() {
+	OptionsPanel(GraphicMode graphic) {
 		super();
+		this.graphic=graphic;
+		TextOgresNr();
+		BoxGuardPers();
+		ButtonExitGame();
+		ButtonStandardGame();
+		ButtonCustomMap();
 		
-		initialize();
 	}
 	
-	private void initialize() {
+	public void TextOgresNr() {
 		JLabel lblOgresNumber = new JLabel("No of Ogres");
 		lblOgresNumber.setBounds(61, 13, 188, 43);
 		this.add(lblOgresNumber);
@@ -47,7 +42,9 @@ public class OptionsPanel extends JPanel {
 		this.add(fldOgresNr);
 		fldOgresNr.setText("1");
 		fldOgresNr.setColumns(10);
-
+	}
+	
+	public void BoxGuardPers() {
 		JLabel lblGuardPersonality = new JLabel("Guard Personality");
 		lblGuardPersonality.setBounds(61, 104, 111, 43);
 		this.add(lblGuardPersonality);
@@ -78,7 +75,9 @@ public class OptionsPanel extends JPanel {
 		});
 
 		this.add(comboBox);
-		
+	}
+	
+	public void ButtonExitGame() {
 		JButton btnExitGame = new JButton("Exit Game");
 		btnExitGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -90,60 +89,49 @@ public class OptionsPanel extends JPanel {
 		btnExitGame.setContentAreaFilled(false);
 		btnExitGame.setBounds(358, 551, 209, 43);
 		this.add(btnExitGame);
-
-	
-	
-	JButton btnNewGame = new JButton("Start New Game");
-	btnNewGame.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-
-			if ((ogresNr = tryParseInt(fldOgresNr.getText())) == -1)
-				return;
-			if (comboBox.getSelectedIndex() == 0)
-				guardPers = 1.1f;
-			
-			GraphicsMain.gamePanel=new GamePanel(ogresNr,guardPers);
-			
-			GraphicsMain.optionsPanel.setVisible(false);
-			GraphicsMain.pane.setLayer(GraphicsMain.gamePanel, JLayeredPane.DEFAULT_LAYER.intValue());
-			GraphicsMain.pane.add(GraphicsMain.gamePanel);
-			GraphicsMain.gamePanel.setVisible(true);
-			GraphicsMain.frame.requestFocusInWindow();
-
-		}
-	});
-	btnNewGame.setContentAreaFilled(false);
-	btnNewGame.setBounds(358, 109, 209, 43);
-	this.add(btnNewGame);
-	
-	
-	JButton btnEditGame = new JButton("Edit Keep Level");
-	btnEditGame.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			
-			/*GraphicsMain.gamePanel=new GamePanel(ogresNr,guardPers);
-			
-			GraphicsMain.optionsPanel.setVisible(false);
-			GraphicsMain.pane.add(GraphicsMain.gamePanel);
-			GraphicsMain.gamePanel.setVisible(true);
-			GraphicsMain.frame.requestFocusInWindow();*/
-
-		}
-	});
-	btnEditGame.setContentAreaFilled(false);
-	btnEditGame.setBounds(358, 109, 209, 43);
-	this.add(btnEditGame);
 	}
 	
-	public float getGuardPers() {
-		return this.guardPers;
+	public void ButtonStandardGame() {
+		JButton btnNewGame = new JButton("Start Standard Game");
+		btnNewGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				if ((ogresNr = tryParseInt(fldOgresNr.getText())) == -1)
+					return;
+				if (comboBox.getSelectedIndex() == 0)
+					guardPers = 1.1f;
+				
+				graphic.getOptions().setVisible(false);
+				graphic.createGamePanel(ogresNr, guardPers);
+				
+
+			}
+		});
+		btnNewGame.setContentAreaFilled(false);
+		btnNewGame.setBounds(358, 109, 209, 43);
+		this.add(btnNewGame);
 	}
 	
-	public int getOgresNr() {
-		return this.ogresNr;
+	public void ButtonCustomMap() {
+		JButton btnEditGame = new JButton("Edit Keep Level");
+		btnEditGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				/*GraphicsMain.gamePanel=new GamePanel(ogresNr,guardPers);
+				
+				GraphicsMain.optionsPanel.setVisible(false);
+				GraphicsMain.pane.add(GraphicsMain.gamePanel);
+				GraphicsMain.gamePanel.setVisible(true);
+				GraphicsMain.frame.requestFocusInWindow();*/
+
+			}
+		});
+		btnEditGame.setContentAreaFilled(false);
+		btnEditGame.setBounds(358, 109, 209, 43);
+		this.add(btnEditGame);
 	}
 	
-	static int tryParseInt(String value) { //TODO:muito codigo repetido aqui
+	public int tryParseInt(String value) {
 		int v;
 		try {
 			v = Integer.parseInt(value);
@@ -155,6 +143,5 @@ public class OptionsPanel extends JPanel {
 			return -1;
 		}
 	}
-		
 	
 }
