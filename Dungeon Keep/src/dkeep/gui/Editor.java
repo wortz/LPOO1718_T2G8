@@ -1,9 +1,12 @@
 package dkeep.gui;
 
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -13,10 +16,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Editor extends JPanel{
+public class Editor extends JPanel implements MouseListener{
 	int ogresNr;
 	float guardPers;
-	private ButtonGrid grid;
+	private EditorMapGrid grid;
 	private JComboBox comboBox;
 	int height, width;
 	JTextField fldHeight,fldWidth; 
@@ -24,6 +27,7 @@ public class Editor extends JPanel{
 	
 	public Editor() {
 		super();
+//		this.setLayout(new GridBagLayout());
 		setPersonalityButton();
 		setHeightField();
 		setWidthField() ;
@@ -90,7 +94,7 @@ public class Editor extends JPanel{
 					guardPers = 1.1f;
 				
 			//////////////C/////////////
-
+				beginEditing();
 			}
 		});
 		startEditing.setContentAreaFilled(false);
@@ -98,11 +102,16 @@ public class Editor extends JPanel{
 		this.add(startEditing);
 		
 	}
-	
+	 
 	
 	private void beginEditing() {
-		grid= new ButtonGrid( height, width);
-		
+		if(grid!=null) 
+			this.remove(grid.getMapGraphics());
+		this.grid=new EditorMapGrid(height, width);
+		this.add(grid.getMapGraphics());
+//		this.setBounds(0,0,700,700);
+		this.revalidate();
+		grid.getMapGraphics().setVisible(true);
 	}
 	
 	
@@ -121,12 +130,37 @@ public class Editor extends JPanel{
 		try {
 			v = Integer.parseInt(value);
 			if (v < 6 || v > 25)
-				throw new IllegalArgumentException("Ogres number sould be a number between 1 and 5");
+				throw new IllegalArgumentException("Height and width must be between 6 and 25");
 			return v;
 		} catch (IllegalArgumentException e) {
-			JOptionPane.showMessageDialog(null, "Ogres number ust be an integer between 1 and 5");
+			JOptionPane.showMessageDialog(null, "Height and width must be between 6 and 25");
 			return -1;
 		}
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 		
 }

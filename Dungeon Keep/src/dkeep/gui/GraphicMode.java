@@ -15,6 +15,7 @@ public class GraphicMode implements KeyListener{
 	private JLayeredPane pane;
 	private GamePanel gameWindow;
 	private OptionsPanel options;
+	private Editor editor;
 	
 	GraphicMode(){
 		createJframe();
@@ -26,7 +27,21 @@ public class GraphicMode implements KeyListener{
 		
 		
 		
+		
 
+	}
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GraphicMode window = new GraphicMode();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	public void createJframe() {
@@ -65,6 +80,15 @@ public class GraphicMode implements KeyListener{
 		frame.requestFocusInWindow();
 	}
 	
+	public void createEditorPanel() {
+		this.editor=new Editor();
+		pane.setLayer(editor, JLayeredPane.DEFAULT_LAYER.intValue());
+		pane.add(editor);
+		editor.setVisible(true);
+		frame.requestFocusInWindow();
+	
+	}
+	
 	public void setLayerAux(GamePanel g) {
 		gameWindow.getMapGraphics().setVisible(false);
 		this.gameWindow=g;
@@ -74,18 +98,11 @@ public class GraphicMode implements KeyListener{
 	}
 	
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GraphicMode window = new GraphicMode();
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void removeGame() {
+		pane.remove(gameWindow.getMapGraphics());
 	}
+	
+	
 	
 	@Override
 	public void keyPressed(KeyEvent k) {

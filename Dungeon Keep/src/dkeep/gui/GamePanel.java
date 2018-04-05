@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import dkeep.logic.Game;
 import dkeep.logic.Level1;
 import dkeep.logic.Level2;
+import dkeep.logic.Map;
 
 public class GamePanel{
 	private Game game;
@@ -35,7 +36,7 @@ public class GamePanel{
 			game.mvHero(direction);
 			game.checkLose();
 			if (game.isLose()) {
-				map.update(game.getMap(), game.isOgreKey());
+				map.update(game.getMap(), game.isOgreKey()); 
 				return;
 			}
 			if (game.getCurrLevel() == 1)
@@ -50,10 +51,12 @@ public class GamePanel{
 			if (game.isLose())
 				return;
 			else if (game.isWin() && game.getCurrLevel() == 1) {
-				Level2 l2 = new Level2(this.ogresNr);
-				this.game = l2.getGame();
+			/*	Level2 l2 = new Level2(this.ogresNr);
+				this.game = l2.getGame();*/
+				this.game=new Game(new Map(10,9),2.0f);
+
 				game.setWin(false);
-				
+				graphic.removeGame();
 				map=new MapGraphics(game.getMap(),game.getLogic());
 				
 				graphic.setLayerAux(this);

@@ -117,6 +117,8 @@ public class OptionsPanel extends JPanel {
 		btnEditGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				graphic.getOptions().setVisible(false);
+				graphic.createEditorPanel();
 				/*GraphicsMain.gamePanel=new GamePanel(ogresNr,guardPers);
 				
 				GraphicsMain.optionsPanel.setVisible(false);

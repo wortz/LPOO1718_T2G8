@@ -4,7 +4,21 @@ import java.util.List;
 
 public class Map {
 	private String table[][];
-	
+
+	// used in editor
+	public Map(int height, int width) {
+		String[][] aux = new String[height][width];
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if (i == 0 || i == height-1 || j == 0 || j == width-1)
+					aux[i][j] = "X";
+				else 
+					aux[i][j] = " ";
+			}
+		}
+		this.table = aux;
+	}
+
 	public Map(String[][] table) {
 		this.table=table;
 	}
@@ -46,7 +60,7 @@ public class Map {
 						coord=list.get(n);
 						coord[0]=i;
 						coord[1]=j;
-						n++;
+						n++; 
 						res=true;
 					}
 				}

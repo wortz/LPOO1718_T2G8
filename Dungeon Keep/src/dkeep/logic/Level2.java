@@ -5,6 +5,13 @@ import java.util.Random;
 public class Level2{
 	private int logic;
 	private Game game;
+	
+	//to be used in editor
+	public Level2(String[][] map) {
+		this.logic=2; 
+		this.game=new Game(new Map(map),logic);
+	}
+	
 	public Level2(int ogres_number) throws IllegalArgumentException{
 		if(ogres_number<1||ogres_number>5)
 			throw new IllegalArgumentException("Ogres number sould be a number between 1 and 5");
