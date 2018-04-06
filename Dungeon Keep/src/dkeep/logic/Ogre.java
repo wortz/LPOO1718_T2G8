@@ -54,7 +54,7 @@ public class Ogre extends GameElement {
 
 	/**
 	 * Handles the stun of the ogre, number of rounds.
-	 * If the number of rounds has reached the limit , or if it is not stunned returns false.
+	 * <p>If the number of rounds has reached the limit , or if it is not stunned returns false.
 	 * @return true if it is stunned, false otherwise.
 	 */
 	public boolean stunHandler() {
@@ -90,7 +90,7 @@ public class Ogre extends GameElement {
 	
 	/**
 	 * handles all the conditions and the movement of ogre.
-	 * Stays for 20 times in a loop that tries to move the ogre to a valid position.
+	 * <p>Stays for 20 times in a loop that tries to move the ogre to a valid position.
 	 * @param g-A variable of type Game.
 	 * @param i-A variable of type Int.
 	 */
@@ -120,7 +120,7 @@ public class Ogre extends GameElement {
 	 * @param aux - A variable of type Int[].
 	 * @param i -A variable of type Int.
 	 * Handles the rest of move of ogre and club.
-	 * Checks all the contions in map.
+	 * <p>Checks all the contions in map.
 	 */
 	public void moveIT(Game g, int aux[], int i) {
 		int coord[] = this.getCoord();
@@ -149,7 +149,7 @@ public class Ogre extends GameElement {
 	
 	/**
 	 * handles all the conditions and the movement of club.
-	 * Stays for 20 times in a loop that tries to move the club to a valid position.
+	 * <p>Stays for 20 times in a loop that tries to move the club to a valid position.
 	 * @param g-A variable of type Game.
 	 */
 	public void swingClub(Game g) {

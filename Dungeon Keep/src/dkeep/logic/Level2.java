@@ -1,17 +1,31 @@
 package dkeep.logic;
 
 import java.util.Random;
-
+/**
+ * Level2.java - class that handles the creation of a game with the logic of level 2.
+ * @author Joao Fidalgo & Francisco Friande
+ *
+ */
 public class Level2{
 	private int logic;
 	private Game game;
 	
-	//to be used in editor
+	/**
+	 * Creates a game with the given map.
+	 * @param map - A variable of type Map.
+	 */
 	public Level2(Map map) {
 		this.logic=2; 
 		this.game=new Game(map,logic);
 	}
 	
+	
+	/**
+	 * Creates a game with a given number of ogres.
+	 * <p>Sets the position of the ogres in map randomly.
+	 * @param ogres_number - A variable of type Int.
+	 * @throws IllegalArgumentException - number of ogres must be from 1 to 5 , throws the exception if it is not.
+	 */
 	public Level2(int ogres_number) throws IllegalArgumentException{
 		if(ogres_number<1||ogres_number>5)
 			throw new IllegalArgumentException("Ogres number sould be a number between 1 and 5");
@@ -37,6 +51,10 @@ public class Level2{
 		this.game=new Game(map,logic);
 	}
 	
+	/**
+	 * Generates a random ogres coords.
+	 * @return r - - A variable of type Int[].Coords random generated.
+	 */
 	public int[] getRandomOgrePosition(){
 		int row=0, col=0;
 		
@@ -47,6 +65,10 @@ public class Level2{
 		return r;
 	}
 	
+	/**
+	 * Gets the game created by this object.
+	 * @return this.game- - A variable of type Game.
+	 */
 	public Game getGame() {
 		return this.game;
 	}

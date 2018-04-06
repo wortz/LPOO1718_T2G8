@@ -2,10 +2,20 @@ package dkeep.logic;
 
 import java.util.List;
 
+/**
+ * Map.java - class that handles the creation and alteration of map .
+ * @author Joao Fidalgo & Francisco Friande
+ *
+ */
 public class Map {
 	private String table[][];
 
 	// used in editor
+	/**
+	 * Constructor that creates a map (height x width) with the borders as walls(X)
+	 * @param height - A variable of type Int.
+	 * @param width - A variable of type Int.
+	 */
 	public Map(int height, int width) {
 		String[][] aux = new String[height][width];
 		for (int i = 0; i < height; i++) {
@@ -19,22 +29,42 @@ public class Map {
 		this.table = aux;
 	}
 
+	/**
+	 * Constructor that creates a map with a given table.
+	 * <p>Set's this.table equals to the param.
+	 * @param table - A variable of type String[][].
+	 */
 	public Map(String[][] table) {
 		this.table=table;
 	}
 	
+	/**
+	 * @return this.table
+	 */
 	public String[][] getTable() {
 		return table;
 	}
+	/**
+	 * Set's this.table equals to the param.
+	 * @param table - A variable of type String[][].
+	 */
 	public void setTable(String table[][]) {
 		this.table = table;
 	}	
 	/*changes a single element in the table*/
+	/**
+	 * Changes a element of the table with the coords coord to el.
+	 * @param coord - A variable of type Int[].
+	 * @param el- A variable of type String.
+	 */
 	public void setTableElem(int coord[], String el) {
 			this.table[coord[0]][coord[1]] = el;
 	}	
 	
 	/*prints the table as it is in the moment*/
+	/**
+	 * Print's the all table.
+	 */
 	public void printTable() {
 		for(int i=0;i<this.table.length;i++)
 		{
@@ -47,6 +77,13 @@ public class Map {
 		}
 		
 	}
+	/**
+	 * Searches for all the occurrences of the element with simbol c.
+	 * <p>Set's in the list all the coords that the element was found.
+	 * @param c- A variable of type String.
+	 * @param list- A variable of type List<int[]>.
+	 * @return boolean- true if the element c found on the table, false if it is not.
+	 */
 	public boolean serchEle(String c, List<int[]> list) {
 		boolean res=false;
 		int n=list.size();
