@@ -1,12 +1,21 @@
 package dkeep.logic;
 import java.util.*;
-
+/**
+ * Ogre.java - class that handles all the ogre logic .
+ * @author Joao Fidalgo & Francisco Friande
+ * @see GameElement
+ */
 public class Ogre extends GameElement {
 	private String ogreMoves[];
 	private int club[];
 	private boolean stunned;
 	private int stun_counter;
 
+	/**
+	 * Constructor of ogre object.
+	 * @param xi-A variable of type Int. Position in row of ogre.
+	 * @param yi-A variable of type Int. Position in col of ogre.
+	 */
 	public Ogre(int xi, int yi) {
 		super(xi, yi);
 		club = new int[2];
@@ -18,20 +27,36 @@ public class Ogre extends GameElement {
 		this.stun_counter = 0;
 	}
 
+	/**
+	 * gets a number from 0 (included) to 3 (included) and sends it to ogreMoves function.
+	 * @return what ogresMoves returns.
+	 */
 	public String getRandMove() {
 		Random randomove = new Random();
 		return (this.ogreMoves[randomove.nextInt(4)]);
 	}
 
+	/**
+	 * @return club - array that contains the coords of this ogre club
+	 */
 	public int[] getClub_coord() {
 		return club;
 	}
 
+	/**
+	 * Sets the coords of ogre's club.
+	 * @param club-A variable of type Int[][].coords to set as coords of club.
+	 */
 	public void setClub_coord(int club[]) {
 		this.club[0] = club[0];
 		this.club[1] = club[1];
 	}
 
+	/**
+	 * Handles the stun of the ogre, number of rounds.
+	 * If the number of rounds has reached the limit , or if it is not stunned returns false.
+	 * @return true if it is stunned, false otherwise.
+	 */
 	public boolean stunHandler() {
 		if (!this.stunned)
 			return false;
@@ -45,10 +70,16 @@ public class Ogre extends GameElement {
 		}
 	}
 
+	/**
+	 * @return stunned- if the ogre is stunned
+	 */
 	public boolean isStunned() {
 		return this.stunned;
 	}
 
+	/**
+	 * @param stunned-A variable of type Boolean.Boolean to set as this.stunned
+	 */
 	public void setStunned(boolean stunned) {
 		this.stunned = stunned;
 	}	
@@ -57,6 +88,12 @@ public class Ogre extends GameElement {
 	//\\\\\\\\\\\\\\\\\\\FUNCOES LVL 2/////////////////////////\\
 	//////////////////////////////////////////////////////////
 	
+	/**
+	 * handles all the conditions and the movement of ogre.
+	 * Stays for 20 times in a loop that tries to move the ogre to a valid position.
+	 * @param g-A variable of type Game.
+	 * @param i-A variable of type Int.
+	 */
 	public void moveOgre(Game g, int i) {
 		int aux[] = new int[2];
 		aux[0] = this.getCoord()[0];
@@ -77,6 +114,14 @@ public class Ogre extends GameElement {
 		moveIT(g, aux, i);
 	}
 	
+	
+	/**
+	 * @param g - A variable of type Game.
+	 * @param aux - A variable of type Int[].
+	 * @param i -A variable of type Int.
+	 * Handles the rest of move of ogre and club.
+	 * Checks all the contions in map.
+	 */
 	public void moveIT(Game g, int aux[], int i) {
 		int coord[] = this.getCoord();
 		int col = g.ogreCol(i);
@@ -102,7 +147,11 @@ public class Ogre extends GameElement {
 	}
 			
 	
-
+	/**
+	 * handles all the conditions and the movement of club.
+	 * Stays for 20 times in a loop that tries to move the club to a valid position.
+	 * @param g-A variable of type Game.
+	 */
 	public void swingClub(Game g) {
 		int aux[]=new int[2];
 		int i=0;
@@ -125,17 +174,34 @@ public class Ogre extends GameElement {
 	}
 	
 	
+	/**
+	 * Checks if is a valid place to move ogre and club.
+	 * @param g-A variable of type Game.
+	 * @param aux-A variable of type Int[]. Array with coords.
+	 * @return
+	 */
 	public boolean invalidCoord(Game g, int aux[]) {
 		String tableSimbol = g.getMap()[aux[0]][aux[1]];
 		return (tableSimbol == "X" || tableSimbol == "I" || tableSimbol == "S" || tableSimbol==g.getHeroSimbol());
 	}
 	
+	/**
+	 * Checks if is a valid place to move club with some conditions of invalidCoord.
+	 * @param g-A variable of type Game.
+	 * @param aux-A variable of type Int[]. Array with coords.
+	 * @return
+	 */
 	public boolean invalidClubCoord(Game g, int aux[]) {
 		String tableSimbol = g.getMap()[aux[0]][aux[1]];
 		return (this.invalidCoord(g, aux) || tableSimbol == "O" || tableSimbol == "$" || tableSimbol == "*"
 				|| tableSimbol == "8");
 	}
 	
+	/**
+	 * Delets club from the map.
+	 * Sets its coords to -1,-1 to set it out of the map.
+	 * @param g-A variable of type Game.
+	 */
 	public void deleteClub(Game g) {
 		int aux[]= {-1,-1};
 		if(this.club[0]==-1)
@@ -147,6 +213,12 @@ public class Ogre extends GameElement {
 		this.setClub_coord(aux);
 		}
 	
+	/**
+	 * Sets the ogre as stunned and changes the element in map.
+	 * @param g-A variable of type Game.
+	 * @param i-A variable of type Int. Index of the ogre in the game array of ogres.
+	 * 
+	 */
 	public void stunOgre(Game g, int i) {
 
 		this.setStunned(true);
