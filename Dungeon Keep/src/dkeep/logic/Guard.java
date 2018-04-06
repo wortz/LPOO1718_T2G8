@@ -8,6 +8,14 @@ import java.util.Random;
  * @see GameElement
  *
  */
+/**
+ * @author Friande
+ *
+ */
+/**
+ * @author Friande
+ *
+ */
 public class Guard extends GameElement {
 
 	private String guardMove[];
@@ -90,20 +98,36 @@ public class Guard extends GameElement {
 		return randomBool(p);
 	}
 
+	/**
+	 * @return True if the Guard is moving front, false if it's moving backwards.
+	 * Tells if the guard is moving front or backwards.
+	 */
 	public boolean isMoving_front() {
 		return moving_front;
 	}
 
+	/**
+	 * @param b Boolean variable to be set in the Moving Direction.
+	 * Sets Moving Front to b variable.
+	 */
 	public void setMoving_front(boolean b) {
 		this.moving_front = b;
 	}
 
-	// usado para
+	/**
+	 * @return True if guard is asleep, false if awake.
+	 * Tells if the Guard is asleep.
+	 */
 	public boolean isAsleep() {
 		return asleep;
 	}
 
-	// se acordado random para dormir, senao getAsleep
+
+	/**
+	 * @param p  Integer variable meaning probability.
+	 * @return True if the guard is asleep.
+	 * Sees if the guard has just awoken, if so, he can't sleep in that round. If not, sets it's Sleep State according to probability p.
+	 */
 	public boolean asleep_func(int p) {
 		if (this.getAux_flag()) // se acabou de acordar
 			return false;
@@ -112,11 +136,19 @@ public class Guard extends GameElement {
 		return this.isAsleep();
 	}
 
+	/**
+	 * @param asleep Boolean variable of sleep state.
+	 * Sets Guard sleep state to asleep variable.
+	 */
 	public void setAsleep(boolean asleep) {
 		this.asleep = asleep;
 	}
 	
-	//false se acorda
+	
+	/**
+	 * @return Boolean- True if guard is asleep, false if awoke.
+	 * If guard is sleeping and counter increments, return true. If has awoken, set counter to zero and flag awoken to true and returns false.
+	 */
 	public boolean increment_sleepCounter() {
 		if (this.sleep_counter < 4) { // nr de rondas que dorme (n)
 			this.sleep_counter++;
@@ -130,15 +162,27 @@ public class Guard extends GameElement {
 		}
 	}
 
+	/**
+	 * @return True if has just awoken, false if not.
+	 * Gets Guard "waking up" flag.
+	 */
 	public boolean getAux_flag() {
 		return aux_flag;
 	}
 
+	/**
+	 * @param aux_flag Boolean variable of the state of the awoken flag
+	 * Sets Guard "waking up" flag to aux_flag.
+	 */
 	public void setAux_flag(boolean aux_flag) {
 		this.aux_flag = aux_flag;
 	}
 
-	// returns random bool (true= 1/prob+1)
+	/**
+	 * @param probability Integer that determines probability of the random calculator.
+	 * @return Returns random bool.
+	 * Function to calculate a pseudo-random Boolean , according to probability.
+	 */
 	public boolean randomBool(int probability) {
 		int aux;
 		Random rand = new Random();
@@ -153,11 +197,18 @@ public class Guard extends GameElement {
 	//////// FUNCOES LVL 1/////////
 	//////////////////////////////////////////////////////////////
 
+	/**
+	 * @param g Game variable.
+	 * Handles Rookie movement.
+	 */
 	public void moveRookieGuard(Game g) {
 		this.moveGuard(g);
 		this.nextGuardIndex();
 	}
-
+	/**
+	 * @param g Game variable.
+	 * Handles Guard movement, according to getNextPosition function.
+	 */
 	public void moveGuard(Game g) {
 		int coor[] = this.getCoord();
 		g.setElemTable(coor, " ");
@@ -165,6 +216,10 @@ public class Guard extends GameElement {
 		g.setElemTable(coor, "G");
 	}
 
+	/**
+	 * @param g Game variable.
+	 * Handles Drunken movement.
+	 */
 	public void moveDrunkenGuard(Game g) {
 		if (!this.asleep_func(5) || this.getAux_flag()) { // para o caso de dormir duas vezes seguidas
 			this.moveGuard(g);
@@ -189,6 +244,10 @@ public class Guard extends GameElement {
 		}
 	}
 
+	/**
+	 * @param g Game variable.
+	 * Handles Suspicious movement.
+	 */
 	public void moveSuspiciousGuard(Game g) {
 		this.moveGuard(g);
 		if (this.getAux_flag()) { // se acabou de mudar de dir
@@ -207,6 +266,9 @@ public class Guard extends GameElement {
 
 	}
 
+	/**
+	 * Calculates next index of the guard's movement.
+	 */
 	public void nextGuardIndex() {
 		if (this.isMoving_front())
 			this.incrementIndex();
