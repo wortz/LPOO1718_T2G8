@@ -105,6 +105,7 @@ public class GraphicMode implements KeyListener{
 		pane.add(result);
 		result.setVisible(true);
 		frame.requestFocusInWindow();
+		frame.pack();
 	}
 	public void setLayerAux(GamePanel g) {
 		gameWindow.getMapGraphics().setVisible(false);
