@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Game.java - class that handles all the game logic , where the levels are created
+ * @author Joao Fidalgo & Francisco Friande
+ *
+ */
 public class Game {
 
 	private boolean win, lose;
@@ -17,6 +22,11 @@ public class Game {
 	private boolean ogreKey;
 
 	
+	/**
+	 * @param map A variable of type Map. 
+	 * @param logic A variable of type Float. If game is on level1 logic ==1.1||1.2||1.3
+	 * Class constructor.
+	 */
 	public Game(Map map,float logic) {
 		this.map=map;
 		this.logic=logic;
@@ -27,7 +37,10 @@ public class Game {
 		this.ogreKey=false;
 	}
 	
-	// Functions for global game
+	
+	/**
+	 * searches for all the elements of game in a specific Map
+	 */
 	public void searchGameElements() {
 		List<int[]> list = new ArrayList<int[]>();
 		if (map.serchEle("H", list)) {
@@ -59,9 +72,11 @@ public class Game {
 		
 	}
 	
-	/*Handles the move of hero or guard*/
-	/*Static so it can be called anywhere*/
-
+	/**
+	 * @param mov A variable of type String.
+	 * @param cord	A variable of type Int[]. That is the coords of the object to move.
+	 * Changes the cord for each mov.
+	 */
 	static public void moveHandler(String mov,int cord[]) {
 		switch (mov) {
 		case "w":
@@ -79,7 +94,12 @@ public class Game {
 				
 		}
 	}
-	//checks if any of the elements in aux are on side of hero
+	
+	/**
+	 * @param aux A variable of type Int[][].Is the coords of some object/s of game.
+	 * @return i Index of the aux that is on a adjacent cell.-1 in case of not found.
+	 * 
+	 */
 	public int onSide(int aux[][]) {
 		int dx, dy;
 		for(int i=0;i<aux.length;i++) { 
@@ -92,49 +112,79 @@ public class Game {
 		return -1;
 	}
 	
+	/**
+	 * 
+	 */
 	public void printTable() {
 		this.map.printTable();
 	}
 	
+	/**
+	 * @param coord
+	 * @param s
+	 */
 	public void setElemTable(int[] coord,String s) {
 		map.setTableElem(coord, s);
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean isWin() {
 		return win;
 	}
 
 
+	/**
+	 * @return
+	 */
 	public boolean isLose() {
 		return lose;
 	}
 
+	/**
+	 * @param b
+	 */
 	public void setWin(boolean b) {
 		this.win=b;
 	}
 
+	/**
+	 * @return
+	 */
 	public String[][] getMap() {
 		return this.map.getTable();
 	}
+	/**
+	 * @return
+	 */
 	public float getLogic() {
 		return this.logic;
 	}
 	
+	/**
+	 * @param k
+	 */
 	public void setKey(boolean k) {
 		this.key_catched=k;
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean getCatched() {
 		return this.key_catched;
 	}
 	
+	/**
+	 * @return
+	 */
 	public int[] getKeyCoord() {
 		return this.key;
 	}
-	/*
-	 * checks if the game is lost
-	 * if the logic is 1 it checks the lose with the guard
-	 * if it is 2 checks the loso with the clubs
+	
+	/**
+	 * 
 	 */
 	public void checkLose()
 	{
@@ -153,7 +203,10 @@ public class Game {
 		}
 	}
 	
-	/*Hero's func*/
+
+	/**
+	 * @param mov
+	 */
 	public void mvHero(String mov) {
 		this.hero.moveHero(mov,this);
 		if(key_catched) {
@@ -162,13 +215,16 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * @return
+	 */
 	public String getHeroSimbol() {
 		return this.hero.getSimbol();
 	}
 	
-	/*Guard/LEVEL1 func*/
-	
-	
+	/**
+	 * 
+	 */
 	public void mvGuard() {
 		if(this.logic==1.1f)
 			guard.moveRookieGuard(this);
@@ -178,6 +234,9 @@ public class Game {
 			guard.moveSuspiciousGuard(this);
 	}
 	
+	/**
+	 * 
+	 */
 	public void leverOn()
 	{
 		String aux[][]= this.map.getTable();
@@ -192,9 +251,9 @@ public class Game {
 		}
 	}
 	
-	/*OGRES/LEVEL2 func*/
-	
-	
+	/**
+	 * 
+	 */
 	public void mvOgre() {
 		this.ogreKey=false;
 		for (int i = 0; i < this.ogres.length; i++) {
@@ -212,12 +271,18 @@ public class Game {
 		
 	} 
 	
+	/**
+	 * 
+	 */
 	public void checkStun() {
 		int i;
 		while((i=onSide(this.getOgresCoord()))!=-1)
 			this.ogres[i].stunOgre(this, i);
 	}
 	
+	/**
+	 * @return
+	 */
 	public int[][] getOgresCoord(){
 		int aux[][]=new int[ogres.length][2];
 		for(int i=0;i<ogres.length;i++) {
@@ -230,6 +295,9 @@ public class Game {
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public int[][] getEnemysCoord(){
 		int aux[][];
 		if(this.hero.getArmed())		
@@ -250,6 +318,9 @@ public class Game {
 		return aux;
 	}
 	
+	/**
+	 * 
+	 */
 	public void delClub() {
 		for(int i=0;i<ogres.length;i++) {
 			if(ogres[i].isStunned()) 
@@ -259,10 +330,18 @@ public class Game {
 	}
 	
 	
+	/**
+	 * @param i
+	 * @return
+	 */
 	public boolean getStun(int i) {
 		return this.ogres[i].isStunned();
 	}
 
+	/**
+	 * @param i
+	 * @return
+	 */
 	public int ogreCol(int i) {
 		for (int j = 0; j < this.ogres.length; j++) {
 			if (j == i)
@@ -276,21 +355,34 @@ public class Game {
 		return -1;
 	}		
 	
+	/**
+	 * @param i
+	 * @return
+	 */
 	public int[] getClubPosition(int i) {
 		return ogres[i].getClub_coord();
 	}
 
+	/**
+	 * @return
+	 */
 	public int[] getHeroPosition() {
 		return this.hero.getCoord();
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public int getCurrLevel()	{
 		if (this.logic==2.0f)
 			return 2;
 		else return 1;
 	}
 	
+	/**
+	 * @return
+	 */
 	public boolean isOgreKey() {
 		return this.ogreKey;
 	}
