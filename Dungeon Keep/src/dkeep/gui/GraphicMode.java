@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
+import dkeep.logic.Map;
+
 public class GraphicMode implements KeyListener{
 
 
@@ -15,20 +17,12 @@ public class GraphicMode implements KeyListener{
 	private JLayeredPane pane;
 	private GamePanel gameWindow;
 	private OptionsPanel options;
-	private Editor editor;
+	private EditorInterface editor;
 	
 	GraphicMode(){
 		createJframe();
 		createLayeredPanel();
 		createOptionsPanel();
-		
-		
-		
-		
-		
-		
-		
-
 	}
 	
 	public static void main(String[] args) {
@@ -80,8 +74,16 @@ public class GraphicMode implements KeyListener{
 		frame.requestFocusInWindow();
 	}
 	
+	public void createCustomGamePanel(float guardPers, Map map,GraphicMode graphic) {
+		this.gameWindow=new GamePanel(guardPers,map,this);
+		pane.setLayer(gameWindow.getMapGraphics(), JLayeredPane.DEFAULT_LAYER.intValue());
+		pane.add(gameWindow.getMapGraphics());
+		gameWindow.getMapGraphics().setVisible(true);
+		frame.requestFocusInWindow();
+	}
+	
 	public void createEditorPanel() {
-		this.editor=new Editor();
+		this.editor=new EditorInterface(this);
 		pane.setLayer(editor, JLayeredPane.DEFAULT_LAYER.intValue());
 		pane.add(editor);
 		editor.setVisible(true);
@@ -136,7 +138,11 @@ public class GraphicMode implements KeyListener{
 	}
 
 	public OptionsPanel getOptions() {
-		return options;
+		return this.options;
+	}
+	
+	public EditorInterface getEditor() {
+		return this.editor;
 	}
 	
 }

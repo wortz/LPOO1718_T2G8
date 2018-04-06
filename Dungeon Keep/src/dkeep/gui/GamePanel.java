@@ -12,20 +12,23 @@ import dkeep.logic.Map;
 
 public class GamePanel{
 	private Game game;
-	private int ogresNr;
-	private float guardPers;
 	private MapGraphics map;
 	private GraphicMode graphic;
-	
+    private Level2 l2;	
 	
 	public GamePanel(int ogresNr,float guardPers,GraphicMode graphic){
-		this.graphic=graphic;
-		this.ogresNr=ogresNr;
-		this.guardPers=guardPers;
-		startGameWindow();
+		startGameWindow( guardPers, graphic);
+		l2 = new Level2(ogresNr);
 	}
 	
-	public void startGameWindow() {
+	//editor
+	public GamePanel(float guardPers, Map map,GraphicMode graphic){
+		startGameWindow( guardPers, graphic);
+		l2=new Level2(map);
+	}
+	
+	public void startGameWindow(float guardPers,GraphicMode graphic) {
+		this.graphic=graphic;
 		Level1 l1=new Level1(guardPers);
 		game = l1.getGame();
 		map=new MapGraphics(game.getMap(),game.getLogic()); 
@@ -51,9 +54,7 @@ public class GamePanel{
 			if (game.isLose())
 				return;
 			else if (game.isWin() && game.getCurrLevel() == 1) {
-			/*	Level2 l2 = new Level2(this.ogresNr);
-				this.game = l2.getGame();*/
-				this.game=new Game(new Map(10,9),2.0f);
+				this.game = l2.getGame();
 
 				game.setWin(false);
 				graphic.removeGame();

@@ -64,11 +64,15 @@ public class Ogre extends GameElement {
 		if (this.stunHandler()) {
 			return;
 		}
+		int a=0;
 		Game.moveHandler(this.getRandMove(), aux);
 		while (this.invalidCoord(g, aux)) {
+			if(a>20)
+				return;
 			aux[0] = this.getCoord()[0];
 			aux[1] = this.getCoord()[1];
 			Game.moveHandler(this.getRandMove(), aux);
+			a++;
 		}
 		moveIT(g, aux, i);
 	}
@@ -134,6 +138,8 @@ public class Ogre extends GameElement {
 	
 	public void deleteClub(Game g) {
 		int aux[]= {-1,-1};
+		if(this.club[0]==-1)
+			return;
 		if(this.getClub_coord()[0]==g.getKeyCoord()[0]&&this.getClub_coord()[1]==g.getKeyCoord()[1])
 			g.setElemTable(this.getClub_coord(),"k");
 		else

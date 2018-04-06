@@ -4,6 +4,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -11,7 +13,8 @@ import javax.swing.JPanel;
 
 import dkeep.logic.Game;
 
-public class MapGraphics extends JPanel{
+public class MapGraphics extends JPanel implements MouseListener{
+	private Editor editor;
 	private String[][] map;
 	private ImageIcon wall;
 	private ImageIcon guard;
@@ -101,7 +104,7 @@ public class MapGraphics extends JPanel{
 	
 	public ImageIcon scaleImage(ImageIcon im) {
 		Image img = im.getImage();
-		Image newimg = img.getScaledInstance(this.getWidth() / map.length, this.getHeight() / map[0].length, Image.SCALE_AREA_AVERAGING);
+		Image newimg = img.getScaledInstance(this.getWidth() / map[0].length, this.getHeight() / map.length, Image.SCALE_AREA_AVERAGING);
 		return new ImageIcon(newimg);
 	}
 	
@@ -164,6 +167,41 @@ public class MapGraphics extends JPanel{
 		this.paintMap(isOgreKey);
 		revalidate();
 		}
+	
+	public void setEditor(Editor editor) {
+		this.editor=editor;
+	}
+	
+	public int getDvY(){
+		return (this.getHeight()/map.length);
+	}
+	
+	public int getDvX(){
+		return (this.getHeight()/map[0].length);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		editor.changeMap(e.getX(),e.getY());
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+	
+	
 	
 	
 }

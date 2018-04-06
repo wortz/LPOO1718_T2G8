@@ -1,166 +1,111 @@
 package dkeep.gui;
 
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-public class Editor extends JPanel implements MouseListener{
-	int ogresNr;
-	float guardPers;
-	private EditorMapGrid grid;
-	private JComboBox comboBox;
-	int height, width;
-	JTextField fldHeight,fldWidth; 
-	
-	
-	public Editor() {
-		super();
-//		this.setLayout(new GridBagLayout());
-		setPersonalityButton();
-		setHeightField();
-		setWidthField() ;
-		setStartEditingBtn();
-	}
-	private void setPersonalityButton() {
-		JLabel lblGuardPersonality = new JLabel("Guard Personality");
-		lblGuardPersonality.setBounds(61, 104, 111, 43);
-		this.add(lblGuardPersonality);
+import dkeep.logic.Map;
 
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Rookie", "Drunken", "Suspicious" }));
-		comboBox.setBounds(175, 109, 102, 33);
-		comboBox.setSelectedIndex(0);
-		comboBox.addItemListener(new ItemListener() {
+public class Editor {
 
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				String personality;
+	private MapGraphics graphics;
+	private Map map;
+	private String selected;
 
-				if (e.getSource() == comboBox) {
-					personality = (String) comboBox.getSelectedItem();
-					if ("Rookie".equals(personality))
-						guardPers = 1.1f;
-					else if ("Drunken".equals(personality))
-						guardPers = 1.2f;
-					else if ("Suspicious".equals(personality))
-						guardPers = 1.3f;
-					else
-						;
-				} 
+	public Editor(int height, int width) {
+		map = new Map(height, width);
+		graphics = new MapGraphics(map.getTable(), 0);
+		graphics.setEditor(this);
+		this.selected = "I";
+		graphics.addMouseListener(graphics);
 
-			}
-		});
-
-		this.add(comboBox);
-		 
+		graphics.setVisible(true);
+		graphics.setSize(500, 500);
 	}
 
-	private void setHeightField() {
-		fldHeight = new JTextField();
-		fldHeight.setBounds(175, 13, 91, 43);
-		this.add(fldHeight);
-		fldHeight.setText("6");
-		fldHeight.setColumns(10);
+	public void setTableElem(int coord[], String el) {
+		this.map.setTableElem(coord, el);
+		graphics.update(map.getTable(), false);
 	}
 
-	private void setWidthField() {
-		fldWidth = new JTextField();
-		fldWidth.setBounds(175, 13, 91, 43);
-		this.add(fldWidth);
-		fldWidth.setText("6");
-		fldWidth.setColumns(10);
+	public boolean isPlayableMap() {
+		List<int[]> list = new ArrayList<int[]>();
+		if (map.serchEle("A", list) && map.serchEle("k", list) && map.serchEle("I", list) && map.serchEle("O", list))
+			return true;
+		JOptionPane.showMessageDialog(null, "<html>The following requirements must be fulfilled:<br/>-At least 1 Ogre.<br/>-1 Key.<br/>-1 Hero.<br/>-At least 1 Exit Door.</html>");
+		return false;
 	}
-	
-	private void setStartEditingBtn() {
-		JButton startEditing = new JButton("Start Editing!");
-		startEditing.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
 
-				if ((height = tryParseInt(fldHeight.getText())) == -1 ||(width = tryParseInt(fldWidth.getText())) == -1  )
-					return;
-				if (comboBox.getSelectedIndex() == 0)
-					guardPers = 1.1f;
-				
-			//////////////C/////////////
-				beginEditing();
-			}
-		});
-		startEditing.setContentAreaFilled(false);
-		startEditing.setBounds(358, 109, 209, 43);
-		this.add(startEditing);
-		
+	public MapGraphics getMapGraphics() {
+		return this.graphics;
 	}
-	 
-	
-	private void beginEditing() {
-		if(grid!=null) 
-			this.remove(grid.getMapGraphics());
-		this.grid=new EditorMapGrid(height, width);
-		this.add(grid.getMapGraphics());
-//		this.setBounds(0,0,700,700);
-		this.revalidate();
-		grid.getMapGraphics().setVisible(true);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	static int tryParseInt(String value) { //TODO:muito codigo repetido aqui
-		int v;
-		try {
-			v = Integer.parseInt(value);
-			if (v < 6 || v > 25)
-				throw new IllegalArgumentException("Height and width must be between 6 and 25");
-			return v;
-		} catch (IllegalArgumentException e) {
-			JOptionPane.showMessageDialog(null, "Height and width must be between 6 and 25");
-			return -1;
+
+	public void changeMap(int x, int y) {
+		if (selected == null) {
+			return;
 		}
+		int row, col;
+		row = y / graphics.getDvY();
+		col = x / graphics.getDvX();
+		// corners
+		if ((row == 0 && col == 0) || (row == map.getTable().length - 1 && col == map.getTable().length - 1)
+				|| (col == 0 && row == map.getTable().length - 1) || (col == map.getTable()[0].length - 1 && row == 0))
+			return;
+		// borders
+		if (row == 0 || row == map.getTable().length - 1 || col == 0 || col == map.getTable()[0].length - 1) {
+			if ((selected != "I") && (selected != "X"))
+				return;
+
+		}
+		int[] coord = { row, col };
+		if(selected!=map.getTable()[row][col])
+			if (!checkEditMap())
+				return;
+		map.setTableElem(coord, selected);
+		graphics.update(map.getTable(), false);
 	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+
+	public void setSelected(String el) {
+		selected = el;
 	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+
+	// check if can alter map
+	public boolean checkEditMap() {
+		List<int[]> list = new ArrayList<int[]>();
+		if (selected == "O")
+			if (map.serchEle("O", list))
+				if (list.size() >= 5) {
+					JOptionPane.showMessageDialog(null, "Maximum Number of Ogres is only 5!");
+					return false;
+				}
+		if (selected == "A")
+			if (map.serchEle("A", list))
+				if (list.size() >= 1) {
+					JOptionPane.showMessageDialog(null, "There can only be 1 Hero!");
+					return false;
+				}
+		if (selected == "k")
+			if (map.serchEle("k", list))
+				if (list.size() >= 1) {
+					JOptionPane.showMessageDialog(null, "There can only be One Key!");
+					return false;
+				}
+		return true;
 	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	
+	public Map getMap() {
+		return this.map;
 	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-		
+
 }

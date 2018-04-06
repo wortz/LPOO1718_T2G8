@@ -7,9 +7,9 @@ public class Level2{
 	private Game game;
 	
 	//to be used in editor
-	public Level2(String[][] map) {
+	public Level2(Map map) {
 		this.logic=2; 
-		this.game=new Game(new Map(map),logic);
+		this.game=new Game(map,logic);
 	}
 	
 	public Level2(int ogres_number) throws IllegalArgumentException{
