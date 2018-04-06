@@ -24,3 +24,10 @@ LPOO GUIDED PROJECT.
 
 https://wortz.github.io/LPOO1718_T2G8/
 
+##Students
+João Pedro Bandeira Fidalgo
+up201605237
+up201605237@fe.up.pt
+Francisco Ademar Freitas Friande
+up201508213
+up201508213@fe.up.pt
