@@ -35,7 +35,7 @@ public class Ogre extends GameElement {
 	public boolean stunHandler() {
 		if (!this.stunned)
 			return false;
-		if (stun_counter > 55) {
+		if (stun_counter > 4) {
 			this.stun_counter = 0;
 			this.stunned = false;
 			return false;

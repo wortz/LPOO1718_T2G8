@@ -286,7 +286,7 @@ public class Game {
 	
 	
 	public int getCurrLevel()	{
-		if (this.guard==null)
+		if (this.logic==2.0f)
 			return 2;
 		else return 1;
 	}

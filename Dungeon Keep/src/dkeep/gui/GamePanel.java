@@ -51,9 +51,8 @@ public class GamePanel{
 			map.update(game.getMap(), game.isOgreKey());
 			if (game.getCurrLevel() == 2)
 				game.delClub();
-			if (game.isLose())
-				return;
-			else if (game.isWin() && game.getCurrLevel() == 1) {
+			
+			if (game.isWin() && game.getCurrLevel() == 1) {
 				this.game = l2.getGame();
 
 				game.setWin(false);
@@ -66,6 +65,9 @@ public class GamePanel{
 			} else if (game.isWin() && game.getCurrLevel() == 2) {
 				return;
 			}
+			if (game.isLose()) {
+				System.out.println("loose");
+				return;}
 		}
 	}
 	

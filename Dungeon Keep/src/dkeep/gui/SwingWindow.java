@@ -210,6 +210,10 @@ public class SwingWindow {
 
 		if ((!game.isWin()) && (!game.isLose())) {
 			game.mvHero(direction);
+			if (game.isWin()) {
+				levelWin(textGameDisplayer);
+				return;
+			}
 			game.checkLose();
 			if (game.isLose()) {
 				printMap(game, textGameDisplayer);
@@ -226,17 +230,21 @@ public class SwingWindow {
 			if (game.isLose()) {
 				setMovBtns(false);
 				return;
-			} else if (game.isWin() && game.getCurrLevel() == 1) {
-				Level2 l2 = new Level2(ogresNr);
-				this.game = l2.getGame();
-				game.setWin(false);
-				printMap(this.game, textGameDisplayer);
 			}
-
-			else if (game.isWin() && game.getCurrLevel() == 2) {
-				setMovBtns(false);
-				return;
-			}
+		}
+	}
+	
+	public void levelWin(JTextArea textGameDisplayer) {
+		if (game.isWin() && game.getCurrLevel() == 1) {
+			Level2 l2 = new Level2(ogresNr);
+			this.game = l2.getGame();
+			game.setWin(false);
+			printMap(this.game, textGameDisplayer);
+		}
+		if (game.isWin() && game.getCurrLevel() == 2) {
+			printMap(game, textGameDisplayer);
+			setMovBtns(false);
+			return;
 		}
 	}
 

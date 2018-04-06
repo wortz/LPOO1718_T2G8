@@ -44,12 +44,12 @@ public class TestGuardLevelLogic {
 		}
 	}
 	
-	@Test
+	/*@Test
 	public void testDrunkeSleep() {
 		Level1 l1=new Level1(1.2f);
 		Game game = l1.getGame();
 		
-	}
+	}*/
 	
 	
 }

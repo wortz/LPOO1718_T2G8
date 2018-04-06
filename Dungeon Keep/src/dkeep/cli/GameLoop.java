@@ -43,16 +43,14 @@ public class GameLoop {
 			game.mvOgre();
 			game.checkLose();
 			game.printTable();
-			System.out.println(game.getCurrLevel());
-			System.out.println(game.getHeroSimbol());
 			game.delClub();
 			}
-		if(game.isLose()) {
-			System.out.println("You lose.");
+		if(game.isWin()) {
+			System.out.println("You win.");
 			input.close();
 			return;
 			}
-		System.out.println("You win.");
+		System.out.println("You lose.");
 		
 		
 		input.close();
