@@ -16,6 +16,6 @@ LPOO GUIDED PROJECT.
 
 ##TestCoverage
 ![image](https://github.com/wortz/LPOO1718_T2G8/blob/master/Dungeon%20Keep/Test_Coverage/Coverage.png)
-![image](https://github.com/wortz/LPOO1718_T2G8/tree/master/Dungeon%20Keep/Test_Coverage/Coverage.png)
+![image](https://github.com/wortz/LPOO1718_T2G8/tree/master/Dungeon%20Keep/Test_Coverage/Mutation.png)
 
 
