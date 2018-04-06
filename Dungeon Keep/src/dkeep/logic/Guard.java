@@ -2,6 +2,12 @@ package dkeep.logic;
 
 import java.util.Random;
 
+/**
+ * Guard.java- Class that handles Guard's movement and behaviour.
+ * @author Joao Fidalgo & Francisco Friande
+ * @see GameElement
+ *
+ */
 public class Guard extends GameElement {
 
 	private String guardMove[];
@@ -13,6 +19,11 @@ public class Guard extends GameElement {
 	private boolean aux_flag; // flag para se acaba de acordar no drunken e para se acaba de mudar de direcçao
 								// no suspicious
 
+	/**
+	 * @param xi Integer variable of the X-axis coordinate.
+	 * @param yi Integer variable of the Y-axis coordinate.
+	 * Class constructor.
+	 */
 	public Guard(int xi, int yi) {
 		super(xi, yi);
 		String aux2[] = { "a", "s", "s", "s", "s", "a", "a", "a", "a", "a", "a", "s", "d", "d", "d", "d", "d", "d", "d",
@@ -29,6 +40,9 @@ public class Guard extends GameElement {
 
 	}
 
+	/**
+	 * Increments index of the movement's array, backwards movement or forward movement.
+	 */
 	public void incrementIndex() {
 		if ((this.guardIndex) == (this.guardMove.length) - 1)
 			this.guardIndex = 0;
@@ -36,6 +50,9 @@ public class Guard extends GameElement {
 			this.guardIndex++;
 	}
 
+	/**
+	 * Decrements index of the movement's array, backwards movement or forward movement.
+	 */
 	public void decrementIndex() {
 		if ((this.guardIndex) == 0)
 			this.guardIndex = (this.guardMove.length) - 1;
@@ -43,7 +60,11 @@ public class Guard extends GameElement {
 			this.guardIndex--;
 	}
 
-	// metodo prox posiçao.
+	
+	/**
+	 * @return String variable of the next Guard's movement.
+	 * Gets next Guard's movement.
+	 */
 	public String getNextPosition() {
 		if (this.moving_front)
 			return guardMove[guardIndex];
@@ -51,11 +72,20 @@ public class Guard extends GameElement {
 			return guardMove_backwards[guardIndex];
 	}
 
+	/**
+	 * @param p  Integer variable meaning probability.
+	 * @return Boolean of Sleeping State of the guard.
+	 * Generates a random boolean, defined by probability p of the guard's sleeping condition.
+	 */
 	public boolean get_randAsleep(int p) {
 		return randomBool(p);
 	}
 
-	// true se muda
+	/**
+	 * @param p  Integer variable meaning probability.
+	 * @return Boolean of Changing direction of the guard.
+	 * Generates a random boolean, defined by probability p of the guard's changing direction of movement.
+	 */
 	public boolean get_randChangeDir(int p) {
 		return randomBool(p);
 	}

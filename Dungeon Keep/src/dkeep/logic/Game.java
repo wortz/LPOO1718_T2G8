@@ -39,7 +39,7 @@ public class Game {
 	
 	
 	/**
-	 * searches for all the elements of game in a specific Map
+	 * searches for all the elements of game in the Map
 	 */
 	public void searchGameElements() {
 		List<int[]> list = new ArrayList<int[]>();
@@ -74,7 +74,7 @@ public class Game {
 	
 	/**
 	 * @param mov A variable of type String.
-	 * @param cord	A variable of type Int[]. That is the coords of the object to move.
+	 * @param cord	A variable of type Int[], that is the coords of the object to move.
 	 * Changes the cord for each mov.
 	 */
 	static public void moveHandler(String mov,int cord[]) {
@@ -113,22 +113,24 @@ public class Game {
 	}
 	
 	/**
-	 * 
+	 * Prints Map in console.
 	 */
 	public void printTable() {
 		this.map.printTable();
 	}
 	
 	/**
-	 * @param coord
-	 * @param s
+	 * @param coord A variable of type Int[]. Represents the map coordinate to be changed.
+	 * @param s String variable, which will replace the String in coord.
+	 * Replaces a String in Map.
 	 */
 	public void setElemTable(int[] coord,String s) {
 		map.setTableElem(coord, s);
 	}
 
 	/**
-	 * @return
+	 * @return True if the Game is in its Win state, false if not.
+	 * Funcion to check if the game is won.
 	 */
 	public boolean isWin() {
 		return win;
@@ -136,55 +138,70 @@ public class Game {
 
 
 	/**
-	 * @return
+	 * @return True if the Game is in its Lose state, false if not.
+	 * Funcion to check if the game is lost.
 	 */
 	public boolean isLose() {
 		return lose;
 	}
 
 	/**
-	 * @param b
+	 * @param b Boolean that will determine Game's Win state.
+	 * Sets Game to Win state.
 	 */
 	public void setWin(boolean b) {
 		this.win=b;
 	}
 
 	/**
-	 * @return
+	 * @return String[][], a matrix of the game's current Map.
+	 * Gets Map matrix of Strings.
 	 */
 	public String[][] getMap() {
 		return this.map.getTable();
 	}
 	/**
-	 * @return
+	 * @return A variable of type float-the current game logic to be followed.
+	 * Returns game's logic: 	<p>
+	 * 1.1f if the current level is 1 and the Guard is Rookie.
+	 * <p>
+	 * 1.2f if the current level is 1 and the Guard is Drunken.
+	 * <p>
+	 * 1.3f if the current level is 1 and the Guard is Suspicious.
+	 * <p>
+	 * 2.0f if the current level is 2.
 	 */
 	public float getLogic() {
 		return this.logic;
 	}
 	
 	/**
-	 * @param k
+	 * @param k Boolean variable to be applied in key-catched state.
+	 * Sets the key-catched state to k.
 	 */
 	public void setKey(boolean k) {
 		this.key_catched=k;
 	}
 	
 	/**
-	 * @return
+	 * @return True if the game's key-catched state is true, false if not.
+	 * Tells if key is catched or not.
 	 */
 	public boolean getCatched() {
 		return this.key_catched;
 	}
 	
 	/**
-	 * @return
+	 * @return Return type int[] of the key's coordinates.
+	 * Function to recieve key's position.
+	 * 
 	 */
 	public int[] getKeyCoord() {
 		return this.key;
 	}
 	
 	/**
-	 * 
+	 * Checks and sets Game's loose state, covering all game possibilities and exceptions of losing.
 	 */
 	public void checkLose()
 	{
@@ -205,7 +222,8 @@ public class Game {
 	
 
 	/**
-	 * @param mov
+	 * @param mov String type parameter of the movement of the Hero.
+	 * Calls for hero's movement function according to the mov String.
 	 */
 	public void mvHero(String mov) {
 		this.hero.moveHero(mov,this);
@@ -216,14 +234,15 @@ public class Game {
 	}
 	
 	/**
-	 * @return
+	 * @return Returns the Hero current symbol.
+	 * Gets Hero Symbol (A if hero is armed, H if not).
 	 */
 	public String getHeroSimbol() {
 		return this.hero.getSimbol();
 	}
 	
 	/**
-	 * 
+	 * Handles guard's movement, according to the game logic(guard's personality)
 	 */
 	public void mvGuard() {
 		if(this.logic==1.1f)
@@ -235,7 +254,7 @@ public class Game {
 	}
 	
 	/**
-	 * 
+	 * Activates lever (level1) and turns all I's to S's
 	 */
 	public void leverOn()
 	{
@@ -252,7 +271,7 @@ public class Game {
 	}
 	
 	/**
-	 * 
+	 * Moves all ogres in game and swings their clubs, also checks if the ogres get stunned.
 	 */
 	public void mvOgre() {
 		this.ogreKey=false;
@@ -272,7 +291,7 @@ public class Game {
 	} 
 	
 	/**
-	 * 
+	 * Checks if the ogres gets stunned.
 	 */
 	public void checkStun() {
 		int i;
@@ -281,7 +300,8 @@ public class Game {
 	}
 	
 	/**
-	 * @return
+	 * @return An array of ogre's coordinates (also an array of integers).
+	 * Function to get all ogres' positions.
 	 */
 	public int[][] getOgresCoord(){
 		int aux[][]=new int[ogres.length][2];
@@ -296,7 +316,9 @@ public class Game {
 	
 	
 	/**
-	 * @return
+	 * @return Array of enemys' coordinates.
+	 * Returns only clubs' coordinates if the hero is armed and both ogres' and clubs' coordinates if the Hero is unarmed.  
+	 * 
 	 */
 	public int[][] getEnemysCoord(){
 		int aux[][];
@@ -319,7 +341,7 @@ public class Game {
 	}
 	
 	/**
-	 * 
+	 * Functions's purpose is to erase all active ogre's clubs from map.
 	 */
 	public void delClub() {
 		for(int i=0;i<ogres.length;i++) {
@@ -331,16 +353,20 @@ public class Game {
 	
 	
 	/**
-	 * @param i
-	 * @return
+	 * @param i Integer type variable of the Ogre's index.
+	 * @return True if the given Ogre is stunned, false if not.
+	 * Gets the Stun state of the given Ogre (ogre of the index i).
 	 */
 	public boolean getStun(int i) {
 		return this.ogres[i].isStunned();
 	}
 
 	/**
-	 * @param i
-	 * @return
+	 * @param i Integer type variable of the Ogre's index.
+	 * @return Returns an Integer of the Ogre's index which is collided with Ogre of index i, if there is no collision returns -1.
+	 * Checks if it has occurred a collision between Ogre of index i, and, if so, returns the index of the other Ogre. <p>
+	 * If no collision, returns -1. <p>
+	 * Collision means two Ogres are placed in the same position.
 	 */
 	public int ogreCol(int i) {
 		for (int j = 0; j < this.ogres.length; j++) {
@@ -356,15 +382,17 @@ public class Game {
 	}		
 	
 	/**
-	 * @param i
-	 * @return
+	 * @param i Index of the Ogre, which club is to be checked.
+	 * @return A Integer[] variable of the Ogre's club coordinates.
+	 * Gets a specific Ogre's club position.
 	 */
 	public int[] getClubPosition(int i) {
 		return ogres[i].getClub_coord();
 	}
 
 	/**
-	 * @return
+	 * @return A Integer[] variable of the Hero's coordinates.
+	 * Gets Hero position in the Map.
 	 */
 	public int[] getHeroPosition() {
 		return this.hero.getCoord();
@@ -372,7 +400,8 @@ public class Game {
 	
 	
 	/**
-	 * @return
+	 * @return  An Integer of the current Game level.
+	 * Gets the current level of the game.
 	 */
 	public int getCurrLevel()	{
 		if (this.logic==2.0f)
@@ -381,7 +410,8 @@ public class Game {
 	}
 	
 	/**
-	 * @return
+	 * @return Boolean variable of the collision between Ogre and key- true if so, false if not.
+	 * Tells if the Ogre is on top of the key or not.
 	 */
 	public boolean isOgreKey() {
 		return this.ogreKey;
