@@ -83,13 +83,11 @@ public class TestOgreLogic {
 	
 	@Test(timeout=1000)
 	public void testOgreMovesRandomly_and_HeroDies() {
-		Map m = new Map(map_armed);
-		Game game = new Game(m, 2);
+		Level2 l2=new Level2(4);
+		Game game = l2.getGame();
 		while (!game.isLose()) {
 			game.mvOgre();
 			game.checkLose();
-		
-			game.printTable();
 			game.delClub();
 		}
 		assertTrue(game.isLose());

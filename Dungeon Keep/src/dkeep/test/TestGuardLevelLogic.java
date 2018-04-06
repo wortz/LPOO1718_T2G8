@@ -44,12 +44,28 @@ public class TestGuardLevelLogic {
 		}
 	}
 	
-	/*@Test
+	@Test(timeout=1000)
 	public void testDrunkeSleep() {
 		Level1 l1=new Level1(1.2f);
 		Game game = l1.getGame();
+		int pos[]= {1,8};
+		int i=0;
+		while(true) {
+			game.mvGuard();
+			if(i==aux2.length)
+				i=0;
+			if(game.getMap()[pos[0]][pos[1]]=="g") {
+				break;
+			}else {
+				StringHandler(pos,aux2[i]);
+				i++;
+			}
+			
+		}
+		game.mvGuard();
+		assertEquals("g",game.getMap()[pos[0]][pos[1]]);
 		
-	}*/
+	}
 	
 	
 }
