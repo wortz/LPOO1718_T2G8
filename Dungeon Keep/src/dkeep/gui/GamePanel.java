@@ -40,6 +40,7 @@ public class GamePanel{
 			game.checkLose();
 			if (game.isLose()) {
 				map.update(game.getMap(), game.isOgreKey()); 
+				graphic.createResultPanel(false);
 				return;
 			}
 			if (game.getCurrLevel() == 1)
@@ -63,10 +64,11 @@ public class GamePanel{
 				map.repaint();
 				
 			} else if (game.isWin() && game.getCurrLevel() == 2) {
+				graphic.createResultPanel(true);
 				return;
 			}
 			if (game.isLose()) {
-				System.out.println("loose");
+				graphic.createResultPanel(false);
 				return;}
 		}
 	}

@@ -119,13 +119,6 @@ public class OptionsPanel extends JPanel {
 				
 				graphic.getOptions().setVisible(false);
 				graphic.createEditorPanel();
-				/*GraphicsMain.gamePanel=new GamePanel(ogresNr,guardPers);
-				
-				GraphicsMain.optionsPanel.setVisible(false);
-				GraphicsMain.pane.add(GraphicsMain.gamePanel);
-				GraphicsMain.gamePanel.setVisible(true);
-				GraphicsMain.frame.requestFocusInWindow();*/
-
 			}
 		});
 		btnEditGame.setContentAreaFilled(false);
