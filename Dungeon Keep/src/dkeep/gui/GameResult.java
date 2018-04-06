@@ -71,6 +71,7 @@ public class GameResult extends JPanel {
 		btnExitGame.setBounds(0, 0, 700, 150);
         gbc.insets = new Insets(0, 0, 0, 2);
 		this.add(btnExitGame,gbc);
+		this.setBounds(0,0,1000,1000);
 	}
 	
 	public void setMenuButton() {

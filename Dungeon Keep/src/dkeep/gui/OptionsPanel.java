@@ -26,10 +26,9 @@ public class OptionsPanel extends JPanel {
 		this.graphic=graphic;
 		TextOgresNr();
 		BoxGuardPers();
-		ButtonExitGame();
 		ButtonStandardGame();
 		ButtonCustomMap();
-		
+		ButtonExitGame();
 	}
 	
 	public void TextOgresNr() {
